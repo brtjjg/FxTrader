@@ -2,11 +2,10 @@
   "name": "fxtrader",
   "version": "1.0.0",
   "description": "Modern online trading platform with real-time charts, wallet management, and multi-payment support.",
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
-    "start": "live-server",
-    "build": "echo 'No build step required'",
-    "test": "echo 'No tests configured'"
+    "start": "node server.js",
+    "dev": "live-server --port=3000"
   },
   "keywords": [
     "trading",
@@ -18,9 +17,14 @@
   "author": "FxTrader",
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^4.4.0"
+    "express": "^4.18.2",
+    "compression": "^1.7.4",
+    "helmet": "^7.0.0"
   },
   "devDependencies": {
     "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
