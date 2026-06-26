@@ -1,0 +1,26 @@
+{
+  "name": "fxtrader",
+  "version": "1.0.0",
+  "description": "Modern online trading platform with real-time charts, wallet management, and multi-payment support.",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server",
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "trading",
+    "forex",
+    "crypto",
+    "platform",
+    "finance"
+  ],
+  "author": "FxTrader",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^4.4.0"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
