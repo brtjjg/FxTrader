@@ -1,8 +1,19 @@
 # ⚡ FxTrader – Trading Platform
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
 A modern, production-ready online trading platform with real-time charts, order book, buy/sell functionality, PnL tracking, wallet management, and multi-payment method support.
 
-## 🚀 Features
+## 🚀 Live Demo
+
+👉 [https://fxtrader.onrender.com](https://fxtrader.onrender.com)
+
+## 🔐 Demo Credentials
+
+- Email: `demo@fxtrader.com`
+- Password: `demo123`
+
+## ✨ Features
 
 - 🔐 Secure Authentication (Login/Register)
 - 📊 Live Price Charts (Chart.js)
@@ -15,7 +26,7 @@ A modern, production-ready online trading platform with real-time charts, order 
 - 🔑 2FA & Biometric Security
 - 🌗 Dark/Light Mode
 - 📱 Fully Responsive
-- 📄 Legal Policies (Terms, Privacy, AML, KYC, etc.)
+- 📄 20+ Legal Policies
 - 💬 WhatsApp Community Integration
 
 ## 🛠️ Tech Stack
@@ -23,10 +34,11 @@ A modern, production-ready online trading platform with real-time charts, order 
 - HTML5, CSS3, JavaScript (Vanilla)
 - Chart.js (Charts)
 - localStorage (Data Persistence)
+- Express.js (Optional server)
 
 ## 📦 Installation
 
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/fxtrader.git
-cd fxtrader
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/fxtrader.git
+   cd fxtrader
