@@ -1,0 +1,30 @@
+# render.yaml - For Render.com deployment
+
+services:
+  # Option A: Static Site (Recommended)
+  - type: static
+    name: fxtrader
+    runtime: static
+    buildCommand: echo "No build required"
+    staticPublishPath: .
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # Option B: Web Service (if you want a Node.js server)
+  # Uncomment below if you want to use the Web Service option
+  # - type: web
+  #   name: fxtrader-api
+  #   runtime: node
+  #   buildCommand: npm install
+  #   startCommand: node server.js
+  #   envVars:
+  #     - key: PORT
+  #       value: 3000
+  #     - key: NODE_ENV
+  #       value: production
