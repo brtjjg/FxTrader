@@ -299,7 +299,6 @@
             gap: 16px;
         }
 
-        /* --- Updated Logo --- */
         .logo {
             display: flex;
             flex-direction: column;
@@ -2931,8 +2930,8 @@
                     <input type="password" id="regPassword" placeholder="••••••••" required />
                     <label>Confirm</label>
                     <input type="password" id="regConfirm" placeholder="Confirm" required />
-                    <div class="auth-error" id="regError"></div>
-                    <div class="auth-success" id="regSuccess"></div>
+                    <div id="regError" style="color:#f6465d;font-size:13px;min-height:20px;text-align:center;"></div>
+                    <div id="regSuccess" style="color:#0ecb81;font-size:13px;text-align:center;min-height:20px;"></div>
                     <button type="submit" class="auth-btn">🚀 Create Account</button>
                     <div class="auth-links">
                         <a onclick="switchAuthTab('login')">Already have an account? Sign In</a>
@@ -3131,60 +3130,47 @@
 
         const PAYMENT_METHODS = {
             deposit: [
-                { id: 'bank', icon: '🏦', name: 'Bank Transfer', fields: [
-                        { key: 'accountName', label: 'Account Name', type: 'text' },
-                        { key: 'accountNumber', label: 'Account Number', type: 'text' },
-                        { key: 'bankName', label: 'Bank Name', type: 'text' },
-                        { key: 'swift', label: 'SWIFT / Routing (optional)', type: 'text' }
+                { id: 'bank', icon: '🏦', name: 'Bank Transfer', fields: [{ key: 'accountName', label: 'Account Name',
+                        type: 'text' }, { key: 'accountNumber', label: 'Account Number', type: 'text' },
+                    { key: 'bankName', label: 'Bank Name', type: 'text' }, { key: 'swift',
+                        label: 'SWIFT / Routing (optional)', type: 'text' }
                     ] },
-                { id: 'card', icon: '💳', name: 'Debit / Credit Card', fields: [
-                        { key: 'cardNumber', label: 'Card Number', type: 'text' },
-                        { key: 'expiry', label: 'Expiry (MM/YY)', type: 'text' },
-                        { key: 'cvv', label: 'CVV', type: 'password' },
-                        { key: 'cardholderName', label: 'Cardholder Name', type: 'text' }
+                { id: 'card', icon: '💳', name: 'Debit / Credit Card', fields: [{ key: 'cardNumber',
+                        label: 'Card Number', type: 'text' }, { key: 'expiry', label: 'Expiry (MM/YY)',
+                        type: 'text' }, { key: 'cvv', label: 'CVV', type: 'password' }, { key: 'cardholderName',
+                        label: 'Cardholder Name', type: 'text' }
                     ] },
-                { id: 'mobile', icon: '📱', name: 'Mobile Money', fields: [
-                        { key: 'phone', label: 'Phone Number', type: 'text' },
-                        { key: 'provider', label: 'Provider', type: 'select', options: ['M-PESA', 'Airtel Money',
-                                'MTN Mobile Money'
-                            ] }
-                    ] },
-                { id: 'ewallet', icon: '💼', name: 'E-Wallet', fields: [
-                        { key: 'email', label: 'Email / Account ID', type: 'text' }
-                    ] },
-                { id: 'crypto', icon: '₿', name: 'Cryptocurrency', fields: [
-                        { key: 'address', label: 'Wallet Address', type: 'text' },
-                        { key: 'network', label: 'Network', type: 'select', options: ['BTC', 'ETH (ERC20)',
-                                'USDT (TRC20)'
-                            ] }
-                    ] }
+                { id: 'mobile', icon: '📱', name: 'Mobile Money', fields: [{ key: 'phone', label: 'Phone Number',
+                        type: 'text' }, { key: 'provider', label: 'Provider', type: 'select',
+                        options: ['M-PESA', 'Airtel Money', 'MTN Mobile Money']
+                        }] },
+                { id: 'ewallet', icon: '💼', name: 'E-Wallet', fields: [{ key: 'email',
+                        label: 'Email / Account ID', type: 'text' }] },
+                { id: 'crypto', icon: '₿', name: 'Cryptocurrency', fields: [{ key: 'address',
+                        label: 'Wallet Address', type: 'text' }, { key: 'network', label: 'Network',
+                        type: 'select', options: ['BTC', 'ETH (ERC20)', 'USDT (TRC20)']
+                        }] }
             ],
             withdraw: [
-                { id: 'bank', icon: '🏦', name: 'Bank Transfer', fields: [
-                        { key: 'accountName', label: 'Account Name', type: 'text' },
-                        { key: 'accountNumber', label: 'Account Number', type: 'text' },
-                        { key: 'bankName', label: 'Bank Name', type: 'text' },
-                        { key: 'swift', label: 'SWIFT / Routing (optional)', type: 'text' }
+                { id: 'bank', icon: '🏦', name: 'Bank Transfer', fields: [{ key: 'accountName', label: 'Account Name',
+                        type: 'text' }, { key: 'accountNumber', label: 'Account Number', type: 'text' },
+                    { key: 'bankName', label: 'Bank Name', type: 'text' }, { key: 'swift',
+                        label: 'SWIFT / Routing (optional)', type: 'text' }
                     ] },
-                { id: 'mobile', icon: '📱', name: 'Mobile Money', fields: [
-                        { key: 'phone', label: 'Phone Number', type: 'text' },
-                        { key: 'provider', label: 'Provider', type: 'select', options: ['M-PESA', 'Airtel Money',
-                                'MTN Mobile Money'
-                            ] }
+                { id: 'mobile', icon: '📱', name: 'Mobile Money', fields: [{ key: 'phone', label: 'Phone Number',
+                        type: 'text' }, { key: 'provider', label: 'Provider', type: 'select',
+                        options: ['M-PESA', 'Airtel Money', 'MTN Mobile Money']
+                        }] },
+                { id: 'card', icon: '💳', name: 'Card Refund', fields: [{ key: 'cardNumber',
+                        label: 'Card Number (last 4)', type: 'text' }, { key: 'cardholderName',
+                        label: 'Cardholder Name', type: 'text' }
                     ] },
-                { id: 'card', icon: '💳', name: 'Card Refund', fields: [
-                        { key: 'cardNumber', label: 'Card Number (last 4)', type: 'text' },
-                        { key: 'cardholderName', label: 'Cardholder Name', type: 'text' }
-                    ] },
-                { id: 'ewallet', icon: '💼', name: 'E-Wallet', fields: [
-                        { key: 'email', label: 'Email / Account ID', type: 'text' }
-                    ] },
-                { id: 'crypto', icon: '₿', name: 'Cryptocurrency', fields: [
-                        { key: 'address', label: 'Wallet Address', type: 'text' },
-                        { key: 'network', label: 'Network', type: 'select', options: ['BTC', 'ETH (ERC20)',
-                                'USDT (TRC20)'
-                            ] }
-                    ] }
+                { id: 'ewallet', icon: '💼', name: 'E-Wallet', fields: [{ key: 'email',
+                        label: 'Email / Account ID', type: 'text' }] },
+                { id: 'crypto', icon: '₿', name: 'Cryptocurrency', fields: [{ key: 'address',
+                        label: 'Wallet Address', type: 'text' }, { key: 'network', label: 'Network',
+                        type: 'select', options: ['BTC', 'ETH (ERC20)', 'USDT (TRC20)']
+                        }] }
             ]
         };
 
@@ -3213,9 +3199,24 @@
         // ================================================================
         //  DOM REFS & HELPERS
         // ================================================================
-        function getUsers() { try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch { return {}; } }
+        function getUsers() {
+            try {
+                return JSON.parse(localStorage.getItem(DB_KEY)) || {};
+            } catch (e) {
+                console.error('Error reading users from localStorage:', e);
+                return {};
+            }
+        }
 
-        function saveUsers(u) { localStorage.setItem(DB_KEY, JSON.stringify(u)); }
+        function saveUsers(u) {
+            try {
+                localStorage.setItem(DB_KEY, JSON.stringify(u));
+                return true;
+            } catch (e) {
+                console.error('Error saving users to localStorage:', e);
+                return false;
+            }
+        }
 
         function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
 
@@ -3223,9 +3224,15 @@
 
         function clearSession() { localStorage.removeItem(SESSION_KEY); }
 
-        function hashPassword(pw) { let h = 0; for (let i = 0; i < pw.length; i++) { const c = pw.charCodeAt(i);
+        function hashPassword(pw) {
+            let h = 0;
+            for (let i = 0; i < pw.length; i++) {
+                const c = pw.charCodeAt(i);
                 h = ((h << 5) - h) + c;
-                h = h & h; } return 'hashed_' + Math.abs(h).toString(36); }
+                h = h & h;
+            }
+            return 'hashed_' + Math.abs(h).toString(36);
+        }
 
         function fmt(n, d = 2) { return Number(n).toFixed(d); }
 
@@ -3293,8 +3300,7 @@
             document.getElementById('authModalTitle').textContent = tab === 'login' ? '🔐 Welcome Back' :
                 '🚀 Create Account';
             document.getElementById('loginError').textContent = '';
-            document.getElementById('regError').textContent = '';
-            document.getElementById('regSuccess').textContent = '';
+            // Don't clear regError/regSuccess here — they persist
         }
 
         document.getElementById('closeAuthModal').addEventListener('click', function() { document.getElementById('authModal')
@@ -3305,10 +3311,17 @@
         document.getElementById('forgotPasswordLink').addEventListener('click', function() {
             const email = document.getElementById('loginEmail').value.trim();
             if (!email) { alert('Please enter your email address.'); return; }
-            alert('✅ Password reset link sent to ' + email);
+            const users = getUsers();
+            if (users[email]) {
+                alert('✅ Password reset link sent to ' + email);
+            } else {
+                alert('❌ No account found with this email.');
+            }
         });
 
-        // Login
+        // ================================================================
+        //  LOGIN
+        // ================================================================
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
@@ -3318,7 +3331,7 @@
             if (!email || !pw) { loginError.textContent = 'Please fill in all fields.'; return; }
             const users = getUsers();
             const user = users[email];
-            if (!user) { loginError.textContent = 'No account found.'; return; }
+            if (!user) { loginError.textContent = 'No account found. Please register first.'; return; }
             if (user.password !== hashPassword(pw)) { loginError.textContent = 'Incorrect password.'; return; }
             setSession(email);
             loadUserData(user);
@@ -3327,21 +3340,43 @@
             showToast('Welcome back!', '✅ Logged in as ' + email, 'buy', null);
         });
 
-        // Register
+        // ================================================================
+        //  REGISTER (FIXED)
+        // ================================================================
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
+
             const email = document.getElementById('regEmail').value.trim();
             const pw = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirm').value;
             const regError = document.getElementById('regError');
             const regSuccess = document.getElementById('regSuccess');
+
             regError.textContent = '';
             regSuccess.textContent = '';
-            if (!email || !pw || !confirm) { regError.textContent = 'All fields required.'; return; }
-            if (pw.length < 6) { regError.textContent = 'Password must be at least 6 characters.'; return; }
-            if (pw !== confirm) { regError.textContent = 'Passwords do not match.'; return; }
+
+            // Basic validation
+            if (!email || !pw || !confirm) {
+                regError.textContent = 'All fields required.';
+                return;
+            }
+            if (pw.length < 6) {
+                regError.textContent = 'Password must be at least 6 characters.';
+                return;
+            }
+            if (pw !== confirm) {
+                regError.textContent = 'Passwords do not match.';
+                return;
+            }
+
             const users = getUsers();
-            if (users[email]) { regError.textContent = 'Account already exists.'; return; }
+
+            if (users[email]) {
+                regError.textContent = 'Account already exists with this email. Please log in.';
+                return;
+            }
+
+            // Create new user
             users[email] = {
                 password: hashPassword(pw),
                 portfolios: {
@@ -3359,12 +3394,29 @@
                 biometricEnabled: false,
                 savedPaymentMethods: []
             };
-            saveUsers(users);
-            regSuccess.textContent = '✅ Account created! Please log in.';
+
+            const saved = saveUsers(users);
+
+            if (!saved) {
+                regError.textContent = 'Error creating account. Please try again.';
+                return;
+            }
+
+            // Success!
+            regSuccess.textContent = '✅ Account created successfully! Please log in.';
+            showToast('Account Created', '✅ Your FxTrader account has been created! Please log in.', 'buy', null);
+
+            // Auto-fill login form and switch to login tab after 1.5 seconds
             setTimeout(() => {
-                switchAuthTab('login');
                 document.getElementById('loginEmail').value = email;
                 document.getElementById('loginPassword').value = '';
+                // Switch to login tab
+                switchAuthTab('login');
+                // Clear the success message after switching
+                // but keep it visible for a moment
+                setTimeout(() => {
+                    regSuccess.textContent = '';
+                }, 3000);
             }, 1500);
         });
 
@@ -4145,10 +4197,16 @@
                     showDashboard();
                     startIntervals();
                     return;
-                } else clearSession();
+                } else {
+                    clearSession();
+                }
             }
+
+            // Show homepage
             document.getElementById('homepage').classList.remove('hidden');
             document.getElementById('dashboardApp').classList.remove('visible');
+
+            // Seed demo account if it doesn't exist
             const users = getUsers();
             if (!users['demo@fxtrader.com']) {
                 users['demo@fxtrader.com'] = {
@@ -4184,9 +4242,14 @@
                 };
                 saveUsers(users);
             }
+
             document.getElementById('loginEmail').placeholder = 'demo@fxtrader.com';
             document.getElementById('loginPassword').placeholder = '•••••••• (try "demo123")';
             startIntervals();
+
+            console.log('🚀 FxTrader v1.0 · Full Platform');
+            console.log('💡 Demo: demo@fxtrader.com / demo123');
+            console.log('📊 All features functional — login, trading, wallet, payments, transactions.');
         }
 
         function startIntervals() {
@@ -4250,9 +4313,6 @@
         });
 
         bootstrap();
-        console.log('🚀 FxTrader v1.0 · Full Platform');
-        console.log('💡 Demo: demo@fxtrader.com / demo123');
-        console.log('📊 All features functional — login, trading, wallet, payments, transactions.');
     </script>
 
 </body>
