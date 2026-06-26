@@ -1,0 +1,4225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FxTrader · Trade Smarter. Grow Faster.</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <style>
+        /* ---------- GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #0b0e11;
+            color: #eaecef;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.light-mode {
+            background: #f0f2f5;
+            color: #1a1a2e;
+        }
+        body.light-mode .app,
+        body.light-mode .auth-container,
+        body.light-mode .modal,
+        body.light-mode .card,
+        body.light-mode .panel-card,
+        body.light-mode .toast,
+        body.light-mode .referral-box,
+        body.light-mode .stat-card {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .header-btn,
+        body.light-mode .logout-btn,
+        body.light-mode .mode-toggle,
+        body.light-mode .balance-box,
+        body.light-mode .pnl-container,
+        body.light-mode .profile-progress,
+        body.light-mode .account-tabs,
+        body.light-mode .login-location,
+        body.light-mode .policy-footer,
+        body.light-mode .navbar {
+            background: #e9ecef;
+            border-color: #d0d7de;
+            color: #1a1a2e;
+        }
+        body.light-mode .header-btn.account-btn {
+            background: #f0b90b;
+            border-color: #f0b90b;
+            color: #0b0e11;
+        }
+        body.light-mode .balance-box strong {
+            color: #0b0e11;
+        }
+        body.light-mode .trade-panel input,
+        body.light-mode .auth-form input,
+        body.light-mode .panel-card input,
+        body.light-mode .panel-card select,
+        body.light-mode .referral-box input,
+        body.light-mode .modal .field-group input {
+            background: #f8f9fa;
+            border-color: #d0d7de;
+            color: #1a1a2e;
+        }
+        body.light-mode .card-title,
+        body.light-mode .pnl-item .label,
+        body.light-mode .field-row .flabel,
+        body.light-mode .stat-card .stat-label {
+            color: #6c757d;
+        }
+        body.light-mode .order-book .row {
+            border-bottom-color: #e9ecef;
+        }
+        body.light-mode .history-item {
+            border-bottom-color: #e9ecef;
+        }
+        body.light-mode .policy-content h2 {
+            color: #1a1a2e;
+        }
+        body.light-mode .policy-content p,
+        body.light-mode .policy-content ul li {
+            color: #3d3d4e;
+        }
+        body.light-mode .policy-content .highlight-box {
+            background: #f0f2f5;
+        }
+        body.light-mode .policy-content h1 {
+            border-bottom-color: #d0d7de;
+        }
+        body.light-mode .policy-content .last-updated {
+            border-top-color: #d0d7de;
+        }
+        body.light-mode .panel-card .field-row {
+            border-bottom-color: #e9ecef;
+        }
+        body.light-mode .profile-pic {
+            background: #e9ecef;
+        }
+        body.light-mode .method-card {
+            background: #e9ecef;
+            border-color: #d0d7de;
+        }
+        body.light-mode .method-card:hover {
+            background: #d0d7de;
+        }
+        body.light-mode .tx-table-wrap table td {
+            border-bottom-color: #e9ecef;
+        }
+        body.light-mode .hero::before {
+            background: radial-gradient(circle, rgba(240, 185, 11, 0.05), transparent 70%);
+        }
+        body.light-mode .hero-visual .chart-placeholder {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .market-card {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .market-card:hover {
+            border-color: #f0b90b;
+        }
+        body.light-mode .trust-bar {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .dashboard-preview {
+            background: #f8f9fa;
+        }
+        body.light-mode .dashboard-preview .dashboard-card {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .dashboard-preview .dash-item {
+            background: #f8f9fa;
+            border-color: #e9ecef;
+        }
+        body.light-mode .deposit-method {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .deposit-features {
+            background: #f8f9fa;
+            border-color: #d0d7de;
+        }
+        body.light-mode .how-it-works {
+            background: #f8f9fa;
+        }
+        body.light-mode .testimonial-card {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .mobile-app {
+            background: #f8f9fa;
+        }
+        body.light-mode .mobile-app .app-visual .phone-mock {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .mobile-app .app-visual .phone-mock .screen {
+            background: #f8f9fa;
+        }
+        body.light-mode .news-card {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .newsletter {
+            background: #f8f9fa;
+            border-color: #d0d7de;
+        }
+        body.light-mode .newsletter .subscribe-form input {
+            background: #ffffff;
+            border-color: #d0d7de;
+            color: #1a1a2e;
+        }
+        body.light-mode .footer {
+            background: #ffffff;
+            border-top-color: #d0d7de;
+        }
+        body.light-mode .footer .social a {
+            background: #e9ecef;
+        }
+        body.light-mode .footer .social a:hover {
+            background: #f0b90b;
+        }
+        body.light-mode .compliance {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .live-chat .chat-btn {
+            box-shadow: 0 8px 30px rgba(240, 185, 11, 0.2);
+        }
+        body.light-mode .auth-container {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        body.light-mode .auth-form input {
+            background: #f8f9fa;
+            border-color: #d0d7de;
+            color: #1a1a2e;
+        }
+        body.light-mode .auth-tabs {
+            background: #e9ecef;
+        }
+        body.light-mode .auth-tab.active {
+            background: #f0b90b;
+            color: #0b0e11;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .btn-primary {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #eaecef;
+            border: 2px solid var(--accent, #f0b90b);
+            padding: 12px 34px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-secondary:hover {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+        }
+        .btn-sm {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-sm.buy {
+            background: #0ecb81;
+            color: #0b0e11;
+        }
+        .btn-sm.buy:hover {
+            background: #1ad991;
+        }
+        .btn-sm.sell {
+            background: #f6465d;
+            color: #0b0e11;
+        }
+        .btn-sm.sell:hover {
+            background: #ff5a70;
+        }
+        :root {
+            --accent: #f0b90b;
+        }
+
+        /* ---------- HOMEPAGE STYLES ---------- */
+        #homepage {
+            display: block;
+        }
+        #homepage.hidden {
+            display: none;
+        }
+
+        .navbar {
+            padding: 18px 0;
+            border-bottom: 1px solid #1e232c;
+            position: sticky;
+            top: 0;
+            background: #0b0e11;
+            z-index: 100;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent, #f0b90b), #f8d33a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo span {
+            font-size: 13px;
+            -webkit-text-fill-color: #848e9c;
+            background: none;
+            font-weight: 400;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #848e9c;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: var(--accent, #f0b90b);
+        }
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .nav-actions .login-btn {
+            color: #eaecef;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: #1e232c;
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .nav-actions .login-btn:hover {
+            background: #2b3139;
+        }
+        .nav-actions .signup-btn {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .nav-actions .signup-btn:hover {
+            filter: brightness(1.1);
+        }
+        .mobile-toggle {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #eaecef;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                padding: 16px 0;
+                gap: 12px;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .nav-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Hero */
+        .hero {
+            padding: 60px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(240, 185, 11, 0.08), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero-content h1 .highlight {
+            background: linear-gradient(135deg, var(--accent, #f0b90b), #f8d33a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-content p {
+            font-size: 18px;
+            color: #848e9c;
+            line-height: 1.7;
+            max-width: 500px;
+            margin-bottom: 32px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        .hero-features {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .hero-features .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #b0b8c4;
+        }
+        .hero-features .feature .icon {
+            font-size: 20px;
+        }
+        .hero-features .feature strong {
+            color: #eaecef;
+        }
+        .hero-visual .chart-placeholder {
+            width: 100%;
+            max-width: 500px;
+            background: #1a1f28;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #2b3139;
+            position: relative;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .hero-visual .chart-placeholder .chart-line {
+            height: 180px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .hero-visual .chart-placeholder .chart-line svg {
+            width: 100%;
+            height: 100%;
+        }
+        .hero-visual .price-ticker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 20px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #848e9c;
+        }
+        .hero-visual .price-ticker .pair {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px solid #1e232c;
+        }
+        .hero-visual .price-ticker .pair .price {
+            font-weight: 600;
+        }
+        .hero-visual .price-ticker .pair .price.green {
+            color: #0ecb81;
+        }
+        .hero-visual .price-ticker .pair .price.red {
+            color: #f6465d;
+        }
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content p {
+                max-width: 100%;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-features {
+                justify-content: center;
+            }
+            .hero-content h1 {
+                font-size: 38px;
+            }
+        }
+        @media (max-width: 600px) {
+            .hero-content h1 {
+                font-size: 30px;
+            }
+            .hero-features {
+                gap: 16px;
+            }
+            .hero-visual .price-ticker {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Trust Bar */
+        .trust-bar {
+            padding: 30px 0;
+            border-top: 1px solid #1e232c;
+            border-bottom: 1px solid #1e232c;
+            background: #11161e;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .trust-bar .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #b0b8c4;
+        }
+        .trust-item .icon {
+            font-size: 22px;
+        }
+        .trust-item strong {
+            color: #eaecef;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .section-title p {
+            color: #848e9c;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Live Markets (Homepage) */
+        .live-markets {
+            padding: 60px 0;
+        }
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .market-card {
+            background: #1a1f28;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #2b3139;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .market-card:hover {
+            border-color: var(--accent, #f0b90b);
+            transform: translateY(-4px);
+        }
+        .market-card .pair {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .market-card .pair .name {
+            font-weight: 600;
+        }
+        .market-card .pair .change {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+        .market-card .pair .change.up {
+            color: #0ecb81;
+            background: #0ecb8133;
+        }
+        .market-card .pair .change.down {
+            color: #f6465d;
+            background: #f6465d33;
+        }
+        .market-card .price {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+        .market-card .mini-chart {
+            height: 50px;
+            margin: 8px 0;
+            background: #0b0e11;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .market-card .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .market-card .actions button {
+            flex: 1;
+            padding: 6px;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .market-card .actions .buy-btn {
+            background: #0ecb81;
+            color: #0b0e11;
+        }
+        .market-card .actions .buy-btn:hover {
+            background: #1ad991;
+        }
+        .market-card .actions .sell-btn {
+            background: #f6465d;
+            color: #0b0e11;
+        }
+        .market-card .actions .sell-btn:hover {
+            background: #ff5a70;
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
+            padding: 60px 0;
+            background: #11161e;
+            transition: background 0.3s;
+        }
+        .dashboard-preview .dashboard-card {
+            background: #1a1f28;
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid #2b3139;
+            max-width: 900px;
+            margin: 0 auto;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .dashboard-preview .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .dashboard-preview .dash-item {
+            background: #0b0e11;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #1e232c;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .dashboard-preview .dash-item .num {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent, #f0b90b);
+        }
+        .dashboard-preview .dash-item .label {
+            font-size: 13px;
+            color: #848e9c;
+            margin-top: 4px;
+        }
+        .dashboard-preview .dash-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .dashboard-preview .dash-features .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #b0b8c4;
+        }
+        .dashboard-preview .dash-features .item .icon {
+            font-size: 18px;
+        }
+        .dashboard-preview .dash-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 700px) {
+            .dashboard-preview .dash-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .dashboard-preview .dash-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Deposit Section */
+        .deposit-section {
+            padding: 60px 0;
+        }
+        .deposit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+            text-align: center;
+        }
+        .deposit-method {
+            background: #1a1f28;
+            border-radius: 12px;
+            padding: 16px 8px;
+            border: 1px solid #2b3139;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .deposit-method:hover {
+            border-color: var(--accent, #f0b90b);
+            transform: translateY(-2px);
+        }
+        .deposit-method .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .deposit-method .name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .deposit-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0 0;
+            padding: 20px;
+            background: #11161e;
+            border-radius: 12px;
+            border: 1px solid #1e232c;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .deposit-features .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #b0b8c4;
+        }
+        .deposit-features .item .icon {
+            font-size: 20px;
+        }
+        .deposit-features .item strong {
+            color: #eaecef;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 60px 0;
+            background: #11161e;
+            transition: background 0.3s;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .step .num {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent, #f0b90b);
+            opacity: 0.3;
+        }
+        .step h4 {
+            font-size: 20px;
+            margin: 8px 0;
+        }
+        .step p {
+            color: #848e9c;
+            font-size: 14px;
+        }
+        .step .icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 60px 0;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .testimonial-card {
+            background: #1a1f28;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #2b3139;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .testimonial-card .stars {
+            color: var(--accent, #f0b90b);
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+        .testimonial-card .text {
+            margin: 12px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #b0b8c4;
+        }
+        .testimonial-card .user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .testimonial-card .user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent, #f0b90b), #f8d33a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: #0b0e11;
+            flex-shrink: 0;
+        }
+        .testimonial-card .user .name {
+            font-weight: 600;
+        }
+        .testimonial-card .user .role {
+            font-size: 12px;
+            color: #848e9c;
+        }
+
+        /* Mobile App */
+        .mobile-app {
+            padding: 60px 0;
+            background: #11161e;
+            transition: background 0.3s;
+        }
+        .mobile-app .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .mobile-app .app-info h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        .mobile-app .app-info p {
+            color: #848e9c;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        .mobile-app .app-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .mobile-app .app-buttons .store-btn {
+            background: #1a1f28;
+            border: 1px solid #2b3139;
+            border-radius: 12px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .mobile-app .app-buttons .store-btn:hover {
+            border-color: var(--accent, #f0b90b);
+        }
+        .mobile-app .app-buttons .store-btn .small {
+            font-size: 10px;
+            color: #848e9c;
+        }
+        .mobile-app .app-buttons .store-btn .big {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .mobile-app .app-visual .phone-mock {
+            background: #1a1f28;
+            border-radius: 30px;
+            padding: 16px;
+            border: 1px solid #2b3139;
+            width: 260px;
+            height: 480px;
+            margin: 0 auto;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .mobile-app .app-visual .phone-mock .screen {
+            background: #0b0e11;
+            border-radius: 16px;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .mobile-app .app-visual .phone-mock .screen .chart-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .mobile-app .app-visual .phone-mock .screen h4 {
+            margin: 12px 0 4px;
+        }
+        .mobile-app .app-visual .phone-mock .screen p {
+            font-size: 12px;
+            color: #848e9c;
+        }
+        .mobile-app .app-visual .phone-mock .screen .mini-chart {
+            width: 100%;
+            height: 60px;
+            margin-top: 12px;
+            background: #1a1f28;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        @media (max-width: 768px) {
+            .mobile-app .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .mobile-app .app-buttons {
+                justify-content: center;
+            }
+        }
+
+        /* Market News */
+        .market-news {
+            padding: 60px 0;
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .news-card {
+            background: #1a1f28;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #2b3139;
+            transition: 0.3s;
+        }
+        .news-card:hover {
+            border-color: var(--accent, #f0b90b);
+        }
+        .news-card .tag {
+            font-size: 11px;
+            color: var(--accent, #f0b90b);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .news-card h4 {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        .news-card p {
+            font-size: 13px;
+            color: #848e9c;
+        }
+        .news-card .time {
+            font-size: 12px;
+            color: #5e6673;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 40px 0;
+            background: #11161e;
+            border-top: 1px solid #1e232c;
+            border-bottom: 1px solid #1e232c;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .newsletter .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+        }
+        .newsletter h3 {
+            font-size: 24px;
+        }
+        .newsletter p {
+            color: #848e9c;
+            font-size: 14px;
+        }
+        .newsletter .subscribe-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .newsletter .subscribe-form input {
+            padding: 12px 20px;
+            border-radius: 40px;
+            border: 1px solid #2b3139;
+            background: #0b0e11;
+            color: #eaecef;
+            font-size: 14px;
+            min-width: 260px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .newsletter .subscribe-form input:focus {
+            border-color: var(--accent, #f0b90b);
+        }
+        .newsletter .subscribe-form button {
+            padding: 12px 32px;
+            border-radius: 40px;
+            border: none;
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .newsletter .subscribe-form button:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Compliance & Legal */
+        .compliance {
+            padding: 30px 0;
+            background: #0b0e11;
+            border-bottom: 1px solid #1e232c;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .compliance .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 28px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .compliance a {
+            color: #848e9c;
+            font-size: 13px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .compliance a:hover {
+            color: var(--accent, #f0b90b);
+        }
+        .compliance .risk-warning {
+            color: #5e6673;
+            font-size: 12px;
+            max-width: 600px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 48px 0 24px;
+            background: #0b0e11;
+            border-top: 1px solid #1e232c;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .footer .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer .brand p {
+            color: #848e9c;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-top: 12px;
+            max-width: 300px;
+        }
+        .footer .brand .contact {
+            margin-top: 12px;
+            color: #848e9c;
+            font-size: 14px;
+        }
+        .footer .brand .contact strong {
+            color: #eaecef;
+        }
+        .footer .col h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #eaecef;
+        }
+        .footer .col a {
+            display: block;
+            color: #848e9c;
+            font-size: 14px;
+            padding: 4px 0;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .footer .col a:hover {
+            color: var(--accent, #f0b90b);
+        }
+        .footer .social {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .footer .social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1e232c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: 0.3s;
+            color: #848e9c;
+        }
+        .footer .social a:hover {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+        }
+        .footer .payment-icons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .footer .payment-icons span {
+            font-size: 28px;
+        }
+        .footer-bottom {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid #1e232c;
+            text-align: center;
+            font-size: 13px;
+            color: #5e6673;
+        }
+        @media (max-width: 900px) {
+            .footer .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .footer .container {
+                grid-template-columns: 1fr;
+            }
+            .footer .brand p {
+                max-width: 100%;
+            }
+        }
+
+        /* Live Chat */
+        .live-chat {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+        }
+        .live-chat .chat-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent, #f0b90b);
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(240, 185, 11, 0.4);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .live-chat .chat-btn:hover {
+            transform: scale(1.05);
+        }
+        .live-chat .chat-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #0ecb81;
+            border: 2px solid #0b0e11;
+        }
+
+        /* ---------- DASHBOARD (TRADING APP) ---------- */
+        #dashboardApp {
+            display: none;
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #dashboardApp.visible {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2b3139;
+            flex-wrap: wrap;
+            gap: 12px;
+            transition: border-color 0.3s;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent, #f0b90b), #f8d33a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .logo span {
+            font-size: 13px;
+            -webkit-text-fill-color: #848e9c;
+            background: none;
+            font-weight: 400;
+        }
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .user-greeting {
+            font-size: 14px;
+            color: #848e9c;
+        }
+        .user-greeting strong {
+            color: #eaecef;
+        }
+        .mode-toggle {
+            display: flex;
+            background: #1e232c;
+            border-radius: 40px;
+            padding: 3px;
+            border: 1px solid #2b3139;
+        }
+        .mode-toggle button {
+            background: transparent;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #848e9c;
+        }
+        .mode-toggle button.active {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+        }
+        .mode-toggle button:hover:not(.active) {
+            color: #eaecef;
+        }
+        .balance-box {
+            background: #1e232c;
+            padding: 6px 14px;
+            border-radius: 40px;
+            border: 1px solid #2b3139;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+        .balance-box strong {
+            color: var(--accent, #f0b90b);
+        }
+        .mode-label {
+            font-size: 11px;
+            color: #848e9c;
+            margin-left: 4px;
+        }
+        .balance-hidden {
+            filter: blur(4px);
+            user-select: none;
+        }
+        .pnl-container {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            background: #11161e;
+            padding: 6px 16px 6px 20px;
+            border-radius: 40px;
+            border: 1px solid #2b3139;
+            align-items: center;
+        }
+        .pnl-item {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .pnl-item .label {
+            color: #848e9c;
+        }
+        .pnl-item .value {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .pnl-item .value.positive {
+            color: #0ecb81;
+        }
+        .pnl-item .value.negative {
+            color: #f6465d;
+        }
+        .pnl-badge {
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 30px;
+            background: #1e232c;
+        }
+        .pnl-badge.positive {
+            color: #0ecb81;
+            border: 1px solid #0ecb81;
+        }
+        .pnl-badge.negative {
+            color: #f6465d;
+            border: 1px solid #f6465d;
+        }
+        .avg-price-display {
+            font-size: 12px;
+            color: #848e9c;
+            background: #1e232c;
+            padding: 2px 12px;
+            border-radius: 30px;
+        }
+
+        .header-btn {
+            background: #2b3139;
+            color: #eaecef;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header-btn:hover {
+            background: #3a424d;
+        }
+        .header-btn.account-btn {
+            background: #1a2a3a;
+            border: 1px solid var(--accent, #f0b90b);
+        }
+        .header-btn.account-btn:hover {
+            background: #2a3a4a;
+        }
+        .logout-btn {
+            background: #2b3139;
+            color: #eaecef;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .logout-btn:hover {
+            background: #f6465d;
+            color: #0b0e11;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2.5fr 1.2fr 1.3fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: #1a1f28;
+            border-radius: 16px;
+            padding: 18px 20px 22px;
+            border: 1px solid #2b3139;
+            transition: 0.3s;
+        }
+        .card-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #848e9c;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 260px;
+            cursor: pointer;
+        }
+
+        .ticker-price {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .ticker-price .price {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .ticker-price .change {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 30px;
+            background: #1e232c;
+        }
+        .change.positive {
+            color: #0ecb81;
+        }
+        .change.negative {
+            color: #f6465d;
+        }
+
+        .order-book .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 4px 0;
+            border-bottom: 1px solid #1e232c;
+        }
+        .order-book .row .bid {
+            color: #0ecb81;
+        }
+        .order-book .row .ask {
+            color: #f6465d;
+        }
+        .order-book .row .size {
+            color: #848e9c;
+        }
+        .book-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #848e9c;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #2b3139;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .trade-panel .input-group {
+            margin-bottom: 14px;
+        }
+        .trade-panel label {
+            display: block;
+            font-size: 13px;
+            color: #848e9c;
+            margin-bottom: 4px;
+        }
+        .trade-panel input {
+            width: 100%;
+            background: #0b0e11;
+            border: 1px solid #2b3139;
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #eaecef;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .trade-panel input:focus {
+            border-color: var(--accent, #f0b90b);
+        }
+        .action-btns {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .btn-buy,
+        .btn-sell {
+            flex: 1;
+            min-width: 80px;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-buy {
+            background: #0ecb81;
+            color: #0b0e11;
+        }
+        .btn-buy:hover {
+            background: #1ad991;
+        }
+        .btn-sell {
+            background: #f6465d;
+            color: #0b0e11;
+        }
+        .btn-sell:hover {
+            background: #ff5a70;
+        }
+        .btn-buy:disabled,
+        .btn-sell:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .stop-trade-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 40px;
+            border: 2px solid var(--accent, #f0b90b);
+            background: transparent;
+            color: var(--accent, #f0b90b);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .stop-trade-btn.active {
+            background: #f6465d;
+            border-color: #f6465d;
+            color: #0b0e11;
+        }
+        .stop-trade-btn:hover {
+            opacity: 0.8;
+        }
+
+        .history-list {
+            max-height: 180px;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+        .history-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .history-list::-webkit-scrollbar-track {
+            background: #1a1f28;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: #2b3139;
+            border-radius: 10px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #1e232c;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .history-item .h-type {
+            font-weight: 600;
+        }
+        .history-item .h-type.buy {
+            color: #0ecb81;
+        }
+        .history-item .h-type.sell {
+            color: #f6465d;
+        }
+        .history-item .h-price {
+            color: #eaecef;
+        }
+        .history-item .h-pnl {
+            font-weight: 600;
+        }
+        .history-item .h-pnl.positive {
+            color: #0ecb81;
+        }
+        .history-item .h-pnl.negative {
+            color: #f6465d;
+        }
+        .history-item .h-time {
+            color: #848e9c;
+            font-size: 11px;
+        }
+
+        /* ---------- MODALS ---------- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: #15181e;
+            border-radius: 28px;
+            padding: 28px 32px;
+            max-width: 1100px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            border: 1px solid #2b3139;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .modal::-webkit-scrollbar {
+            width: 5px;
+        }
+        .modal::-webkit-scrollbar-track {
+            background: #1a1f28;
+        }
+        .modal::-webkit-scrollbar-thumb {
+            background: #2b3139;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2b3139;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .modal-header h2 {
+            font-size: 24px;
+            color: var(--accent, #f0b90b);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .modal-header .close-modal {
+            background: none;
+            border: none;
+            color: #848e9c;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .modal-header .close-modal:hover {
+            color: #eaecef;
+        }
+
+        /* Auth Modal */
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            background: #15181e;
+            border-radius: 28px;
+            padding: 40px 32px;
+            border: 1px solid #2b3139;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            transition: background 0.3s, border-color 0.3s;
+            margin: 0 auto;
+        }
+        .auth-container h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent, #f0b90b), #f8d33a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .auth-container .sub {
+            text-align: center;
+            color: #848e9c;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+        .auth-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            background: #1e232c;
+            border-radius: 40px;
+            padding: 4px;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            color: #848e9c;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .auth-tab.active {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+        }
+        .auth-form {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .auth-form.active {
+            display: flex;
+        }
+        .auth-form label {
+            font-size: 13px;
+            color: #848e9c;
+            font-weight: 500;
+        }
+        .auth-form input {
+            background: #0b0e11;
+            border: 1px solid #2b3139;
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #eaecef;
+            font-size: 15px;
+            outline: none;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .auth-form input:focus {
+            border-color: var(--accent, #f0b90b);
+        }
+        .auth-btn {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+            border: none;
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 6px;
+        }
+        .auth-btn:hover {
+            filter: brightness(1.1);
+        }
+        .auth-error {
+            color: #f6465d;
+            font-size: 13px;
+            min-height: 20px;
+            text-align: center;
+        }
+        .auth-success {
+            color: #0ecb81;
+            font-size: 13px;
+            text-align: center;
+        }
+        .auth-links {
+            text-align: center;
+            font-size: 13px;
+            color: #848e9c;
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .auth-links a {
+            color: var(--accent, #f0b90b);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+        .auth-links .sep {
+            color: #2b3139;
+        }
+
+        /* Policy Modal */
+        .policy-content {
+            padding: 4px 0;
+        }
+        .policy-content h1 {
+            font-size: 28px;
+            color: var(--accent, #f0b90b);
+            margin: 28px 0 8px 0;
+            border-bottom: 1px solid #2b3139;
+            padding-bottom: 12px;
+        }
+        .policy-content h1:first-of-type {
+            margin-top: 0;
+        }
+        .policy-content h2 {
+            font-size: 20px;
+            color: #eaecef;
+            margin: 28px 0 12px 0;
+        }
+        .policy-content p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #b0b8c4;
+            margin-bottom: 14px;
+        }
+        .policy-content ul {
+            margin: 10px 0 16px 24px;
+            padding-left: 8px;
+        }
+        .policy-content ul li {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #b0b8c4;
+            margin-bottom: 6px;
+            list-style-type: disc;
+        }
+        .policy-content ul li::marker {
+            color: var(--accent, #f0b90b);
+        }
+        .policy-content .highlight-box {
+            background: #11161e;
+            border-left: 4px solid var(--accent, #f0b90b);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 18px 0;
+        }
+        .policy-content .highlight-box p {
+            margin-bottom: 0;
+        }
+        .policy-content .last-updated {
+            font-size: 14px;
+            color: #848e9c;
+            text-align: right;
+            margin-top: 30px;
+            padding-top: 16px;
+            border-top: 1px solid #2b3139;
+        }
+
+        /* Account Modal Panels */
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 700px) {
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel-card {
+            background: #1a1f28;
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 1px solid #2b3139;
+            transition: 0.3s;
+        }
+        .panel-card h4 {
+            font-size: 14px;
+            color: var(--accent, #f0b90b);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .panel-card .field-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #1e232c;
+            font-size: 14px;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+        .panel-card .field-row .flabel {
+            color: #848e9c;
+        }
+        .panel-card .field-row .fvalue {
+            font-weight: 500;
+            color: #eaecef;
+            word-break: break-all;
+        }
+        .panel-card .field-row .fvalue.copyable {
+            cursor: pointer;
+            color: var(--accent, #f0b90b);
+        }
+        .panel-card .btn-sm {
+            padding: 6px 16px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+            margin-top: 6px;
+        }
+        .panel-card .btn-sm:hover {
+            filter: brightness(1.1);
+        }
+        .panel-card .btn-sm.danger {
+            background: #f6465d;
+            color: #0b0e11;
+        }
+        .panel-card .btn-sm.danger:hover {
+            background: #ff5a70;
+        }
+        .panel-card .btn-sm.green {
+            background: #0ecb81;
+            color: #0b0e11;
+        }
+        .panel-card .btn-sm.green:hover {
+            background: #1ad991;
+        }
+        .panel-card .btn-sm.secondary {
+            background: #2b3139;
+            color: #eaecef;
+        }
+        .panel-card .btn-sm.secondary:hover {
+            background: #3a424d;
+        }
+
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 42px;
+            height: 24px;
+            background: #2b3139;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+        .toggle-switch.active {
+            background: #0ecb81;
+        }
+        .toggle-switch .toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #eaecef;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .toggle-switch.active .toggle-knob {
+            left: 20px;
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #2b3139;
+            border: 2px solid var(--accent, #f0b90b);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #848e9c;
+            flex-shrink: 0;
+        }
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-pic-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .upload-btn {
+            background: #2b3139;
+            color: #eaecef;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .upload-btn:hover {
+            background: #3a424d;
+        }
+
+        .login-location {
+            font-size: 13px;
+            color: #848e9c;
+            padding: 8px 12px;
+            background: #11161e;
+            border-radius: 10px;
+            border: 1px solid #2b3139;
+            margin-top: 8px;
+        }
+
+        /* Payment Method Cards (in wallet) */
+        .method-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .method-card {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: #11161e;
+            border: 1px solid #2b3139;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 13px;
+        }
+        .method-card:hover {
+            background: #1a1f28;
+            border-color: var(--accent);
+        }
+        .method-card.selected {
+            border-color: var(--accent);
+            background: #1a2a3a;
+        }
+        .method-card .m-icon {
+            font-size: 18px;
+        }
+        .method-card .m-name {
+            font-weight: 500;
+        }
+
+        .payment-form {
+            background: #0b0e11;
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid #2b3139;
+            margin-top: 8px;
+        }
+        .payment-form .form-group {
+            margin-bottom: 10px;
+        }
+        .payment-form .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #848e9c;
+            margin-bottom: 2px;
+        }
+        .payment-form .form-group input,
+        .payment-form .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #2b3139;
+            background: #0b0e11;
+            color: #eaecef;
+            font-size: 14px;
+            outline: none;
+        }
+        .payment-form .form-group input:focus,
+        .payment-form .form-group select:focus {
+            border-color: var(--accent);
+        }
+        .payment-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .payment-action {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .payment-action button {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .saved-methods {
+            margin-top: 16px;
+            border-top: 1px solid #1e232c;
+            padding-top: 12px;
+        }
+        .saved-methods .saved-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #1e232c;
+        }
+        .saved-methods .saved-item .details {
+            color: #848e9c;
+        }
+        .saved-methods .saved-item .actions button {
+            background: none;
+            border: none;
+            color: #848e9c;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .saved-methods .saved-item .actions button:hover {
+            color: var(--accent);
+        }
+        .saved-methods .saved-item .actions button.delete:hover {
+            color: #f6465d;
+        }
+
+        .deposit-withdraw-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            background: #1e232c;
+            border-radius: 40px;
+            padding: 4px;
+        }
+        .deposit-withdraw-tabs button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: #848e9c;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .deposit-withdraw-tabs button.active {
+            background: var(--accent);
+            color: #0b0e11;
+        }
+
+        .account-panel {
+            display: none;
+            padding: 4px 0;
+        }
+        .account-panel.active {
+            display: block;
+        }
+
+        .account-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: #1e232c;
+            border-radius: 40px;
+            padding: 4px;
+            transition: 0.3s;
+        }
+        .account-tabs button {
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: none;
+            background: transparent;
+            color: #848e9c;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .account-tabs button.active {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+        }
+        .account-tabs button:hover:not(.active) {
+            color: #eaecef;
+        }
+
+        .profile-progress {
+            background: #1a1f28;
+            border-radius: 40px;
+            padding: 10px 20px;
+            border: 1px solid #2b3139;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            transition: 0.3s;
+        }
+        .profile-progress .progress-bar {
+            flex: 1;
+            min-width: 120px;
+            height: 6px;
+            background: #2b3139;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .profile-progress .progress-bar .fill {
+            height: 100%;
+            background: #0ecb81;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        .profile-progress .progress-text {
+            font-size: 13px;
+            color: #848e9c;
+            font-weight: 600;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .quick-actions button {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #2b3139;
+            color: #eaecef;
+        }
+        .quick-actions button:hover {
+            background: #3a424d;
+        }
+        .quick-actions .qa-deposit {
+            background: #0ecb81;
+            color: #0b0e11;
+        }
+        .quick-actions .qa-deposit:hover {
+            background: #1ad991;
+        }
+        .quick-actions .qa-withdraw {
+            background: #f6465d;
+            color: #0b0e11;
+        }
+        .quick-actions .qa-withdraw:hover {
+            background: #ff5a70;
+        }
+        .quick-actions .qa-trade {
+            background: var(--accent, #f0b90b);
+            color: #0b0e11;
+        }
+        .quick-actions .qa-trade:hover {
+            filter: brightness(1.1);
+        }
+
+        /* ---------- TOAST ---------- */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 420px;
+            width: 100%;
+            pointer-events: none;
+        }
+        .toast {
+            pointer-events: auto;
+            background: #1a1f28;
+            border: 1px solid #2b3139;
+            border-radius: 16px;
+            padding: 18px 22px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+            opacity: 0;
+        }
+        .toast.open {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .toast .toast-title {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toast .toast-title.buy {
+            color: #0ecb81;
+        }
+        .toast .toast-title.sell {
+            color: #f6465d;
+        }
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: #848e9c;
+            font-size: 20px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+        }
+        .toast .toast-close:hover {
+            color: #eaecef;
+        }
+        .toast .toast-details {
+            font-size: 14px;
+            color: #b0b8c4;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+        .toast .toast-details .highlight {
+            font-weight: 700;
+            color: #eaecef;
+        }
+        .toast .toast-details .pnl-highlight.positive {
+            color: #0ecb81;
+        }
+        .toast .toast-details .pnl-highlight.negative {
+            color: #f6465d;
+        }
+        .toast .toast-time {
+            font-size: 11px;
+            color: #5e6673;
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 700px) {
+            .modal {
+                padding: 16px;
+            }
+            .section-title h2 {
+                font-size: 28px;
+            }
+            .hero-content h1 {
+                font-size: 30px;
+            }
+            .footer .container {
+                grid-template-columns: 1fr;
+            }
+            .auth-container {
+                padding: 24px 16px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .header .user-area {
+                gap: 6px;
+            }
+            .pnl-container {
+                padding: 4px 10px;
+                gap: 6px;
+                font-size: 12px;
+            }
+            .deposit-withdraw-grid {
+                grid-template-columns: 1fr;
+            }
+            .payment-form .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================== -->
+    <!--  HOMEPAGE                                                  -->
+    <!-- ========================================================== -->
+    <div id="homepage">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">⚡ FxTrader <span>| trade smarter</span></div>
+                <div class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</div>
+                <div class="nav-links">
+                    <a href="#" onclick="scrollToSection('markets')">Markets</a>
+                    <a href="#" onclick="scrollToSection('dashboard')">Dashboard</a>
+                    <a href="#" onclick="scrollToSection('deposit')">Deposit</a>
+                    <a href="#" onclick="scrollToSection('how-it-works')">How It Works</a>
+                    <a href="#" onclick="openAccountModal()">Account</a>
+                    <div class="nav-actions">
+                        <button class="login-btn" onclick="showAuth('login')">Log In</button>
+                        <button class="signup-btn" onclick="showAuth('register')">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Trade Smarter. <br /><span class="highlight">Grow Faster.</span></h1>
+                    <p>Join thousands of traders worldwide and experience a secure, fast and powerful trading platform.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="showAuth('login')">🚀 Start Trading</button>
+                        <button class="btn-secondary" onclick="showAuth('register')">Create Account</button>
+                    </div>
+                    <div class="hero-features">
+                        <div class="feature"><span class="icon">🔒</span> <strong>Secure Platform</strong> SSL Encrypted</div>
+                        <div class="feature"><span class="icon">⚡</span> <strong>Fast Withdrawals</strong> Within 24 Hours</div>
+                        <div class="feature"><span class="icon">💬</span> <strong>24/7 Support</strong> Live Chat</div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="chart-placeholder">
+                        <div class="chart-line">
+                            <svg viewBox="0 0 400 180" preserveAspectRatio="none">
+                                <polyline points="0,140 30,120 60,150 90,100 120,80 150,95 180,60 210,40 240,70 270,35 300,55 330,30 360,50 390,25 400,45"
+                                fill="none" stroke="#f0b90b" stroke-width="3" />
+                                <polygon points="0,140 30,120 60,150 90,100 120,80 150,95 180,60 210,40 240,70 270,35 300,55 330,30 360,50 390,25 400,45 400,180 0,180"
+                                fill="rgba(240,185,11,0.08)" />
+                            </svg>
+                        </div>
+                        <div class="price-ticker">
+                            <div class="pair"><span>EUR/USD</span><span class="price green">1.08945 <span style="color:#0ecb81;">+0.32%</span></span></div>
+                            <div class="pair"><span>GBP/USD</span><span class="price red">1.27015 <span style="color:#f6465d;">-0.15%</span></span></div>
+                            <div class="pair"><span>XAU/USD</span><span class="price green">2,325.45 <span style="color:#0ecb81;">+0.68%</span></span></div>
+                            <div class="pair"><span>BTC/USD</span><span class="price green">67,842.60 <span style="color:#0ecb81;">+1.23%</span></span></div>
+                            <div class="pair"><span>ETH/USD</span><span class="price green">3,542.21 <span style="color:#0ecb81;">+0.99%</span></span></div>
+                            <div class="pair"><span>USOIL</span><span class="price red">78.32 <span style="color:#f6465d;">-0.25%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRUST BAR -->
+        <section class="trust-bar">
+            <div class="container">
+                <div class="trust-item"><span class="icon">🔒</span> <strong>SSL Secure</strong> Platform</div>
+                <div class="trust-item"><span class="icon">✅</span> <strong>KYC Verified</strong> System</div>
+                <div class="trust-item"><span class="icon">⚡</span> <strong>Instant</strong> Deposits &amp; Fast Withdrawals</div>
+                <div class="trust-item"><span class="icon">🛡️</span> <strong>Fund Protection</strong> System</div>
+                <div class="trust-item"><span class="icon">📊</span> <strong>Real‑time</strong> Monitoring</div>
+            </div>
+        </section>
+
+        <!-- LIVE MARKETS -->
+        <section class="live-markets" id="markets">
+            <div class="container">
+                <div class="section-title">
+                    <h2>📊 Live Market Overview</h2>
+                    <p>Real‑time prices for forex, crypto, and commodities. Click to trade instantly.</p>
+                </div>
+                <div class="market-grid">
+                    <div class="market-card" onclick="showAuth('login')">
+                        <div class="pair"><span class="name">BTC/USD</span><span class="change up">+2.15%</span></div>
+                        <div class="price">$42,850.00</div>
+                        <div class="mini-chart"><svg viewBox="0 0 200 50"><polyline points="0,45 20,30 40,35 60,20 80,15 100,25 120,10 140,5 160,18 180,8 200,12" fill="none" stroke="#0ecb81" stroke-width="2"/></svg></div>
+                        <div class="actions"><button class="buy-btn" onclick="event.stopPropagation();showAuth('login')">Buy</button><button class="sell-btn" onclick="event.stopPropagation();showAuth('login')">Sell</button></div>
+                    </div>
+                    <div class="market-card" onclick="showAuth('login')">
+                        <div class="pair"><span class="name">ETH/USD</span><span class="change up">+3.42%</span></div>
+                        <div class="price">$2,845.60</div>
+                        <div class="mini-chart"><svg viewBox="0 0 200 50"><polyline points="0,35 20,40 40,25 60,30 80,15 100,20 120,10 140,25 160,15 180,20 200,8" fill="none" stroke="#0ecb81" stroke-width="2"/></svg></div>
+                        <div class="actions"><button class="buy-btn" onclick="event.stopPropagation();showAuth('login')">Buy</button><button class="sell-btn" onclick="event.stopPropagation();showAuth('login')">Sell</button></div>
+                    </div>
+                    <div class="market-card" onclick="showAuth('login')">
+                        <div class="pair"><span class="name">EUR/USD</span><span class="change up">+0.32%</span></div>
+                        <div class="price">1.0892</div>
+                        <div class="mini-chart"><svg viewBox="0 0 200 50"><polyline points="0,25 20,28 40,22 60,30 80,18 100,20 120,12 140,18 160,10 180,15 200,12" fill="none" stroke="#0ecb81" stroke-width="2"/></svg></div>
+                        <div class="actions"><button class="buy-btn" onclick="event.stopPropagation();showAuth('login')">Buy</button><button class="sell-btn" onclick="event.stopPropagation();showAuth('login')">Sell</button></div>
+                    </div>
+                    <div class="market-card" onclick="showAuth('login')">
+                        <div class="pair"><span class="name">XAU/USD</span><span class="change down">-0.18%</span></div>
+                        <div class="price">$2,015.40</div>
+                        <div class="mini-chart"><svg viewBox="0 0 200 50"><polyline points="0,10 20,15 40,8 60,25 80,12 100,18 120,8 140,20 160,10 180,25 200,8" fill="none" stroke="#f6465d" stroke-width="2"/></svg></div>
+                        <div class="actions"><button class="buy-btn" onclick="event.stopPropagation();showAuth('login')">Buy</button><button class="sell-btn" onclick="event.stopPropagation();showAuth('login')">Sell</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD PREVIEW -->
+        <section class="dashboard-preview" id="dashboard">
+            <div class="container">
+                <div class="section-title">
+                    <h2>📊 Powerful Dashboard</h2>
+                    <p>All the tools you need in one place.</p>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dash-grid">
+                        <div class="dash-item"><div class="num">$12,450</div><div class="label">Total Balance</div></div>
+                        <div class="dash-item"><div class="num">+$1,240</div><div class="label">Today's Profit</div></div>
+                        <div class="dash-item"><div class="num">47</div><div class="label">Active Trades</div></div>
+                    </div>
+                    <div class="dash-features">
+                        <div class="item"><span class="icon">📈</span> Real-time Market Data</div>
+                        <div class="item"><span class="icon">📊</span> Advanced Charting Tools</div>
+                        <div class="item"><span class="icon">💰</span> Track Profits &amp; Losses</div>
+                        <div class="item"><span class="icon">📁</span> Manage Your Portfolio</div>
+                        <div class="item"><span class="icon">🔒</span> Secure Transactions</div>
+                        <div class="item"><span class="icon">📱</span> Mobile Trading</div>
+                    </div>
+                    <div class="dash-actions">
+                        <button class="btn-primary" onclick="openAccountModal()">Explore Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEPOSIT SECTION -->
+        <section class="deposit-section" id="deposit">
+            <div class="container">
+                <div class="section-title">
+                    <h2>💳 Multiple Deposit &amp; Withdrawal Options</h2>
+                    <p>Fast, secure and convenient transactions.</p>
+                </div>
+                <div class="deposit-grid">
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">📱</span><span class="name">M‑PESA</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">📱</span><span class="name">Airtel Money</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">📱</span><span class="name">MTN Mobile Money</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">🏦</span><span class="name">Bank Transfer</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">💳</span><span class="name">Visa / Mastercard</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">💼</span><span class="name">Skrill</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">💼</span><span class="name">Neteller</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">₿</span><span class="name">USDT (TRC20)</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">₿</span><span class="name">Bitcoin</span></div>
+                    <div class="deposit-method" onclick="openAccountModal()"><span class="icon">₿</span><span class="name">Ethereum</span></div>
+                </div>
+                <div class="deposit-features">
+                    <div class="item"><span class="icon">⚡</span> <strong>Instant Deposits</strong></div>
+                    <div class="item"><span class="icon">💰</span> <strong>Low Fees</strong></div>
+                    <div class="item"><span class="icon">🔒</span> <strong>Secure Transactions</strong></div>
+                    <div class="item"><span class="icon">🕐</span> <strong>24/7 Processing</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="container">
+                <div class="section-title">
+                    <h2>🚀 How It Works</h2>
+                    <p>Start trading in 3 simple steps.</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <span class="icon">🧾</span>
+                        <div class="num">1</div>
+                        <h4>Create Account</h4>
+                        <p>Sign up and verify your account in minutes.</p>
+                    </div>
+                    <div class="step">
+                        <span class="icon">💳</span>
+                        <div class="num">2</div>
+                        <h4>Deposit Funds</h4>
+                        <p>Choose your preferred payment method.</p>
+                    </div>
+                    <div class="step">
+                        <span class="icon">📈</span>
+                        <div class="num">3</div>
+                        <h4>Start Trading</h4>
+                        <p>Access global markets, powerful tools and expert support all in one place.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-title">
+                    <h2>⭐ What Our Traders Say</h2>
+                    <p>Real feedback from real traders.</p>
+                </div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <div class="text">FxTrader has made trading so easy and profitable. The platform is smooth and withdrawals are always on time.</div>
+                        <div class="user">
+                            <div class="avatar">DM</div>
+                            <div><div class="name">David M.</div><div class="role">Kenya</div></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐</div>
+                        <div class="text">Great platform with amazing customer support. I can trade anytime, anywhere with confidence.</div>
+                        <div class="user">
+                            <div class="avatar">SK</div>
+                            <div><div class="name">Sarah K.</div><div class="role">Nigeria</div></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <div class="text">Fast trading. Access global markets with confidence. The best platform I've used so far.</div>
+                        <div class="user">
+                            <div class="avatar">JM</div>
+                            <div><div class="name">James M.</div><div class="role">South Africa</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOBILE APP -->
+        <section class="mobile-app">
+            <div class="container">
+                <div class="app-info">
+                    <h2>📱 Trade Anywhere, Anytime</h2>
+                    <p>Download our mobile app and trade on the go. Access all your favorite features from the palm of your hand.</p>
+                    <div class="app-buttons">
+                        <div class="store-btn">
+                            <span style="font-size:28px;">🍎</span>
+                            <div><div class="small">Download on the</div><div class="big">App Store</div></div>
+                        </div>
+                        <div class="store-btn">
+                            <span style="font-size:28px;">▶️</span>
+                            <div><div class="small">Download on the</div><div class="big">Google Play</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-visual">
+                    <div class="phone-mock">
+                        <div class="screen">
+                            <div class="chart-icon">📈</div>
+                            <h4>FxTrader</h4>
+                            <p>Live prices, real-time charts</p>
+                            <div class="mini-chart">
+                                <svg viewBox="0 0 200 60"><polyline points="0,50 20,35 40,45 60,25 80,15 100,30 120,10 140,20 160,12 180,18 200,8" fill="none" stroke="#f0b90b" stroke-width="2"/></svg>
+                            </div>
+                            <p style="margin-top:8px;font-size:14px;font-weight:700;color:#0ecb81;">$42,850.00 <span style="color:#0ecb81;">+2.15%</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MARKET NEWS -->
+        <section class="market-news">
+            <div class="container">
+                <div class="section-title">
+                    <h2>📰 Latest Market News</h2>
+                    <p>Stay updated with the latest market movements.</p>
+                </div>
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="tag">📊 FOREX</div>
+                        <h4>EUR/USD rallies as Euro strengthens ahead of ECB meeting</h4>
+                        <p>Analysts expect further gains as the ECB signals a hawkish stance.</p>
+                        <span class="time">⏱️ 2 hours ago</span>
+                    </div>
+                    <div class="news-card">
+                        <div class="tag">₿ CRYPTO</div>
+                        <h4>Bitcoin hits new high as institutional demand increases</h4>
+                        <p>Major institutions continue to accumulate BTC, pushing prices higher.</p>
+                        <span class="time">⏱️ 4 hours ago</span>
+                    </div>
+                    <div class="news-card">
+                        <div class="tag">🪙 GOLD</div>
+                        <h4>Gold prices stabilize amid global economic uncertainty</h4>
+                        <p>Investors turn to gold as a safe haven amid market volatility.</p>
+                        <span class="time">⏱️ 6 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER -->
+        <section class="newsletter">
+            <div class="container">
+                <h3>📬 Subscribe to Our Newsletter</h3>
+                <p>Get the latest market updates and trading insights straight to your inbox.</p>
+                <div class="subscribe-form">
+                    <input type="email" placeholder="Enter your email address" />
+                    <button onclick="alert('✅ Subscribed successfully!')">Subscribe</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPLIANCE -->
+        <section class="compliance">
+            <div class="container">
+                <a href="#" onclick="openPolicy('terms')">Terms &amp; Conditions</a>
+                <a href="#" onclick="openPolicy('privacy')">Privacy Policy</a>
+                <a href="#" onclick="openPolicy('risk')">Risk Disclosure</a>
+                <a href="#" onclick="openPolicy('aml')">AML Policy</a>
+                <a href="#" onclick="openPolicy('kyc')">KYC Policy</a>
+                <a href="#" onclick="openPolicy('cookie')">Cookie Policy</a>
+                <div class="risk-warning">⚠️ Trading involves risk of loss. Please trade responsibly.</div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <div class="brand">
+                    <div class="logo">⚡ FxTrader <span>| trade smarter</span></div>
+                    <p>Secure, transparent, and innovative access to global financial markets.</p>
+                    <div class="contact">
+                        <strong>📞</strong> +254 700 123 456<br />
+                        <strong>✉️</strong> support@fxtrader.com
+                    </div>
+                    <div class="social">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📸</a>
+                        <a href="#">📱</a>
+                        <a href="#">▶️</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <h4>Company</h4>
+                    <a href="#" onclick="openPolicy('about')">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="col">
+                    <h4>Trading</h4>
+                    <a href="#" onclick="scrollToSection('markets')">Forex</a>
+                    <a href="#" onclick="scrollToSection('markets')">Crypto</a>
+                    <a href="#" onclick="scrollToSection('markets')">Commodities</a>
+                    <a href="#" onclick="scrollToSection('markets')">Indices</a>
+                    <a href="#" onclick="scrollToSection('markets')">Stocks</a>
+                </div>
+                <div class="col">
+                    <h4>Support</h4>
+                    <a href="#" onclick="alert('💬 Live chat started!')">Live Chat</a>
+                    <a href="#" onclick="alert('📧 Support ticket system opened')">Ticket Support</a>
+                    <a href="#">Help Center</a>
+                    <a href="#" onclick="alert('📋 Report abuse form opened')">Report Abuse</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="payment-icons">
+                    <span>💳</span> <span>💳</span> <span>📱</span> <span>₿</span> <span>🪙</span>
+                </div>
+                <p style="margin-top:12px;">&copy; 2026 FxTrader. All Rights Reserved.</p>
+                <p style="font-size:12px;color:#5e6673;margin-top:4px;">Trading CFDs, cryptocurrencies, forex, commodities, stocks, and other financial instruments involves significant risk and may not be suitable for all investors.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  TRADING DASHBOARD                                         -->
+    <!-- ========================================================== -->
+    <div id="dashboardApp">
+        <header class="header">
+            <div class="logo">⚡ FxTrader <span>| trade smarter</span></div>
+            <div class="user-area">
+                <div class="user-greeting">👋 <strong id="userEmailDisplay">User</strong></div>
+                <div class="mode-toggle">
+                    <button id="demoModeBtn" class="active" onclick="switchMode('demo')">🎯 Demo</button>
+                    <button id="realModeBtn" onclick="switchMode('real')">💰 Real</button>
+                </div>
+                <div class="pnl-container">
+                    <div class="pnl-item"><span class="label">Unrealized</span><span class="value" id="unrealizedPnl">+$0.00</span><span class="pnl-badge" id="unrealizedPnlPct">+0.00%</span></div>
+                    <div class="pnl-item"><span class="label">Realized</span><span class="value" id="realizedPnl">+$0.00</span></div>
+                    <div class="avg-price-display" id="avgPriceDisplay">Avg: $0.00</div>
+                </div>
+                <div class="balance-box" id="headerBalanceBox">💵 <strong id="balanceDisplay">40,000.00</strong> <span class="mode-label" id="modeLabel">(Demo)</span></div>
+                <div class="balance-box" id="headerAssetBox">₿ <span id="assetBalance">0.0000</span></div>
+                <button class="header-btn account-btn" id="accountBtn" onclick="openAccountModal()">👤 Account</button>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- CHART - Clickable to open WhatsApp -->
+            <div class="card">
+                <div class="ticker-price">
+                    <span class="price" id="currentPrice">42,850.00</span>
+                    <span class="change positive" id="priceChange">+2.15%</span>
+                    <span style="font-size:13px;color:#848e9c;margin-left:auto;">FxTrader · BTC/USD</span>
+                </div>
+                <!-- ✅ WHATSAPP CHANNEL LINK INTEGRATED -->
+                <a href="https://chat.whatsapp.com/channel/0029VbCW1moDeON8f1ZD1q1n" target="_blank" style="text-decoration:none;display:block;">
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                        <div style="position:absolute;bottom:8px;right:12px;background:rgba(0,0,0,0.7);padding:4px 12px;border-radius:20px;font-size:11px;color:#25D366;display:flex;align-items:center;gap:6px;pointer-events:none;">
+                            <span>💬</span> Join WhatsApp
+                        </div>
+                    </div>
+                </a>
+                <div style="margin-top:12px;display:flex;gap:20px;font-size:13px;color:#848e9c;flex-wrap:wrap;">
+                    <span>High: <span id="highPrice" style="color:#0ecb81;">43,200</span></span>
+                    <span>Low: <span id="lowPrice" style="color:#f6465d;">42,100</span></span>
+                    <span>Volume: <span id="volumeDisplay">1,245</span> BTC</span>
+                </div>
+            </div>
+
+            <!-- ORDER BOOK -->
+            <div class="card order-book">
+                <div class="card-title">📖 Order Book</div>
+                <div class="book-header"><span>Price</span><span>Size</span><span>Total</span></div>
+                <div id="orderBookBids"></div>
+                <div style="border-top:1px solid #2b3139;margin:8px 0;padding:4px 0;text-align:center;font-size:12px;color:#848e9c;">spread: <span id="spreadDisplay">0.50</span></div>
+                <div id="orderBookAsks"></div>
+            </div>
+
+            <!-- TRADE PANEL -->
+            <div class="card trade-panel">
+                <div class="card-title">📊 Trade</div>
+                <div class="input-group"><label>Amount (BTC)</label><input type="number" id="tradeAmount" step="0.001" value="0.01" /></div>
+                <div class="input-group"><label>Price (USD)</label><input type="number" id="tradePrice" step="0.5" /></div>
+                <div class="action-btns"><button class="btn-buy" id="buyBtn" onclick="executeTrade('buy')">BUY</button><button class="btn-sell" id="sellBtn" onclick="executeTrade('sell')">SELL</button></div>
+                <button class="stop-trade-btn" id="stopTradeBtn" onclick="toggleStopTrading()">⏸️ Pause Trading</button>
+                <div style="margin-top:18px;">
+                    <div class="card-title" style="margin-bottom:6px;">📋 Recent Trades</div>
+                    <div class="history-list" id="historyList"><div class="history-item" style="color:#5e6673;justify-content:center;">No trades yet</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  AUTH MODAL                                                -->
+    <!-- ========================================================== -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal" style="max-width:480px;">
+            <div class="modal-header">
+                <h2 id="authModalTitle">🔐 Welcome Back</h2>
+                <button class="close-modal" id="closeAuthModal">&times;</button>
+            </div>
+            <div class="auth-container" style="box-shadow:none;padding:0;background:transparent;border:none;">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Log In</button>
+                    <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Register</button>
+                </div>
+                <form class="auth-form active" id="loginForm">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required />
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required />
+                    <div class="auth-error" id="loginError"></div>
+                    <button type="submit" class="auth-btn">🔐 Sign In</button>
+                    <div class="auth-links">
+                        <a id="forgotPasswordLink">Forgot Password?</a>
+                        <span class="sep">|</span>
+                        <a onclick="openPolicy('terms')">Terms &amp; Conditions</a>
+                    </div>
+                </form>
+                <form class="auth-form" id="registerForm">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="you@example.com" required />
+                    <label>Password (min 6)</label>
+                    <input type="password" id="regPassword" placeholder="••••••••" required />
+                    <label>Confirm</label>
+                    <input type="password" id="regConfirm" placeholder="Confirm" required />
+                    <div class="auth-error" id="regError"></div>
+                    <div class="auth-success" id="regSuccess"></div>
+                    <button type="submit" class="auth-btn">🚀 Create Account</button>
+                    <div class="auth-links">
+                        <a onclick="switchAuthTab('login')">Already have an account? Sign In</a>
+                        <span class="sep">|</span>
+                        <a onclick="openPolicy('terms')">Terms &amp; Conditions</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  ACCOUNT MODAL                                             -->
+    <!-- ========================================================== -->
+    <div class="modal-overlay" id="accountModal">
+        <div class="modal" style="max-width:1100px;">
+            <div class="modal-header">
+                <h2>👤 Account Settings</h2>
+                <button class="close-modal" id="closeAccountModalBtn">&times;</button>
+            </div>
+            <div style="margin-bottom:16px;">
+                <p style="color:#848e9c;font-size:14px;">Full account management — personal info, security, wallet, and appearance.</p>
+            </div>
+            <div class="account-tabs" id="accountTabs">
+                <button class="active" data-tab="personal" onclick="switchAccountTab('personal')">Personal</button>
+                <button data-tab="security" onclick="switchAccountTab('security')">Security</button>
+                <button data-tab="wallet" onclick="switchAccountTab('wallet')">Wallet</button>
+                <button data-tab="appearance" onclick="switchAccountTab('appearance')">Appearance</button>
+            </div>
+
+            <!-- Personal -->
+            <div class="account-panel active" id="panel-personal">
+                <div class="panel-grid">
+                    <div class="panel-card">
+                        <h4>👤 Personal Information</h4>
+                        <div class="field-row"><span class="flabel">Full Name</span><span class="fvalue" id="pFullName">John Doe</span><button class="btn-sm secondary" onclick="editField('fullName')">✏️</button></div>
+                        <div class="field-row"><span class="flabel">Username</span><span class="fvalue" id="pUsername">johndoe</span><button class="btn-sm secondary" onclick="editField('username')">✏️</button></div>
+                        <div class="field-row"><span class="flabel">Email</span><span class="fvalue" id="pEmail">demo@fxtrader.com</span></div>
+                        <div class="field-row"><span class="flabel">Phone</span><span class="fvalue" id="pPhone">+1 555 123 4567</span><button class="btn-sm secondary" onclick="editField('phone')">✏️</button></div>
+                        <div class="field-row"><span class="flabel">Country</span><span class="fvalue" id="pCountry">United States</span><button class="btn-sm secondary" onclick="editField('country')">✏️</button></div>
+                    </div>
+                    <div class="panel-card">
+                        <h4>📋 Profile</h4>
+                        <div class="profile-pic-wrapper">
+                            <div class="profile-pic" id="profilePicDisplay">📷</div>
+                            <div>
+                                <input type="file" id="profilePicInput" accept="image/*" style="display:none;" />
+                                <button class="upload-btn" onclick="document.getElementById('profilePicInput').click()">Upload Image</button>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;font-size:13px;color:#848e9c;">User ID: <span style="color:var(--accent);font-weight:700;" id="userIdDisplay">U-12345</span></div>
+                        <div class="login-location">📍 New York, USA · IP: 192.168.1.1 · Chrome on Windows</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="account-panel" id="panel-security">
+                <div class="panel-grid">
+                    <div class="panel-card">
+                        <h4>🔐 Security</h4>
+                        <div class="field-row"><span class="flabel">Password</span><span class="fvalue">••••••••</span><button class="btn-sm" onclick="alert('Change password flow (simulated)')">Change</button></div>
+                        <div class="field-row"><span class="flabel">Two-Factor Auth</span><span class="fvalue" id="twoFactorStatus" style="color:#0ecb81;">Enabled</span>
+                            <div class="toggle-wrap"><div class="toggle-switch active" id="twoFactorToggle" onclick="toggle2FA()"><div class="toggle-knob"></div></div></div>
+                        </div>
+                        <div class="field-row"><span class="flabel">Biometric</span><span class="fvalue" id="biometricStatus" style="color:#848e9c;">Disabled</span>
+                            <div class="toggle-wrap"><div class="toggle-switch" id="biometricToggle" onclick="toggleBiometric()"><div class="toggle-knob"></div></div></div>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <h4>📱 Active Devices</h4>
+                        <div class="field-row"><span class="flabel">Chrome · Windows</span><span class="fvalue" style="color:#0ecb81;">This device</span></div>
+                        <div class="field-row"><span class="flabel">Safari · iPhone</span><span class="fvalue" style="color:#848e9c;">Trusted</span></div>
+                        <button class="btn-sm danger" onclick="if(confirm('Revoke all devices?')) alert('All devices revoked (simulated)')">Revoke All</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet -->
+            <div class="account-panel" id="panel-wallet">
+                <div class="panel-grid">
+                    <div class="panel-card" style="grid-column:1/3;">
+                        <h4>💰 Real Wallet</h4>
+                        <div style="display:flex;gap:30px;flex-wrap:wrap;">
+                            <div><span class="flabel">USD Balance</span><br /><span style="font-size:24px;font-weight:700;color:var(--accent);" id="wRealBalance">$0.00</span></div>
+                            <div><span class="flabel">BTC Balance</span><br /><span id="wRealBTC">0.0000</span></div>
+                        </div>
+                    </div>
+
+                    <div class="panel-card" style="grid-column:1/3;">
+                        <h4>🏦 Deposit / Withdraw</h4>
+                        <div class="deposit-withdraw-tabs" id="dwTabs">
+                            <button class="active" onclick="switchDWTab('deposit')">Deposit</button>
+                            <button onclick="switchDWTab('withdraw')">Withdraw</button>
+                        </div>
+                        <div id="dwContent"></div>
+                        <div id="dwMessage" style="font-size:13px;min-height:20px;margin-top:8px;"></div>
+                    </div>
+
+                    <div class="panel-card" style="grid-column:1/3;">
+                        <h4>📊 Transaction History</h4>
+                        <div class="tx-table-wrap">
+                            <table>
+                                <thead><tr><th>Date</th><th>Type</th><th>Method</th><th>Amount</th><th>Status</th></tr></thead>
+                                <tbody id="transactionBody"><tr><td colspan="5" style="text-align:center;color:#848e9c;">No transactions yet</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel-card" style="grid-column:1/3;">
+                        <h4>💳 Saved Payment Methods</h4>
+                        <div id="savedPaymentMethods"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appearance -->
+            <div class="account-panel" id="panel-appearance">
+                <div class="panel-grid">
+                    <div class="panel-card">
+                        <h4>🎨 Theme</h4>
+                        <div class="field-row"><span class="flabel">Dark Mode</span><span class="fvalue" id="darkModeStatus" style="color:#0ecb81;">Active</span>
+                            <div class="toggle-wrap"><div class="toggle-switch active" id="darkModeToggle" onclick="toggleDarkMode()"><div class="toggle-knob"></div></div></div>
+                        </div>
+                        <div class="field-row"><span class="flabel">Light Mode</span><span class="fvalue" id="lightModeStatus" style="color:#848e9c;">Inactive</span>
+                            <div class="toggle-wrap"><div class="toggle-switch" id="lightModeToggle" onclick="toggleDarkMode()"><div class="toggle-knob"></div></div></div>
+                        </div>
+                    </div>
+                    <div class="panel-card">
+                        <h4>🎨 Customization</h4>
+                        <div class="field-row"><span class="flabel">Theme Color</span>
+                            <select id="themeColorSelect" onchange="changeThemeColor(this.value)" style="background:#0b0e11;border:1px solid #2b3139;border-radius:10px;padding:6px 10px;color:#eaecef;">
+                                <option value="#f0b90b">Gold</option>
+                                <option value="#4a9eff">Blue</option>
+                                <option value="#0ecb81">Green</option>
+                                <option value="#a855f7">Purple</option>
+                                <option value="#f97316">Orange</option>
+                            </select>
+                        </div>
+                        <div class="field-row"><span class="flabel">Font Size</span>
+                            <select id="fontSizeSelect" onchange="changeFontSize(this.value)" style="background:#0b0e11;border:1px solid #2b3139;border-radius:10px;padding:6px 10px;color:#eaecef;">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  POLICY MODAL                                              -->
+    <!-- ========================================================== -->
+    <div class="modal-overlay" id="policyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="policyModalTitle">📄 Policy</h2>
+                <button class="close-modal" id="closePolicyBtn">&times;</button>
+            </div>
+            <div class="policy-content" id="policyContent"></div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!--  TOAST CONTAINER                                           -->
+    <!-- ========================================================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ========================================================== -->
+    <!--  LIVE CHAT                                                 -->
+    <!-- ========================================================== -->
+    <div class="live-chat">
+        <button class="chat-btn" onclick="alert('💬 Live chat started!')">
+            💬
+            <span class="chat-badge"></span>
+        </button>
+    </div>
+
+    <script>
+        // ================================================================
+        //  STATE & CONFIG
+        // ================================================================
+        const DB_KEY = 'fxtrader_users_v1';
+        const SESSION_KEY = 'fxtrader_session';
+
+        const defaultSettings = {
+            darkMode: true,
+            themeColor: '#f0b90b',
+            fontSize: 'medium',
+            twoFactorEnabled: true,
+            biometricEnabled: false,
+            hideBalance: false
+        };
+
+        const PAYMENT_METHODS = {
+            deposit: [
+                { id: 'bank', icon: '🏦', name: 'Bank Transfer', fields: [
+                        { key: 'accountName', label: 'Account Name', type: 'text' },
+                        { key: 'accountNumber', label: 'Account Number', type: 'text' },
+                        { key: 'bankName', label: 'Bank Name', type: 'text' },
+                        { key: 'swift', label: 'SWIFT / Routing (optional)', type: 'text' }
+                    ] },
+                { id: 'card', icon: '💳', name: 'Debit / Credit Card', fields: [
+                        { key: 'cardNumber', label: 'Card Number', type: 'text' },
+                        { key: 'expiry', label: 'Expiry (MM/YY)', type: 'text' },
+                        { key: 'cvv', label: 'CVV', type: 'password' },
+                        { key: 'cardholderName', label: 'Cardholder Name', type: 'text' }
+                    ] },
+                { id: 'mobile', icon: '📱', name: 'Mobile Money', fields: [
+                        { key: 'phone', label: 'Phone Number', type: 'text' },
+                        { key: 'provider', label: 'Provider', type: 'select', options: ['M-PESA', 'Airtel Money',
+                                'MTN Mobile Money'
+                            ] }
+                    ] },
+                { id: 'ewallet', icon: '💼', name: 'E-Wallet', fields: [
+                        { key: 'email', label: 'Email / Account ID', type: 'text' }
+                    ] },
+                { id: 'crypto', icon: '₿', name: 'Cryptocurrency', fields: [
+                        { key: 'address', label: 'Wallet Address', type: 'text' },
+                        { key: 'network', label: 'Network', type: 'select', options: ['BTC', 'ETH (ERC20)',
+                                'USDT (TRC20)'
+                            ] }
+                    ] }
+            ],
+            withdraw: [
+                { id: 'bank', icon: '🏦', name: 'Bank Transfer', fields: [
+                        { key: 'accountName', label: 'Account Name', type: 'text' },
+                        { key: 'accountNumber', label: 'Account Number', type: 'text' },
+                        { key: 'bankName', label: 'Bank Name', type: 'text' },
+                        { key: 'swift', label: 'SWIFT / Routing (optional)', type: 'text' }
+                    ] },
+                { id: 'mobile', icon: '📱', name: 'Mobile Money', fields: [
+                        { key: 'phone', label: 'Phone Number', type: 'text' },
+                        { key: 'provider', label: 'Provider', type: 'select', options: ['M-PESA', 'Airtel Money',
+                                'MTN Mobile Money'
+                            ] }
+                    ] },
+                { id: 'card', icon: '💳', name: 'Card Refund', fields: [
+                        { key: 'cardNumber', label: 'Card Number (last 4)', type: 'text' },
+                        { key: 'cardholderName', label: 'Cardholder Name', type: 'text' }
+                    ] },
+                { id: 'ewallet', icon: '💼', name: 'E-Wallet', fields: [
+                        { key: 'email', label: 'Email / Account ID', type: 'text' }
+                    ] },
+                { id: 'crypto', icon: '₿', name: 'Cryptocurrency', fields: [
+                        { key: 'address', label: 'Wallet Address', type: 'text' },
+                        { key: 'network', label: 'Network', type: 'select', options: ['BTC', 'ETH (ERC20)',
+                                'USDT (TRC20)'
+                            ] }
+                    ] }
+            ]
+        };
+
+        let state = {
+            currentUser: null,
+            activeMode: 'demo',
+            portfolios: {
+                real: { balance: 0, asset: 0, avgPrice: 0, realizedPnl: 0, history: [] },
+                demo: { balance: 40000, asset: 0, avgPrice: 0, realizedPnl: 0, history: [] }
+            },
+            currentPrice: 42850,
+            priceHistory: [],
+            isRunning: true,
+            phone: '+1 555 123 4567',
+            profilePic: '',
+            fullName: 'John Doe',
+            username: 'johndoe',
+            country: 'United States',
+            settings: JSON.parse(JSON.stringify(defaultSettings)),
+            transactions: [],
+            twoFactorEnabled: true,
+            biometricEnabled: false,
+            savedPaymentMethods: []
+        };
+
+        // ================================================================
+        //  DOM REFS & HELPERS
+        // ================================================================
+        function getUsers() { try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch { return {}; } }
+
+        function saveUsers(u) { localStorage.setItem(DB_KEY, JSON.stringify(u)); }
+
+        function getSession() { return localStorage.getItem(SESSION_KEY) || null; }
+
+        function setSession(e) { localStorage.setItem(SESSION_KEY, e); }
+
+        function clearSession() { localStorage.removeItem(SESSION_KEY); }
+
+        function hashPassword(pw) { let h = 0; for (let i = 0; i < pw.length; i++) { const c = pw.charCodeAt(i);
+                h = ((h << 5) - h) + c;
+                h = h & h; } return 'hashed_' + Math.abs(h).toString(36); }
+
+        function fmt(n, d = 2) { return Number(n).toFixed(d); }
+
+        function fmtAsset(n) { return Number(n).toFixed(4); }
+
+        function randomBetween(min, max) { return Math.random() * (max - min) + min; }
+
+        function getTime() { const d = new Date(); return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes()
+                .toString().padStart(2, '0') + ':' + d.getSeconds().toString().padStart(2, '0'); }
+
+        function getDate() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') +
+                '-' + String(d.getDate()).padStart(2, '0') + ' ' + getTime(); }
+
+        function getActivePortfolio() { return state.portfolios[state.activeMode]; }
+
+        // ================================================================
+        //  TOAST
+        // ================================================================
+        function showToast(title, details, type, pnlValue) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            const pnlStr = pnlValue !== null ? (pnlValue >= 0 ? '+' : '') + '$' + fmt(pnlValue, 2) : '';
+            const pnlClass = pnlValue !== null ? (pnlValue >= 0 ? 'positive' : 'negative') : '';
+            let detailsHtml = details;
+            if (pnlStr && type === 'sell') {
+                detailsHtml += ' &middot; PnL: <span class="pnl-highlight ' + pnlClass + '">' + pnlStr + '</span>';
+            }
+            toast.innerHTML = '<div class="toast-title ' + type + '"><span>' + (type === 'buy' ? '🟢' : '🔴') + ' ' + title +
+                '</span><button class="toast-close">&times;</button></div><div class="toast-details">' + detailsHtml +
+                '</div><div class="toast-time">' + new Date().toLocaleTimeString() + '</div>';
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('open'));
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                toast.classList.remove('open');
+                setTimeout(() => { if (toast.parentNode) toast.remove(); }, 400);
+            });
+            setTimeout(() => {
+                toast.classList.remove('open');
+                setTimeout(() => { if (toast.parentNode) toast.remove(); }, 400);
+            }, 5000);
+        }
+
+        // ================================================================
+        //  SCROLL
+        // ================================================================
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ================================================================
+        //  AUTH
+        // ================================================================
+        function showAuth(tab) {
+            document.getElementById('authModal').classList.add('open');
+            switchAuthTab(tab || 'login');
+        }
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('#authModal .auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab ===
+            tab));
+            document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+            document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+            document.getElementById('authModalTitle').textContent = tab === 'login' ? '🔐 Welcome Back' :
+                '🚀 Create Account';
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('regError').textContent = '';
+            document.getElementById('regSuccess').textContent = '';
+        }
+
+        document.getElementById('closeAuthModal').addEventListener('click', function() { document.getElementById('authModal')
+                .classList.remove('open'); });
+        document.getElementById('authModal').addEventListener('click', function(e) { if (e.target === this) this.classList
+                .remove('open'); });
+
+        document.getElementById('forgotPasswordLink').addEventListener('click', function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            if (!email) { alert('Please enter your email address.'); return; }
+            alert('✅ Password reset link sent to ' + email);
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const pw = document.getElementById('loginPassword').value;
+            const loginError = document.getElementById('loginError');
+            loginError.textContent = '';
+            if (!email || !pw) { loginError.textContent = 'Please fill in all fields.'; return; }
+            const users = getUsers();
+            const user = users[email];
+            if (!user) { loginError.textContent = 'No account found.'; return; }
+            if (user.password !== hashPassword(pw)) { loginError.textContent = 'Incorrect password.'; return; }
+            setSession(email);
+            loadUserData(user);
+            showDashboard();
+            document.getElementById('authModal').classList.remove('open');
+            showToast('Welcome back!', '✅ Logged in as ' + email, 'buy', null);
+        });
+
+        // Register
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('regEmail').value.trim();
+            const pw = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+            const regError = document.getElementById('regError');
+            const regSuccess = document.getElementById('regSuccess');
+            regError.textContent = '';
+            regSuccess.textContent = '';
+            if (!email || !pw || !confirm) { regError.textContent = 'All fields required.'; return; }
+            if (pw.length < 6) { regError.textContent = 'Password must be at least 6 characters.'; return; }
+            if (pw !== confirm) { regError.textContent = 'Passwords do not match.'; return; }
+            const users = getUsers();
+            if (users[email]) { regError.textContent = 'Account already exists.'; return; }
+            users[email] = {
+                password: hashPassword(pw),
+                portfolios: {
+                    real: { balance: 0, asset: 0, avgPrice: 0, realizedPnl: 0, history: [] },
+                    demo: { balance: 40000, asset: 0, avgPrice: 0, realizedPnl: 0, history: [] }
+                },
+                phone: '+1 555 123 4567',
+                profilePic: '',
+                fullName: 'New User',
+                username: email.split('@')[0],
+                country: 'Not set',
+                settings: JSON.parse(JSON.stringify(defaultSettings)),
+                transactions: [],
+                twoFactorEnabled: true,
+                biometricEnabled: false,
+                savedPaymentMethods: []
+            };
+            saveUsers(users);
+            regSuccess.textContent = '✅ Account created! Please log in.';
+            setTimeout(() => {
+                switchAuthTab('login');
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPassword').value = '';
+            }, 1500);
+        });
+
+        // ================================================================
+        //  LOAD / SAVE USER
+        // ================================================================
+        function loadUserData(user) {
+            state.currentUser = document.getElementById('loginEmail').value.trim();
+            state.portfolios = user.portfolios;
+            state.phone = user.phone || '+1 555 123 4567';
+            state.profilePic = user.profilePic || '';
+            state.fullName = user.fullName || 'John Doe';
+            state.username = user.username || state.currentUser.split('@')[0];
+            state.country = user.country || 'United States';
+            state.settings = user.settings ? JSON.parse(JSON.stringify(user.settings)) : JSON.parse(JSON.stringify(
+                defaultSettings));
+            state.transactions = user.transactions || [];
+            state.twoFactorEnabled = user.twoFactorEnabled !== undefined ? user.twoFactorEnabled : true;
+            state.biometricEnabled = user.biometricEnabled || false;
+            state.savedPaymentMethods = user.savedPaymentMethods || [];
+            state.activeMode = 'demo';
+            applySettings();
+        }
+
+        function saveCurrentUser() {
+            if (!state.currentUser) return;
+            const users = getUsers();
+            if (users[state.currentUser]) {
+                const u = users[state.currentUser];
+                u.portfolios = state.portfolios;
+                u.phone = state.phone;
+                u.profilePic = state.profilePic;
+                u.fullName = state.fullName;
+                u.username = state.username;
+                u.country = state.country;
+                u.settings = JSON.parse(JSON.stringify(state.settings));
+                u.transactions = state.transactions;
+                u.twoFactorEnabled = state.twoFactorEnabled;
+                u.biometricEnabled = state.biometricEnabled;
+                u.savedPaymentMethods = state.savedPaymentMethods;
+                saveUsers(users);
+            }
+        }
+
+        // ================================================================
+        //  DASHBOARD
+        // ================================================================
+        function showDashboard() {
+            document.getElementById('homepage').classList.add('hidden');
+            document.getElementById('dashboardApp').classList.add('visible');
+            document.getElementById('userEmailDisplay').textContent = state.currentUser;
+            updateModeUI();
+            updateUI();
+            renderHistory();
+            generateOrderBook();
+            if (!window.chartInitialized) initChart();
+            updateStopButton();
+            applySettings();
+            updateAccountModal();
+        }
+
+        function logout() {
+            clearSession();
+            state.currentUser = null;
+            document.getElementById('homepage').classList.remove('hidden');
+            document.getElementById('dashboardApp').classList.remove('visible');
+            showToast('Logged out', 'You have been logged out.', 'sell', null);
+        }
+
+        // ================================================================
+        //  MODE SWITCH
+        // ================================================================
+        function switchMode(mode) {
+            if (mode === state.activeMode) return;
+            state.activeMode = mode;
+            updateModeUI();
+            updateUI();
+            renderHistory();
+            generateOrderBook();
+            saveCurrentUser();
+        }
+
+        function updateModeUI() {
+            const isDemo = state.activeMode === 'demo';
+            document.getElementById('demoModeBtn').classList.toggle('active', isDemo);
+            document.getElementById('realModeBtn').classList.toggle('active', !isDemo);
+            document.getElementById('modeLabel').textContent = isDemo ? '(Demo)' : '(Real)';
+            const port = getActivePortfolio();
+            document.getElementById('balanceDisplay').textContent = fmt(port.balance, 2);
+            document.getElementById('assetBalance').textContent = fmtAsset(port.asset);
+            applyHideBalance();
+        }
+
+        // ================================================================
+        //  SETTINGS
+        // ================================================================
+        function applySettings() {
+            if (state.settings.darkMode) {
+                document.body.classList.remove('light-mode');
+            } else {
+                document.body.classList.add('light-mode');
+            }
+            const accent = state.settings.themeColor || '#f0b90b';
+            document.documentElement.style.setProperty('--accent', accent);
+            const sizeMap = { small: '14px', medium: '16px', large: '18px' };
+            document.body.style.fontSize = sizeMap[state.settings.fontSize] || '16px';
+            applyHideBalance();
+            updateTwoFactorUI();
+            updateBiometricUI();
+            updateDarkModeUI();
+            const colorSelect = document.getElementById('themeColorSelect');
+            if (colorSelect) colorSelect.value = state.settings.themeColor || '#f0b90b';
+            const fontSelect = document.getElementById('fontSizeSelect');
+            if (fontSelect) fontSelect.value = state.settings.fontSize || 'medium';
+        }
+
+        function applyHideBalance() {
+            const hidden = state.settings.hideBalance;
+            document.getElementById('headerBalanceBox').classList.toggle('balance-hidden', hidden);
+            document.getElementById('headerAssetBox').classList.toggle('balance-hidden', hidden);
+        }
+
+        function toggleDarkMode() {
+            state.settings.darkMode = !state.settings.darkMode;
+            applySettings();
+            saveCurrentUser();
+            updateDarkModeUI();
+            showToast('Theme', 'Dark mode ' + (state.settings.darkMode ? 'enabled' : 'disabled'), 'buy', null);
+        }
+
+        function updateDarkModeUI() {
+            const val = state.settings.darkMode;
+            document.getElementById('darkModeStatus').textContent = val ? 'Enabled' : 'Disabled';
+            document.getElementById('darkModeStatus').style.color = val ? '#0ecb81' : '#848e9c';
+            document.getElementById('darkModeToggle').classList.toggle('active', val);
+            document.getElementById('lightModeStatus').textContent = val ? 'Inactive' : 'Active';
+            document.getElementById('lightModeStatus').style.color = val ? '#848e9c' : '#0ecb81';
+            document.getElementById('lightModeToggle').classList.toggle('active', !val);
+        }
+
+        function toggle2FA() {
+            state.twoFactorEnabled = !state.twoFactorEnabled;
+            saveCurrentUser();
+            updateTwoFactorUI();
+            showToast('Security', '2FA ' + (state.twoFactorEnabled ? 'enabled' : 'disabled'), 'buy', null);
+        }
+
+        function updateTwoFactorUI() {
+            const val = state.twoFactorEnabled;
+            document.getElementById('twoFactorStatus').textContent = val ? 'Enabled' : 'Disabled';
+            document.getElementById('twoFactorStatus').style.color = val ? '#0ecb81' : '#848e9c';
+            document.getElementById('twoFactorToggle').classList.toggle('active', val);
+        }
+
+        function toggleBiometric() {
+            state.biometricEnabled = !state.biometricEnabled;
+            saveCurrentUser();
+            updateBiometricUI();
+            showToast('Security', 'Biometric ' + (state.biometricEnabled ? 'enabled' : 'disabled'), 'buy', null);
+        }
+
+        function updateBiometricUI() {
+            const val = state.biometricEnabled;
+            document.getElementById('biometricStatus').textContent = val ? 'Enabled' : 'Disabled';
+            document.getElementById('biometricStatus').style.color = val ? '#0ecb81' : '#848e9c';
+            document.getElementById('biometricToggle').classList.toggle('active', val);
+        }
+
+        function changeThemeColor(color) {
+            state.settings.themeColor = color;
+            applySettings();
+            saveCurrentUser();
+            showToast('Theme', 'Theme color updated', 'buy', null);
+        }
+
+        function changeFontSize(size) {
+            state.settings.fontSize = size;
+            applySettings();
+            saveCurrentUser();
+            showToast('Font', 'Font size updated', 'buy', null);
+        }
+
+        // ================================================================
+        //  ACCOUNT MODAL
+        // ================================================================
+        function openAccountModal() {
+            document.getElementById('accountModal').classList.add('open');
+            switchAccountTab('personal');
+            updateAccountModal();
+        }
+
+        document.getElementById('closeAccountModalBtn').addEventListener('click', function() { document.getElementById(
+                'accountModal').classList.remove('open'); });
+        document.getElementById('accountModal').addEventListener('click', function(e) { if (e.target === this) this.classList
+                .remove('open'); });
+
+        function switchAccountTab(tab) {
+            document.querySelectorAll('#accountModal .account-tabs button').forEach(b => b.classList.remove('active'));
+            document.querySelector('#accountModal .account-tabs button[data-tab="' + tab + '"]').classList.add('active');
+            document.querySelectorAll('#accountModal .account-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-' + tab).classList.add('active');
+            if (tab === 'wallet') {
+                switchDWTab('deposit');
+                renderSavedPaymentMethods();
+            }
+        }
+
+        function updateAccountModal() {
+            document.getElementById('pFullName').textContent = state.fullName;
+            document.getElementById('pUsername').textContent = state.username;
+            document.getElementById('pEmail').textContent = state.currentUser || '-';
+            document.getElementById('pPhone').textContent = state.phone;
+            document.getElementById('pCountry').textContent = state.country;
+            document.getElementById('userIdDisplay').textContent = 'U-' + (state.currentUser ? state.currentUser.substring(0,
+                6).toUpperCase() : '12345');
+            const picDisplay = document.getElementById('profilePicDisplay');
+            if (state.profilePic) {
+                picDisplay.innerHTML = '<img src="' + state.profilePic + '" alt="profile" />';
+            } else {
+                picDisplay.innerHTML = '📷';
+            }
+            document.getElementById('wRealBalance').textContent = '$' + fmt(state.portfolios.real.balance, 2);
+            document.getElementById('wRealBTC').textContent = fmtAsset(state.portfolios.real.asset) + ' BTC';
+            renderTransactions();
+            updateTwoFactorUI();
+            updateBiometricUI();
+            updateDarkModeUI();
+            const colorSelect = document.getElementById('themeColorSelect');
+            if (colorSelect) colorSelect.value = state.settings.themeColor || '#f0b90b';
+            const fontSelect = document.getElementById('fontSizeSelect');
+            if (fontSelect) fontSelect.value = state.settings.fontSize || 'medium';
+            renderSavedPaymentMethods();
+        }
+
+        // ================================================================
+        //  DEPOSIT / WITHDRAW UI (Payment Methods)
+        // ================================================================
+        let dwType = 'deposit';
+        let selectedMethodId = null;
+        let selectedSavedMethodId = null;
+
+        function switchDWTab(tab) {
+            dwType = tab;
+            selectedMethodId = null;
+            selectedSavedMethodId = null;
+            document.querySelectorAll('#dwTabs button').forEach(b => b.classList.remove('active'));
+            document.querySelector('#dwTabs button.' + (tab === 'deposit' ? 'active' : '')).classList.add('active');
+            renderDWContent();
+        }
+
+        function renderDWContent() {
+            const container = document.getElementById('dwContent');
+            const methods = PAYMENT_METHODS[dwType];
+            if (!methods) return;
+
+            let html = '';
+            html += '<div class="method-list">';
+            methods.forEach(m => {
+                const sel = selectedMethodId === m.id ? 'selected' : '';
+                html += `<div class="method-card ${sel}" onclick="selectMethod('${m.id}')">
+                            <span class="m-icon">${m.icon}</span>
+                            <span class="m-name">${m.name}</span>
+                        </div>`;
+            });
+            html += '</div>';
+
+            if (selectedMethodId) {
+                const method = methods.find(m => m.id === selectedMethodId);
+                if (method) {
+                    html += '<div class="payment-form">';
+                    const saved = state.savedPaymentMethods.filter(s => s.type === dwType && s.methodId === selectedMethodId);
+                    if (saved.length > 0) {
+                        html += `<div class="saved-methods" style="margin-top:0;border-top:none;padding-top:0;">
+                                    <div style="font-size:12px;color:#848e9c;margin-bottom:4px;">Use saved:</div>`;
+                        saved.forEach(s => {
+                            const label = s.label || s.methodId;
+                            html += `<div class="saved-item" style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #1e232c;font-size:13px;">
+                                        <span>${label}</span>
+                                        <button class="btn-sm" onclick="useSavedMethod('${s.id}')">Use</button>
+                                    </div>`;
+                        });
+                        html += '</div>';
+                    }
+
+                    html += '<div style="margin-top:10px;">';
+                    method.fields.forEach(f => {
+                        const val = selectedSavedMethodId ? getSavedFieldValue(selectedSavedMethodId, f.key) : '';
+                        html += `<div class="form-group">
+                                    <label>${f.label}</label>`;
+                        if (f.type === 'select') {
+                            html += `<select id="dw_${f.key}" ${selectedSavedMethodId ? 'disabled' : ''}>`;
+                            f.options.forEach(opt => {
+                                const selVal = (val === opt) ? 'selected' : '';
+                                html += `<option value="${opt}" ${selVal}>${opt}</option>`;
+                            });
+                            html += '</select>';
+                        } else {
+                            const typeAttr = f.type === 'password' ? 'password' : 'text';
+                            html +=
+                                `<input type="${typeAttr}" id="dw_${f.key}" placeholder="${f.label}" value="${val}" ${selectedSavedMethodId ? 'disabled' : ''} />`;
+                        }
+                        html += '</div>';
+                    });
+                    html += `<div class="form-group">
+                                <label>Amount (USD)</label>
+                                <input type="number" id="dw_amount" placeholder="0.00" step="0.01" min="1" />
+                            </div>`;
+                    html += `<div class="form-group" style="display:flex;align-items:center;gap:10px;">
+                                <input type="checkbox" id="dw_saveMethod" ${selectedSavedMethodId ? 'disabled' : ''} />
+                                <label for="dw_saveMethod" style="font-size:13px;color:#848e9c;">Save this method for future use</label>
+                            </div>`;
+                    html += '</div>';
+
+                    html += `<div class="payment-action">
+                                <button class="btn-sm ${dwType === 'deposit' ? 'green' : 'danger'}" onclick="processPayment()">
+                                    ${dwType === 'deposit' ? 'Deposit' : 'Withdraw'}
+                                </button>
+                                <button class="btn-sm secondary" onclick="clearSelection()">Cancel</button>
+                            </div>`;
+                    html += '</div>';
+                }
+            } else {
+                html += '<p style="color:#848e9c;font-size:14px;">Select a payment method above.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function selectMethod(methodId) {
+            selectedMethodId = methodId;
+            selectedSavedMethodId = null;
+            renderDWContent();
+        }
+
+        function clearSelection() {
+            selectedMethodId = null;
+            selectedSavedMethodId = null;
+            renderDWContent();
+        }
+
+        function useSavedMethod(savedId) {
+            selectedSavedMethodId = savedId;
+            renderDWContent();
+        }
+
+        function getSavedFieldValue(savedId, fieldKey) {
+            const saved = state.savedPaymentMethods.find(s => s.id === savedId);
+            if (saved && saved.data && saved.data[fieldKey] !== undefined) {
+                return saved.data[fieldKey];
+            }
+            return '';
+        }
+
+        function processPayment() {
+            const method = PAYMENT_METHODS[dwType].find(m => m.id === selectedMethodId);
+            if (!method) { alert('Please select a payment method.'); return; }
+
+            const data = {};
+            let valid = true;
+            method.fields.forEach(f => {
+                const el = document.getElementById('dw_' + f.key);
+                if (el) {
+                    const val = el.value.trim();
+                    if (!val && f.type !== 'password') {
+                        valid = false;
+                    }
+                    data[f.key] = val;
+                }
+            });
+            if (!valid) {
+                document.getElementById('dwMessage').textContent = '❌ Please fill in all required fields.';
+                document.getElementById('dwMessage').style.color = '#f6465d';
+                return;
+            }
+
+            const amountInput = document.getElementById('dw_amount');
+            const amount = parseFloat(amountInput ? amountInput.value : 0);
+            if (!amount || amount <= 0) {
+                document.getElementById('dwMessage').textContent = '❌ Enter a valid amount.';
+                document.getElementById('dwMessage').style.color = '#f6465d';
+                return;
+            }
+
+            if (dwType === 'withdraw' && amount > state.portfolios.real.balance) {
+                document.getElementById('dwMessage').textContent = '❌ Insufficient Real balance.';
+                document.getElementById('dwMessage').style.color = '#f6465d';
+                return;
+            }
+
+            if (dwType === 'deposit') {
+                state.portfolios.real.balance += amount;
+            } else {
+                state.portfolios.real.balance -= amount;
+            }
+
+            const methodName = method.name;
+            state.transactions.push({
+                date: getDate(),
+                type: dwType === 'deposit' ? 'Deposit' : 'Withdrawal',
+                method: methodName,
+                amount: amount,
+                status: 'Completed'
+            });
+
+            const saveCheckbox = document.getElementById('dw_saveMethod');
+            if (saveCheckbox && saveCheckbox.checked && !selectedSavedMethodId) {
+                let label = methodName + ' ';
+                if (data.accountName) label += data.accountName;
+                else if (data.phone) label += data.phone;
+                else if (data.address) label += data.address.substring(0, 10) + '...';
+                else if (data.email) label += data.email;
+                else label += new Date().toLocaleDateString();
+
+                state.savedPaymentMethods.push({
+                    id: 'saved_' + Date.now(),
+                    type: dwType,
+                    methodId: selectedMethodId,
+                    label: label,
+                    data: data
+                });
+            }
+
+            saveCurrentUser();
+            updateUI();
+            updateAccountModal();
+            document.getElementById('dwMessage').textContent = '✅ ' + (dwType === 'deposit' ? 'Deposited' : 'Withdrew') +
+                ' $' + fmt(amount, 2) + ' via ' + methodName + '.';
+            document.getElementById('dwMessage').style.color = '#0ecb81';
+            showToast(dwType === 'deposit' ? 'Deposit' : 'Withdrawal', '✅ $' + fmt(amount, 2) + ' ' + (dwType ===
+                'deposit' ? 'deposited' : 'withdrawn') + ' via ' + methodName, dwType === 'deposit' ? 'buy' : 'sell',
+                null);
+
+            clearSelection();
+            renderSavedPaymentMethods();
+            if (amountInput) amountInput.value = '';
+        }
+
+        function renderSavedPaymentMethods() {
+            const container = document.getElementById('savedPaymentMethods');
+            if (!container) return;
+            if (!state.savedPaymentMethods || state.savedPaymentMethods.length === 0) {
+                container.innerHTML = '<p style="color:#848e9c;font-size:13px;">No saved payment methods.</p>';
+                return;
+            }
+            let html = '';
+            state.savedPaymentMethods.forEach((s, idx) => {
+                const label = s.label || s.methodId;
+                html += `<div class="saved-item">
+                            <span>${label}</span>
+                            <div class="actions">
+                                <button onclick="useSavedMethod('${s.id}')">Use</button>
+                                <button class="delete" onclick="deleteSavedMethod('${s.id}')">×</button>
+                            </div>
+                        </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function deleteSavedMethod(id) {
+            if (!confirm('Delete this saved method?')) return;
+            state.savedPaymentMethods = state.savedPaymentMethods.filter(s => s.id !== id);
+            saveCurrentUser();
+            renderSavedPaymentMethods();
+            if (selectedSavedMethodId === id) {
+                selectedSavedMethodId = null;
+                renderDWContent();
+            }
+            showToast('Removed', 'Saved payment method removed.', 'sell', null);
+        }
+
+        // ================================================================
+        //  TRANSACTIONS
+        // ================================================================
+        function renderTransactions() {
+            const tbody = document.getElementById('transactionBody');
+            if (!state.transactions || state.transactions.length === 0) {
+                tbody.innerHTML =
+                '<tr><td colspan="5" style="text-align:center;color:#848e9c;">No transactions yet</td></tr>';
+                return;
+            }
+            let html = '';
+            state.transactions.slice().reverse().slice(0, 20).forEach(tx => {
+                const statusClass = tx.status === 'Completed' ? 'status-success' :
+                    tx.status === 'Pending' ? 'status-pending' : 'status-failed';
+                html += '<tr><td>' + tx.date + '</td><td>' + tx.type + '</td><td>' + tx.method +
+                    '</td><td>' + (tx.type === 'Deposit' || tx.type === 'Transfer' ? '+' : '-') + '$' + fmt(tx
+                        .amount, 2) + '</td><td class="' + statusClass + '">' + tx.status + '</td></tr>';
+            });
+            tbody.innerHTML = html;
+        }
+
+        // ================================================================
+        //  TRADING ENGINE
+        // ================================================================
+        function executeTrade(type) {
+            if (!state.currentUser) { alert('Please log in first.'); return; }
+            if (!state.isRunning) { alert('Trading is paused.'); return; }
+            const port = getActivePortfolio();
+            const amount = parseFloat(document.getElementById('tradeAmount').value);
+            const price = parseFloat(document.getElementById('tradePrice').value) || state.currentPrice;
+            if (!amount || amount <= 0) { alert('Enter a valid amount.'); return; }
+            const totalCost = amount * price;
+            let toastDetails = '',
+                tradePnl = null;
+
+            if (type === 'buy') {
+                if (port.balance < totalCost) { alert('Insufficient balance.'); return; }
+                const oldAsset = port.asset,
+                    oldAvg = port.avgPrice,
+                    newAsset = oldAsset + amount;
+                port.avgPrice = newAsset === 0 ? 0 : ((oldAvg * oldAsset) + (price * amount)) / newAsset;
+                port.asset = newAsset;
+                port.balance -= totalCost;
+                toastDetails = fmtAsset(amount) + ' BTC @ $' + fmt(price, 2) + '<br />Cost: <span class="highlight">-$' +
+                    fmt(totalCost, 2) + '</span><br />New Balance: <span class="highlight">$' + fmt(port.balance, 2) +
+                    '</span>';
+            } else {
+                if (port.asset < amount) { alert('Insufficient BTC.'); return; }
+                const costBasis = port.avgPrice * amount;
+                const saleProceeds = price * amount;
+                tradePnl = saleProceeds - costBasis;
+                port.realizedPnl += tradePnl;
+                port.balance += saleProceeds;
+                port.asset -= amount;
+                if (port.asset === 0) port.avgPrice = 0;
+                const pnlStr = tradePnl >= 0 ? '+' : '';
+                toastDetails = fmtAsset(amount) + ' BTC @ $' + fmt(price, 2) +
+                    '<br />Proceeds: <span class="highlight">+$' + fmt(saleProceeds, 2) +
+                    '</span><br />PnL: <span class="pnl-highlight ' + (tradePnl >= 0 ? 'positive' : 'negative') + '">' +
+                    pnlStr + '$' + fmt(tradePnl, 2) +
+                    '</span><br />New Balance: <span class="highlight">$' + fmt(port.balance, 2) + '</span>';
+            }
+
+            port.history.unshift({ type: type.toUpperCase(), price, amount, time: getTime(), pnl: type === 'sell' ?
+                    tradePnl : null });
+            if (port.history.length > 30) port.history.pop();
+
+            saveCurrentUser();
+            renderHistory();
+            updateUI();
+            generateOrderBook();
+            showToast(type === 'buy' ? 'Buy Executed' : 'Sell Executed', toastDetails, type, tradePnl);
+        }
+
+        function renderHistory() {
+            const port = getActivePortfolio();
+            const historyList = document.getElementById('historyList');
+            if (!port.history || port.history.length === 0) {
+                historyList.innerHTML =
+                    '<div class="history-item" style="color:#5e6673;justify-content:center;">No trades yet</div>';
+                return;
+            }
+            let html = '';
+            port.history.slice(0, 12).forEach(h => {
+                let pnlHtml = '';
+                if (h.pnl !== null && h.pnl !== undefined) {
+                    const sign = h.pnl >= 0 ? '+' : '';
+                    const cls = h.pnl >= 0 ? 'positive' : 'negative';
+                    pnlHtml = '<span class="h-pnl ' + cls + '">(' + sign + '$' + fmt(h.pnl, 2) + ')</span>';
+                }
+                html += '<div class="history-item"><span class="h-type ' + h.type.toLowerCase() + '">' + h.type +
+                    '</span><span class="h-price">' + fmtAsset(h.amount) + ' BTC @ $' + fmt(h.price, 2) + ' ' +
+                    pnlHtml + '</span><span class="h-time">' + h.time + '</span></div>';
+            });
+            historyList.innerHTML = html;
+        }
+
+        // ================================================================
+        //  ORDER BOOK
+        // ================================================================
+        function generateOrderBook() {
+            const base = state.currentPrice;
+            const bids = [],
+                asks = [];
+            for (let i = 1; i <= 8; i++) {
+                const bidPrice = base - (i * 2.5) - randomBetween(0, 1.5);
+                const askPrice = base + (i * 2.5) + randomBetween(0, 1.5);
+                const bidSize = randomBetween(0.02, 0.45);
+                const askSize = randomBetween(0.02, 0.45);
+                bids.push({ price: bidPrice, size: bidSize, total: bidSize * bidPrice });
+                asks.push({ price: askPrice, size: askSize, total: askSize * askPrice });
+            }
+            bids.sort((a, b) => b.price - a.price);
+            asks.sort((a, b) => a.price - b.price);
+            let htmlBids = '';
+            bids.slice(0, 8).forEach(b => { htmlBids +=
+                    '<div class="row"><span class="bid">$' + fmt(b.price, 2) + '</span><span class="size">' + fmtAsset(b
+                        .size) + '</span><span class="size">$' + fmt(b.total, 0) + '</span></div>'; });
+            document.getElementById('orderBookBids').innerHTML = htmlBids;
+            let htmlAsks = '';
+            asks.slice(0, 8).forEach(a => { htmlAsks +=
+                    '<div class="row"><span class="ask">$' + fmt(a.price, 2) + '</span><span class="size">' + fmtAsset(a
+                        .size) + '</span><span class="size">$' + fmt(a.total, 0) + '</span></div>'; });
+            document.getElementById('orderBookAsks').innerHTML = htmlAsks;
+            if (bids.length && asks.length) document.getElementById('spreadDisplay').textContent = fmt(asks[0].price - bids[
+                0].price, 2);
+        }
+
+        // ================================================================
+        //  MARKET SIMULATION
+        // ================================================================
+        function updatePrice() {
+            if (!state.isRunning) return;
+            const volatility = 0.0015;
+            const change = state.currentPrice * volatility * (Math.random() - 0.5) * 2;
+            let newPrice = state.currentPrice + change;
+            if (newPrice < 30000) newPrice = 30000 + Math.random() * 1000;
+            if (newPrice > 60000) newPrice = 60000 - Math.random() * 1000;
+            state.currentPrice = newPrice;
+            const prev = state.priceHistory.length > 1 ? state.priceHistory[state.priceHistory.length - 1] : state
+            .currentPrice;
+            const pct = ((state.currentPrice - prev) / prev) * 100;
+            document.getElementById('priceChange').textContent = (pct >= 0 ? '+' : '') + fmt(pct, 2) + '%';
+            document.getElementById('priceChange').className = 'change ' + (pct >= 0 ? 'positive' : 'negative');
+            document.getElementById('volumeDisplay').textContent = fmt(Math.random() * 800 + 200, 0);
+            generateOrderBook();
+            updateUI();
+            if (!document.activeElement || document.activeElement.id !== 'tradePrice') {
+                document.getElementById('tradePrice').value = fmt(state.currentPrice, 2);
+            }
+        }
+
+        // ================================================================
+        //  UI UPDATE
+        // ================================================================
+        function updateUI() {
+            const port = getActivePortfolio();
+            document.getElementById('currentPrice').textContent = fmt(state.currentPrice, 2);
+            document.getElementById('balanceDisplay').textContent = fmt(port.balance, 2);
+            document.getElementById('assetBalance').textContent = fmtAsset(port.asset);
+            document.getElementById('avgPriceDisplay').textContent = port.avgPrice > 0 ? 'Avg: $' + fmt(port.avgPrice,
+                2) : 'Avg: $0.00';
+
+            let unrealized = 0,
+                unrealizedPct = 0;
+            if (port.asset > 0 && port.avgPrice > 0) {
+                unrealized = (state.currentPrice - port.avgPrice) * port.asset;
+                unrealizedPct = (state.currentPrice - port.avgPrice) / port.avgPrice * 100;
+            }
+            const uniSign = unrealized >= 0 ? '+' : '';
+            document.getElementById('unrealizedPnl').textContent = uniSign + '$' + fmt(unrealized, 2);
+            document.getElementById('unrealizedPnl').className = 'value ' + (unrealized >= 0 ? 'positive' : 'negative');
+            document.getElementById('unrealizedPnlPct').textContent = (unrealizedPct >= 0 ? '+' : '') + fmt(unrealizedPct,
+                2) + '%';
+            document.getElementById('unrealizedPnlPct').className = 'pnl-badge ' + (unrealizedPct >= 0 ? 'positive' :
+                'negative');
+
+            const realSign = port.realizedPnl >= 0 ? '+' : '';
+            document.getElementById('realizedPnl').textContent = realSign + '$' + fmt(port.realizedPnl, 2);
+            document.getElementById('realizedPnl').className = 'value ' + (port.realizedPnl >= 0 ? 'positive' :
+            'negative');
+
+            if (window.chart) {
+                const now = getTime();
+                state.priceHistory.push(state.currentPrice);
+                if (state.priceHistory.length > 60) state.priceHistory.shift();
+                window.chart.data.labels.push(now);
+                if (window.chart.data.labels.length > 60) window.chart.data.labels.shift();
+                window.chart.data.datasets[0].data = [...state.priceHistory];
+                window.chart.update('none');
+            }
+            if (state.priceHistory.length > 1) {
+                const high = Math.max(...state.priceHistory);
+                const low = Math.min(...state.priceHistory);
+                document.getElementById('highPrice').textContent = fmt(high, 2);
+                document.getElementById('lowPrice').textContent = fmt(low, 2);
+            }
+            applyHideBalance();
+        }
+
+        // ================================================================
+        //  STOP TRADING
+        // ================================================================
+        function toggleStopTrading() {
+            state.isRunning = !state.isRunning;
+            updateStopButton();
+            document.getElementById('buyBtn').disabled = !state.isRunning;
+            document.getElementById('sellBtn').disabled = !state.isRunning;
+            document.getElementById('stopTradeBtn').textContent = state.isRunning ? '⏸️ Pause Trading' :
+                '▶️ Resume Trading';
+            document.getElementById('stopTradeBtn').classList.toggle('active', !state.isRunning);
+        }
+
+        function updateStopButton() {
+            document.getElementById('stopTradeBtn').textContent = state.isRunning ? '⏸️ Pause Trading' :
+                '▶️ Resume Trading';
+            document.getElementById('stopTradeBtn').classList.toggle('active', !state.isRunning);
+            document.getElementById('buyBtn').disabled = !state.isRunning;
+            document.getElementById('sellBtn').disabled = !state.isRunning;
+        }
+
+        // ================================================================
+        //  CHART
+        // ================================================================
+        function initChart() {
+            const initialData = [];
+            for (let i = 0; i < 30; i++) {
+                const base = 42850 + (Math.random() - 0.5) * 200;
+                initialData.push(base);
+                state.priceHistory.push(base);
+            }
+            state.currentPrice = initialData[initialData.length - 1];
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            window.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 30 }, () => '--'),
+                    datasets: [{
+                        label: 'FxTrader · BTC/USD',
+                        data: initialData,
+                        borderColor: '#f0b90b',
+                        backgroundColor: 'rgba(240, 185, 11, 0.08)',
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: true, mode: 'index' } },
+                    scales: {
+                        x: { grid: { color: '#1e232c', drawBorder: false }, ticks: { color: '#5e6673',
+                                maxTicksLimit: 8, font: { size: 9 } } },
+                        y: { grid: { color: '#1e232c', drawBorder: false }, ticks: { color: '#5e6673',
+                                font: { size: 10 }, callback: v => '$' + Number(v).toFixed(0) } }
+                    },
+                    interaction: { intersect: false, mode: 'index' }
+                }
+            });
+            window.chartInitialized = true;
+            updateUI();
+        }
+
+        // ================================================================
+        //  POLICIES
+        // ================================================================
+        const policies = {
+            about: { title: '📖 About Us',
+            content: '<h1>About FxTrader</h1><p>FxTrader is a modern online trading platform dedicated to providing individuals and businesses with secure, transparent, and innovative access to global financial markets.</p><div class="last-updated">Last Updated: June 2025</div>' },
+            privacy: { title: '🔒 Privacy Policy',
+                content: '<h1>Privacy Policy</h1><p>FxTrader respects your privacy and is committed to protecting your personal information.</p><div class="last-updated">Last Updated: June 2025</div>' },
+            terms: { title: '📜 Terms and Conditions',
+                content: '<h1>Terms and Conditions</h1><p>These Terms govern your access to and use of the FxTrader Platform.</p><div class="last-updated">Last Updated: June 2025</div>' },
+            risk: { title: '⚠️ Risk Disclosure',
+                content: '<h1>Risk Disclosure</h1><p>Trading involves significant risk. You may lose all invested capital.</p><div class="last-updated">Last Updated: June 2025</div>' },
+            aml: { title: '🛡️ AML Policy',
+                content: '<h1>Anti-Money Laundering Policy</h1><p>FxTrader is committed to preventing financial crime.</p><div class="last-updated">Last Updated: June 2025</div>' },
+            kyc: { title: '🪪 KYC Policy',
+                content: '<h1>Know Your Customer Policy</h1><p>Identity verification helps protect our platform.</p><div class="last-updated">Last Updated: June 2025</div>' },
+            cookie: { title: '🍪 Cookie Policy',
+                content: '<h1>Cookie Policy</h1><p>We use cookies to improve your experience.</p><div class="last-updated">Last Updated: June 2025</div>' }
+        };
+
+        function openPolicy(key) {
+            const policy = policies[key];
+            if (!policy) return;
+            document.getElementById('policyModalTitle').textContent = policy.title;
+            document.getElementById('policyContent').innerHTML = policy.content;
+            document.getElementById('policyModal').classList.add('open');
+        }
+
+        document.getElementById('closePolicyBtn').addEventListener('click', function() { document.getElementById('policyModal')
+                .classList.remove('open'); });
+        document.getElementById('policyModal').addEventListener('click', function(e) { if (e.target === this) this.classList
+                .remove('open'); });
+
+        // ================================================================
+        //  BOOTSTRAP
+        // ================================================================
+        function bootstrap() {
+            const session = getSession();
+            if (session) {
+                const users = getUsers();
+                if (users[session]) {
+                    loadUserData(users[session]);
+                    showDashboard();
+                    startIntervals();
+                    return;
+                } else clearSession();
+            }
+            document.getElementById('homepage').classList.remove('hidden');
+            document.getElementById('dashboardApp').classList.remove('visible');
+            const users = getUsers();
+            if (!users['demo@fxtrader.com']) {
+                users['demo@fxtrader.com'] = {
+                    password: hashPassword('demo123'),
+                    portfolios: {
+                        real: { balance: 0, asset: 0, avgPrice: 0, realizedPnl: 0, history: [] },
+                        demo: { balance: 40000, asset: 0.5, avgPrice: 42500, realizedPnl: 320.5, history: [
+                            { type: 'BUY', price: 42100, amount: 0.25, time: '10:32:15', pnl: null },
+                            { type: 'BUY', price: 42900, amount: 0.25, time: '11:05:22', pnl: null },
+                            { type: 'SELL', price: 43500, amount: 0.10, time: '09:15:42', pnl: 100 }] }
+                    },
+                    phone: '+1 555 123 4567',
+                    profilePic: '',
+                    fullName: 'John Doe',
+                    username: 'johndoe',
+                    country: 'United States',
+                    settings: JSON.parse(JSON.stringify(defaultSettings)),
+                    transactions: [
+                        { date: getDate(), type: 'Deposit', method: 'Bank Transfer', amount: 5000,
+                        status: 'Completed' },
+                        { date: getDate(), type: 'Withdrawal', method: 'Crypto', amount: 200,
+                        status: 'Completed' }
+                    ],
+                    twoFactorEnabled: true,
+                    biometricEnabled: false,
+                    savedPaymentMethods: [
+                        { id: 'saved_1', type: 'deposit', methodId: 'bank', label: 'Bank Transfer (John)',
+                            data: { accountName: 'John Doe', accountNumber: '123456789', bankName: 'Chase',
+                                swift: 'CHASUS33' } },
+                        { id: 'saved_2', type: 'deposit', methodId: 'mobile', label: 'M-PESA (0700123456)',
+                            data: { phone: '0700123456', provider: 'M-PESA' } }
+                    ]
+                };
+                saveUsers(users);
+            }
+            document.getElementById('loginEmail').placeholder = 'demo@fxtrader.com';
+            document.getElementById('loginPassword').placeholder = '•••••••• (try "demo123")';
+            startIntervals();
+        }
+
+        function startIntervals() {
+            setInterval(() => { if (state.currentUser) updatePrice(); }, 1200);
+            setInterval(() => { if (state.currentUser) generateOrderBook(); }, 4000);
+        }
+
+        // ================================================================
+        //  INIT
+        // ================================================================
+        document.querySelector('.mobile-toggle')?.addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('open');
+        });
+
+        window.showAuth = showAuth;
+        window.switchAuthTab = switchAuthTab;
+        window.openPolicy = openPolicy;
+        window.openAccountModal = openAccountModal;
+        window.switchAccountTab = switchAccountTab;
+        window.switchMode = switchMode;
+        window.executeTrade = executeTrade;
+        window.toggleStopTrading = toggleStopTrading;
+        window.scrollToSection = scrollToSection;
+        window.toggleDarkMode = toggleDarkMode;
+        window.toggle2FA = toggle2FA;
+        window.toggleBiometric = toggleBiometric;
+        window.changeThemeColor = changeThemeColor;
+        window.changeFontSize = changeFontSize;
+        window.editField = editField;
+        window.logout = logout;
+        window.switchDWTab = switchDWTab;
+        window.selectMethod = selectMethod;
+        window.useSavedMethod = useSavedMethod;
+        window.deleteSavedMethod = deleteSavedMethod;
+        window.clearSelection = clearSelection;
+        window.processPayment = processPayment;
+
+        function editField(field) {
+            const labels = { fullName: 'Full Name', username: 'Username', phone: 'Phone Number', country: 'Country' };
+            const current = state[field] || '';
+            const newVal = prompt('Enter new ' + (labels[field] || field) + ':', current);
+            if (newVal !== null && newVal.trim() !== '') {
+                state[field] = newVal.trim();
+                saveCurrentUser();
+                updateAccountModal();
+                showToast('Updated', (labels[field] || field) + ' updated', 'buy', null);
+            }
+        }
+
+        document.getElementById('profilePicInput').addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                state.profilePic = ev.target.result;
+                saveCurrentUser();
+                updateAccountModal();
+                showToast('Profile', 'Profile picture updated', 'buy', null);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        bootstrap();
+        console.log('🚀 FxTrader v1.0 · Live Chart opens WhatsApp');
+        console.log('💡 Demo: demo@fxtrader.com / demo123');
+        console.log('📊 Click the chart to join our WhatsApp community!');
+    </script>
+
+</body>
+</html>
