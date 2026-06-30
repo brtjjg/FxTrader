@@ -3,19 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AutoTrader · Binary Options</title>
+  <title>TradePro · Binary Options</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
   </script>
   <style>
-    /* ═══════════════════════════════════════ */
-    /*  GLOBAL RESET                         */
-    /* ═══════════════════════════════════════ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
+    /* ═══════════════════════════════════════════════════════════════ */
+    /*  ROOT VARIABLES                                              */
+    /* ═══════════════════════════════════════════════════════════════ */
     :root {
       --bg-primary: #070b12;
       --bg-secondary: #0b1119;
@@ -29,7 +23,18 @@
       --accent: #f0b90b;
       --green: #0ecb81;
       --red: #f6465d;
+      --blue: #4a9eff;
+      --orange: #f59e0b;
+      --purple: #a855f7;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     body {
       background: var(--bg-primary);
@@ -37,7 +42,7 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 12px;
+      padding: 0;
       font-size: 14px;
       line-height: 1.5;
     }
@@ -59,8 +64,8 @@
       border: 1px solid var(--border-light);
       color: var(--text-primary);
       border-radius: 30px;
-      padding: 8px 16px;
-      font-size: 13px;
+      padding: 10px 16px;
+      font-size: 14px;
       outline: none;
       width: 100%;
     }
@@ -79,36 +84,125 @@
       border-radius: 10px;
     }
 
-    /* ═══════════════════════════════════════ */
-    /*  AUTH PAGE                           */
-    /* ═══════════════════════════════════════ */
+    /* ═══════════════════════════════════════════════════════════════ */
+    /*  AUTH PAGE – Professional Login/Register                      */
+    /* ═══════════════════════════════════════════════════════════════ */
     .auth-page {
       width: 100%;
-      max-width: 440px;
+      max-width: 1200px;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       background: var(--bg-secondary);
-      border-radius: 24px;
-      padding: 40px 32px;
-      border: 1px solid var(--border-color);
+      border-radius: 0;
+      overflow: hidden;
       box-shadow: var(--shadow);
-      margin: auto;
     }
-    .auth-page .logo {
-      font-size: 28px;
+    .auth-left {
+      background: linear-gradient(145deg, #0b1119 0%, #0f1722 100%);
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-left::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 80%;
+      height: 200%;
+      background: radial-gradient(ellipse, rgba(240, 185, 11, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .auth-left .logo {
+      font-size: 32px;
       font-weight: 800;
       background: linear-gradient(135deg, var(--accent), #f8d33a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
     }
-    .auth-page .sub {
-      text-align: center;
+    .auth-left .welcome {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-left .welcome span {
+      color: var(--accent);
+    }
+    .auth-left .desc {
       color: var(--text-muted);
-      font-size: 13px;
-      margin-bottom: 28px;
+      font-size: 16px;
+      max-width: 400px;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-left .security-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-left .security-badges .badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .auth-left .security-badges .badge .icon {
+      font-size: 14px;
+    }
+    .auth-left .chart-bg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      opacity: 0.06;
+      background: repeating-linear-gradient(45deg, var(--accent) 0px, var(--accent) 2px, transparent 2px, transparent 8px);
+      pointer-events: none;
+    }
+    .auth-right {
+      background: var(--bg-secondary);
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 1px solid var(--border-color);
+    }
+    .auth-right .card {
+      max-width: 420px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .auth-right .card h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .auth-right .card .sub {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
     }
     .auth-tabs {
       display: flex;
-      gap: 8px;
+      gap: 4px;
       background: var(--bg-card);
       border-radius: 40px;
       padding: 4px;
@@ -117,10 +211,11 @@
     .auth-tabs button {
       flex: 1;
       padding: 10px;
-      color: var(--text-muted);
+      border-radius: 30px;
       font-weight: 700;
       font-size: 14px;
-      border-radius: 30px;
+      color: var(--text-muted);
+      background: transparent;
     }
     .auth-tabs button.active {
       background: var(--accent);
@@ -129,23 +224,60 @@
     .auth-form {
       display: none;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
     .auth-form.active {
       display: flex;
     }
-    .auth-form label {
+    .auth-form .input-group {
+      position: relative;
+    }
+    .auth-form .input-group label {
       font-size: 12px;
       color: var(--text-muted);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 4px;
     }
     .auth-form .input-group input {
       padding: 14px 16px;
       font-size: 15px;
-      border-radius: 12px;
-      background: var(--bg-input);
+      border-radius: var(--radius-sm);
+    }
+    .auth-form .input-group .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 42px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+    .auth-form .input-group .toggle-pw:hover {
+      color: var(--text-primary);
+    }
+    .auth-form .remember-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .auth-form .remember-row label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .auth-form .remember-row a {
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .auth-form .remember-row a:hover {
+      text-decoration: underline;
     }
     .auth-btn {
       background: var(--accent);
@@ -154,13 +286,64 @@
       font-weight: 700;
       font-size: 16px;
       color: #0a0e17;
-      margin-top: 6px;
+      margin-top: 4px;
     }
     .auth-btn:hover {
       filter: brightness(1.1);
     }
     .auth-btn:disabled {
       opacity: 0.5;
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin: 4px 0;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+    .social-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .social-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 30px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .social-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .auth-switch {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .auth-switch a {
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .auth-switch a:hover {
+      text-decoration: underline;
     }
     .auth-error {
       color: var(--red);
@@ -173,22 +356,12 @@
       font-size: 13px;
       text-align: center;
     }
-    .auth-switch {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .auth-switch a {
-      color: var(--accent);
-      cursor: pointer;
-      font-weight: 600;
-    }
 
-    /* ═══════════════════════════════════════ */
-    /*  MAIN APP                            */
-    /* ═══════════════════════════════════════ */
+    /* ═══════════════════════════════════════════════════════════════ */
+    /*  MAIN APP                                                    */
+    /* ═══════════════════════════════════════════════════════════════ */
     .app {
-      max-width: 1200px;
+      max-width: 1400px;
       width: 100%;
       background: var(--bg-secondary);
       border-radius: 24px;
@@ -196,6 +369,8 @@
       border: 1px solid var(--border-color);
       box-shadow: var(--shadow);
       display: none;
+      max-height: 100vh;
+      overflow-y: auto;
     }
     .app.visible {
       display: block;
@@ -207,7 +382,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
       margin-bottom: 14px;
@@ -215,11 +390,21 @@
     .header .title {
       font-size: 20px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header .title .logo-small {
+      font-size: 24px;
+      background: linear-gradient(135deg, var(--accent), #f8d33a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
     }
     .header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
     }
     .header-right .badge {
@@ -253,11 +438,14 @@
       color: var(--text-muted);
       cursor: pointer;
     }
+    .header-right .avatar:hover {
+      border-color: var(--accent);
+    }
 
     /* ─── ACCOUNT CARD ─── */
     .account-card {
       background: var(--bg-card);
-      border-radius: 16px;
+      border-radius: var(--radius);
       padding: 16px 20px;
       border: 1px solid var(--border-color);
       margin-bottom: 14px;
@@ -313,18 +501,32 @@
       cursor: pointer;
     }
 
-    /* ─── DEPOSIT BUTTON ─── */
-    .deposit-btn {
-      background: var(--accent);
-      padding: 10px 24px;
+    /* ─── ACTION BAR ─── */
+    .action-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .action-bar button {
+      flex: 1;
+      padding: 10px 20px;
       border-radius: 30px;
       font-weight: 700;
       font-size: 14px;
       color: #0a0e17;
-      width: 100%;
-      margin-bottom: 14px;
+      min-width: 120px;
     }
-    .deposit-btn:hover {
+    .action-bar .deposit-btn {
+      background: var(--green);
+    }
+    .action-bar .deposit-btn:hover {
+      filter: brightness(1.1);
+    }
+    .action-bar .withdraw-btn {
+      background: var(--blue);
+    }
+    .action-bar .withdraw-btn:hover {
       filter: brightness(1.1);
     }
 
@@ -388,7 +590,7 @@
     /* ─── CHART ─── */
     .chart-card {
       background: var(--bg-card);
-      border-radius: 16px;
+      border-radius: var(--radius);
       padding: 12px;
       border: 1px solid var(--border-color);
     }
@@ -397,67 +599,12 @@
       height: 250px;
     }
 
-    /* ─── TRADING PANEL ─── */
-    .trading-panel {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 16px;
-      border: 1px solid var(--border-color);
-    }
-
-    .trade-type-tabs {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-      background: var(--bg-input);
-      border-radius: 40px;
-      padding: 4px;
-    }
-    .trade-type-tabs button {
-      flex: 1;
-      padding: 6px 12px;
-      border-radius: 30px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      background: transparent;
-      min-width: 60px;
-      text-align: center;
-    }
-    .trade-type-tabs button.active {
-      background: var(--accent);
-      color: #0a0e17;
-    }
-
-    .trade-inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    @media (max-width: 600px) {
-      .trade-inputs {
-        grid-template-columns: 1fr;
-      }
-    }
-    .trade-input-group label {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      display: block;
-      margin-bottom: 4px;
-    }
-
     /* ─── TRADE STATUS ─── */
     .trade-status {
       background: var(--bg-input);
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       padding: 12px;
       border: 1px solid var(--border-light);
-      margin-bottom: 12px;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       gap: 8px;
@@ -492,55 +639,167 @@
       color: #f59e0b;
     }
 
-    /* ─── TRADE BUTTONS ─── */
-    .trade-buttons-row {
+    /* ─── TRADING PANEL ─── */
+    .trading-panel {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Trade Type Selector - 3 tabs */
+    .trade-type-selector {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 14px;
+      background: var(--bg-input);
+      border-radius: 40px;
+      padding: 4px;
+    }
+    .trade-type-selector button {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .trade-type-selector button.active {
+      background: var(--accent);
+      color: #0a0e17;
+    }
+    .trade-type-selector button:hover:not(.active) {
+      color: var(--text-secondary);
+    }
+
+    /* Trade Type Content */
+    .trade-type-content {
+      display: none;
+    }
+    .trade-type-content.active {
+      display: block;
+    }
+
+    .trade-buttons-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
+      margin-top: 10px;
     }
-    .trade-btn {
+    .trade-btn-option {
       padding: 14px;
-      border-radius: 16px;
+      border-radius: var(--radius);
       font-weight: 700;
       font-size: 18px;
       color: #0a0e17;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2px;
+      border: none;
+      transition: 0.25s;
     }
-    .trade-btn .sub {
+    .trade-btn-option .sub {
       font-size: 12px;
       font-weight: 400;
       opacity: 0.85;
     }
-    .trade-btn.rise {
+    .trade-btn-option.green {
       background: var(--green);
     }
-    .trade-btn.rise:hover:not(:disabled) {
+    .trade-btn-option.green:hover:not(:disabled) {
       background: #1ad991;
       transform: scale(1.02);
     }
-    .trade-btn.fall {
+    .trade-btn-option.red {
       background: var(--red);
     }
-    .trade-btn.fall:hover:not(:disabled) {
+    .trade-btn-option.red:hover:not(:disabled) {
       background: #ff5a70;
       transform: scale(1.02);
     }
-    .trade-btn.close-trade {
-      background: var(--accent);
-      grid-column: 1 / -1;
+    .trade-btn-option.blue {
+      background: var(--blue);
     }
-    .trade-btn.close-trade:hover:not(:disabled) {
-      filter: brightness(1.1);
+    .trade-btn-option.blue:hover:not(:disabled) {
+      background: #6ab0ff;
+      transform: scale(1.02);
     }
-    .trade-btn:disabled {
+    .trade-btn-option.orange {
+      background: var(--orange);
+    }
+    .trade-btn-option.orange:hover:not(:disabled) {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
+    .trade-btn-option.purple {
+      background: var(--purple);
+    }
+    .trade-btn-option.purple:hover:not(:disabled) {
+      background: #b874ff;
+      transform: scale(1.02);
+    }
+    .trade-btn-option:disabled {
       opacity: 0.4;
       transform: none !important;
+      cursor: not-allowed;
     }
 
-    /* ─── HISTORY ─── */
+    .trade-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 600px) {
+      .trade-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+    .trade-input-group label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .trade-input-group .barrier-select {
+      padding: 8px 14px;
+      border-radius: 30px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      width: 100%;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .trade-btn-close {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 16px;
+      color: #0a0e17;
+      background: var(--accent);
+      margin-top: 10px;
+      border: none;
+    }
+    .trade-btn-close:hover:not(:disabled) {
+      filter: brightness(1.1);
+    }
+    .trade-btn-close:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ─── TRANSACTION HISTORY ─── */
     .history-section {
       margin-top: 12px;
     }
@@ -551,6 +810,14 @@
       margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .history-section .title .view-all {
+      color: var(--accent);
+      font-size: 11px;
+      cursor: pointer;
     }
     .history-item {
       display: flex;
@@ -566,6 +833,12 @@
     }
     .history-item .type.loss {
       color: var(--red);
+    }
+    .history-item .type.deposit {
+      color: var(--blue);
+    }
+    .history-item .type.withdraw {
+      color: var(--accent);
     }
     .history-item .time {
       color: var(--text-muted);
@@ -613,7 +886,9 @@
       color: var(--accent);
     }
 
-    /* ─── RESULT MODAL ─── */
+    /* ═══════════════════════════════════════════════════════════════ */
+    /*  MODALS                                                      */
+    /* ═══════════════════════════════════════════════════════════════ */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -627,6 +902,7 @@
       align-items: center;
       z-index: 3000;
       padding: 20px;
+      overflow-y: auto;
     }
     .modal-overlay.open {
       display: flex;
@@ -635,95 +911,208 @@
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: 24px;
-      padding: 32px 36px;
-      max-width: 460px;
+      padding: 28px 32px;
+      max-width: 560px;
       width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
       box-shadow: var(--shadow);
-      text-align: center;
+      position: relative;
     }
-    .modal-content .result-icon {
-      font-size: 64px;
-      margin-bottom: 8px;
-    }
-    .modal-content .result-title {
+    .modal-content .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 20px;
       font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-    .modal-content .result-title.win {
-      color: var(--green);
-    }
-    .modal-content .result-title.loss {
-      color: var(--red);
-    }
-    .modal-content .result-reason {
-      font-size: 14px;
       color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .modal-content .close-modal:hover {
+      color: var(--text-primary);
+    }
+    .modal-content h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      padding-right: 30px;
+    }
+    .modal-content .sub {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .modal-content .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
       margin-bottom: 16px;
     }
-    .modal-content .result-grid {
+    @media (max-width: 480px) {
+      .modal-content .method-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .modal-content .method-btn {
+      padding: 12px 8px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 12px;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .modal-content .method-btn .icon {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .modal-content .method-btn.active {
+      border-color: var(--accent);
+      background: var(--bg-input);
+      color: var(--text-primary);
+    }
+    .modal-content .method-btn:hover:not(.active) {
+      border-color: var(--text-muted);
+    }
+    .modal-content .method-details {
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+    .modal-content .method-details .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .modal-content .method-details .row:last-child {
+      border-bottom: none;
+    }
+    .modal-content .method-details .row .label {
+      color: var(--text-muted);
+    }
+    .modal-content .method-details .row .value {
+      font-weight: 600;
+    }
+    .modal-content .method-details .row .value.copy {
+      color: var(--accent);
+      cursor: pointer;
+    }
+    .modal-content .method-details .row .value.copy:hover {
+      text-decoration: underline;
+    }
+    .modal-content .form-group {
+      margin-bottom: 14px;
+    }
+    .modal-content .form-group label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .modal-content .form-group input,
+    .modal-content .form-group select {
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+    .modal-content .info-box {
+      background: var(--bg-input);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      border: 1px solid var(--border-light);
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .modal-content .info-box .highlight {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .modal-content .modal-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #0a0e17;
+      background: var(--accent);
+    }
+    .modal-content .modal-btn:hover {
+      filter: brightness(1.1);
+    }
+    .modal-content .modal-btn:disabled {
+      opacity: 0.5;
+    }
+
+    /* Result Modal */
+    .result-icon {
+      font-size: 64px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .result-title {
+      font-size: 28px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .result-title.win {
+      color: var(--green);
+    }
+    .result-title.loss {
+      color: var(--red);
+    }
+    .result-reason {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .result-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin: 16px 0;
     }
-    .modal-content .result-grid .item {
+    .result-grid .item {
       background: var(--bg-card);
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       padding: 12px;
       border: 1px solid var(--border-color);
+      text-align: center;
     }
-    .modal-content .result-grid .item .label {
+    .result-grid .item .label {
       font-size: 10px;
       color: var(--text-muted);
       text-transform: uppercase;
     }
-    .modal-content .result-grid .item .value {
+    .result-grid .item .value {
       font-size: 18px;
       font-weight: 700;
     }
-    .modal-content .result-grid .item .value.green {
+    .result-grid .item .value.green {
       color: var(--green);
     }
-    .modal-content .result-grid .item .value.red {
+    .result-grid .item .value.red {
       color: var(--red);
     }
-    .modal-content .result-grid .item .value.accent {
+    .result-grid .item .value.accent {
       color: var(--accent);
-    }
-    .modal-content .result-btn {
-      background: var(--accent);
-      padding: 12px 32px;
-      border-radius: 40px;
-      font-weight: 700;
-      font-size: 16px;
-      color: #0a0e17;
-      margin-top: 12px;
-      width: 100%;
     }
 
     /* ─── USER MODAL ─── */
     .user-modal .modal-content {
       max-width: 520px;
-      text-align: left;
-    }
-    .user-modal .modal-content h2 {
-      font-size: 22px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .user-modal .modal-content h2 .close {
-      font-size: 30px;
-      color: var(--text-muted);
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0 4px;
-    }
-    .user-modal .modal-content h2 .close:hover {
-      color: var(--text-primary);
     }
     .user-modal .modal-tabs {
       display: flex;
@@ -740,6 +1129,7 @@
       font-weight: 600;
       font-size: 13px;
       border-radius: 30px;
+      background: transparent;
     }
     .user-modal .modal-tabs button.active {
       background: var(--accent);
@@ -764,34 +1154,45 @@
     .user-modal .modal-tab-content .info-row .value {
       font-weight: 600;
     }
-    .user-modal .modal-tab-content .method-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin: 12px 0;
-    }
-    .user-modal .modal-tab-content .method-row input {
-      flex: 1;
-    }
-    .user-modal .modal-tab-content .method-row button {
-      background: var(--accent);
-      padding: 8px 24px;
-      border-radius: 30px;
-      font-weight: 700;
-      color: #0a0e17;
-      white-space: nowrap;
-    }
 
     /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .auth-page {
+        grid-template-columns: 1fr;
+        max-height: none;
+        min-height: auto;
+      }
+      .auth-left {
+        display: none;
+      }
+      .auth-right {
+        padding: 30px 24px;
+        border-left: none;
+      }
+      .auth-right .card {
+        max-width: 100%;
+      }
+    }
     @media (max-width: 768px) {
       .app {
         padding: 12px;
+        max-height: none;
       }
       .account-card .amount {
         font-size: 20px;
       }
       .modal-content {
-        padding: 24px 20px;
+        padding: 20px 16px;
+      }
+      .modal-content .method-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .trade-buttons-group {
+        grid-template-columns: 1fr 1fr;
+      }
+      .trade-btn-option {
+        font-size: 15px;
+        padding: 12px;
       }
     }
     @media (max-width: 480px) {
@@ -812,82 +1213,136 @@
       .trade-status .stat .value {
         font-size: 15px;
       }
-      .trade-btn {
-        font-size: 15px;
-        padding: 12px;
-      }
       .bottom-nav button {
         font-size: 10px;
       }
       .bottom-nav button .icon {
         font-size: 18px;
       }
+      .trade-buttons-group {
+        grid-template-columns: 1fr 1fr;
+      }
+      .trade-btn-option {
+        font-size: 14px;
+        padding: 10px;
+      }
+      .trade-btn-option .sub {
+        font-size: 10px;
+      }
+      .result-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .trade-type-selector button {
+        font-size: 10px;
+        padding: 6px 8px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ════════════════════════════════════════════════ -->
-  <!--  AUTH PAGE                                    -->
-  <!-- ════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  AUTH PAGE                                                    -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <div class="auth-page" id="authPage">
-    <div class="logo">⚡ AutoTrader</div>
-    <div class="sub">Binary Options · Set SL/TP · Auto Trade</div>
-    <div class="auth-tabs">
-      <button class="active" id="authLoginTab">Log In</button>
-      <button id="authRegisterTab">Register</button>
+    <div class="auth-left">
+      <div class="chart-bg"></div>
+      <div class="logo">⚡ TradePro</div>
+      <div class="welcome">Trade Smarter.<br /><span>Invest with Confidence.</span></div>
+      <div class="desc">Access real-time markets, advanced analytics, and secure trading from one professional platform.</div>
+      <div class="security-badges">
+        <span class="badge"><span class="icon">🔒</span> SSL Secured</span>
+        <span class="badge"><span class="icon">🛡️</span> 2FA Available</span>
+        <span class="badge"><span class="icon">🌍</span> Global Trading</span>
+        <span class="badge"><span class="icon">⚡</span> Fast Login</span>
+        <span class="badge"><span class="icon">📈</span> Live Markets</span>
+      </div>
     </div>
-
-    <form class="auth-form active" id="loginForm">
-      <div class="input-group">
-        <label>Email</label>
-        <input type="email" id="loginEmail" placeholder="you@example.com" required />
+    <div class="auth-right">
+      <div class="card">
+        <h2 id="authTitle">Sign In</h2>
+        <div class="sub" id="authSub">Access your trading account</div>
+        <div class="auth-tabs">
+          <button class="active" id="authLoginTab">Sign In</button>
+          <button id="authRegisterTab">Create Account</button>
+        </div>
+        <form class="auth-form active" id="loginForm">
+          <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password" />
+            <button type="button" class="toggle-pw" onclick="togglePassword('loginPassword', this)">👁</button>
+          </div>
+          <div class="remember-row">
+            <label><input type="checkbox" checked /> Remember Me</label>
+            <a id="forgotPasswordLink">Forgot Password?</a>
+          </div>
+          <div class="auth-error" id="loginError"></div>
+          <button type="submit" class="auth-btn" id="loginBtn">🔐 Sign In</button>
+          <div class="auth-divider">OR</div>
+          <div class="social-btns">
+            <button type="button" class="social-btn">🔵 Google</button>
+            <button type="button" class="social-btn">⚫ Apple</button>
+            <button type="button" class="social-btn">🔷 Microsoft</button>
+          </div>
+          <div class="auth-switch">Don't have an account? <a id="switchToRegister">Create Account</a></div>
+        </form>
+        <form class="auth-form" id="registerForm">
+          <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="regName" placeholder="John Doe" required autocomplete="name" />
+          </div>
+          <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="input-group">
+            <label>Password (min 8)</label>
+            <input type="password" id="regPassword" placeholder="••••••••" required minlength="8" autocomplete="new-password" />
+            <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">👁</button>
+          </div>
+          <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" id="regConfirm" placeholder="••••••••" required autocomplete="new-password" />
+          </div>
+          <div class="auth-error" id="regError"></div>
+          <div class="auth-success" id="regSuccess"></div>
+          <button type="submit" class="auth-btn" id="regBtn">🚀 Create Account</button>
+          <div class="auth-divider">OR</div>
+          <div class="social-btns">
+            <button type="button" class="social-btn">🔵 Google</button>
+            <button type="button" class="social-btn">⚫ Apple</button>
+            <button type="button" class="social-btn">🔷 Microsoft</button>
+          </div>
+          <div class="auth-switch">Already registered? <a id="switchToLogin">Sign In</a></div>
+        </form>
+        <div style="margin-top:16px;display:flex;justify-content:center;gap:16px;font-size:11px;color:var(--text-muted);flex-wrap:wrap;">
+          <a style="color:var(--text-muted);cursor:pointer;">Privacy Policy</a>
+          <a style="color:var(--text-muted);cursor:pointer;">Terms &amp; Conditions</a>
+          <a style="color:var(--text-muted);cursor:pointer;">Risk Disclosure</a>
+          <a style="color:var(--text-muted);cursor:pointer;">Cookie Policy</a>
+          <a style="color:var(--text-muted);cursor:pointer;">Contact Support</a>
+        </div>
       </div>
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="loginPassword" placeholder="••••••••" required />
-      </div>
-      <div class="auth-error" id="loginError"></div>
-      <button type="submit" class="auth-btn" id="loginBtn">🔐 Sign In</button>
-      <div class="auth-switch">Don't have an account? <a id="switchToRegister">Create one now</a></div>
-    </form>
-
-    <form class="auth-form" id="registerForm">
-      <div class="input-group">
-        <label>Full Name</label>
-        <input type="text" id="regName" placeholder="John Doe" required />
-      </div>
-      <div class="input-group">
-        <label>Email</label>
-        <input type="email" id="regEmail" placeholder="you@example.com" required />
-      </div>
-      <div class="input-group">
-        <label>Password (min 8)</label>
-        <input type="password" id="regPassword" placeholder="••••••••" required minlength="8" />
-      </div>
-      <div class="input-group">
-        <label>Confirm Password</label>
-        <input type="password" id="regConfirm" placeholder="••••••••" required />
-      </div>
-      <div class="auth-error" id="regError"></div>
-      <div class="auth-success" id="regSuccess"></div>
-      <button type="submit" class="auth-btn" id="regBtn">🚀 Create Account</button>
-      <div class="auth-switch">Already registered? <a id="switchToLogin">Sign In</a></div>
-    </form>
+    </div>
   </div>
 
-  <!-- ════════════════════════════════════════════════ -->
-  <!--  MAIN APP                                     -->
-  <!-- ════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  MAIN APP                                                     -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <div class="app" id="app">
 
     <!-- ─── HEADER ─── -->
     <div class="header">
-      <span class="title">⚡ Trading</span>
+      <div class="title"><span class="logo-small">⚡ TradePro</span> Trading</div>
       <div class="header-right">
         <span class="badge" id="modeBadge">Demo</span>
         <span class="balance" id="headerBalance">10,000.00 <small>USD</small></span>
         <div class="avatar" id="avatarBtn">👤</div>
+        <button class="badge" id="logoutBtn" style="cursor:pointer;color:var(--red);border-color:var(--red);">Logout</button>
       </div>
     </div>
 
@@ -896,7 +1351,7 @@
       <div class="info">
         <span class="label" id="accountLabel">Demo Account</span>
         <span class="amount" id="accountBalance">$10,000.00 <small>USD</small></span>
-        <span class="acct">Account #: <span id="accountNumber">BB-1234-5678</span></span>
+        <span class="acct">Account #: <span id="accountNumber">TP-1234-5678</span></span>
       </div>
       <div class="actions">
         <span class="eye" id="eyeToggle">👁</span>
@@ -907,8 +1362,11 @@
       </div>
     </div>
 
-    <!-- ─── DEPOSIT BUTTON ─── -->
-    <button class="deposit-btn" id="depositBtn">💰 Deposit / Withdraw</button>
+    <!-- ─── ACTION BAR ─── -->
+    <div class="action-bar">
+      <button class="deposit-btn" id="depositBtn">💰 Deposit Funds</button>
+      <button class="withdraw-btn" id="withdrawBtn">🏦 Withdraw Funds</button>
+    </div>
 
     <!-- ─── NOTIFICATION ─── -->
     <div class="notification" id="notification">Ready to trade</div>
@@ -939,7 +1397,7 @@
           </div>
         </div>
 
-        <!-- Trade Status (Live P&L & Timer) -->
+        <!-- Trade Status -->
         <div class="trade-status">
           <div class="stat">
             <div class="label">Entry Price</div>
@@ -959,6 +1417,13 @@
           </div>
         </div>
 
+        <!-- Digits Display (for Over/Under and Even/Odd) -->
+        <div style="background:var(--bg-card);border-radius:var(--radius);padding:12px 16px;border:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <span style="font-size:13px;color:var(--text-muted);">Last Digit: <strong id="lastDigitDisplay" style="color:var(--accent);font-size:20px;">-</strong></span>
+          <span style="font-size:13px;color:var(--text-muted);">Parity: <strong id="parityDisplay" style="font-size:16px;">-</strong></span>
+          <span style="font-size:13px;color:var(--text-muted);">Over/Under: <strong id="overUnderDisplay" style="font-size:16px;">-</strong></span>
+        </div>
+
       </div>
 
       <!-- ─── RIGHT COLUMN ─── -->
@@ -967,53 +1432,116 @@
         <!-- ─── TRADING PANEL ─── -->
         <div class="trading-panel">
 
-          <!-- Trade Type Tabs -->
-          <div class="trade-type-tabs" id="tradeTypeTabs">
-            <button class="active" data-trade-type="rise">Rise</button>
-            <button data-trade-type="fall">Fall</button>
+          <!-- Trade Type Selector -->
+          <div class="trade-type-selector" id="tradeTypeSelector">
+            <button class="active" data-type="risefall">📈 Rise/Fall</button>
+            <button data-type="overunder">🔺 Over/Under</button>
+            <button data-type="evenodd">🎯 Even/Odd</button>
           </div>
 
-          <!-- Trade Inputs -->
-          <div class="trade-inputs">
-            <div class="trade-input-group">
-              <label>Stake (USD)</label>
-              <input type="number" id="stakeInput" value="10.00" step="0.50" min="1" />
+          <!-- ─── RISE/FALL ─── -->
+          <div class="trade-type-content active" id="content-risefall">
+            <div class="trade-inputs">
+              <div class="trade-input-group">
+                <label>Stake (USD)</label>
+                <input type="number" id="stakeInput" value="10.00" step="0.50" min="1" />
+              </div>
+              <div class="trade-input-group">
+                <label>Duration (sec)</label>
+                <select id="durationSelect">
+                  <option value="15">15s</option>
+                  <option value="30">30s</option>
+                  <option value="60" selected>1m</option>
+                  <option value="300">5m</option>
+                  <option value="900">15m</option>
+                  <option value="3600">1h</option>
+                </select>
+              </div>
             </div>
-            <div class="trade-input-group">
-              <label>Take Profit ($)</label>
-              <input type="number" id="tpInput" value="8.50" step="0.50" min="0.50" />
-            </div>
-            <div class="trade-input-group">
-              <label>Stop Loss ($)</label>
-              <input type="number" id="slInput" value="14.88" step="0.50" min="0.50" />
-            </div>
-            <div class="trade-input-group">
-              <label>Duration (sec)</label>
-              <select id="durationSelect">
-                <option value="15">15s</option>
-                <option value="30">30s</option>
-                <option value="60" selected>1m</option>
-                <option value="300">5m</option>
-                <option value="900">15m</option>
-                <option value="3600">1h</option>
-              </select>
+            <div class="trade-buttons-group">
+              <button class="trade-btn-option green" id="tradeRise">📈 RISE <span class="sub">Price goes up</span></button>
+              <button class="trade-btn-option red" id="tradeFall">📉 FALL <span class="sub">Price goes down</span></button>
             </div>
           </div>
 
-          <!-- Trade Buttons -->
-          <div class="trade-buttons-row">
-            <button class="trade-btn rise" id="tradeBtnLeft">📈 RISE <span class="sub">Profit: $8.50</span></button>
-            <button class="trade-btn fall" id="tradeBtnRight">📉 FALL <span class="sub">Profit: $8.50</span></button>
-            <button class="trade-btn close-trade" id="closeTradeBtn" disabled>⏹ Close Trade & Take P&L</button>
+          <!-- ─── OVER/UNDER ─── -->
+          <div class="trade-type-content" id="content-overunder">
+            <div class="trade-inputs">
+              <div class="trade-input-group">
+                <label>Stake (USD)</label>
+                <input type="number" id="stakeInputOU" value="10.00" step="0.50" min="1" />
+              </div>
+              <div class="trade-input-group">
+                <label>Barrier (0-9)</label>
+                <select id="barrierSelectOU" class="barrier-select">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4" selected>4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </select>
+              </div>
+              <div class="trade-input-group" style="grid-column:1/-1;">
+                <label>Duration (sec)</label>
+                <select id="durationSelectOU">
+                  <option value="15">15s</option>
+                  <option value="30">30s</option>
+                  <option value="60" selected>1m</option>
+                  <option value="300">5m</option>
+                  <option value="900">15m</option>
+                  <option value="3600">1h</option>
+                </select>
+              </div>
+            </div>
+            <div class="trade-buttons-group">
+              <button class="trade-btn-option blue" id="tradeOver">🔺 OVER <span class="sub">Digit &gt; Barrier</span></button>
+              <button class="trade-btn-option orange" id="tradeUnder">🔻 UNDER <span class="sub">Digit &lt; Barrier</span></button>
+            </div>
           </div>
+
+          <!-- ─── EVEN/ODD ─── -->
+          <div class="trade-type-content" id="content-evenodd">
+            <div class="trade-inputs">
+              <div class="trade-input-group">
+                <label>Stake (USD)</label>
+                <input type="number" id="stakeInputEO" value="10.00" step="0.50" min="1" />
+              </div>
+              <div class="trade-input-group">
+                <label>Duration (sec)</label>
+                <select id="durationSelectEO">
+                  <option value="15">15s</option>
+                  <option value="30">30s</option>
+                  <option value="60" selected>1m</option>
+                  <option value="300">5m</option>
+                  <option value="900">15m</option>
+                  <option value="3600">1h</option>
+                </select>
+              </div>
+            </div>
+            <div class="trade-buttons-group">
+              <button class="trade-btn-option green" id="tradeEven">🟢 EVEN <span class="sub">Digit is even</span></button>
+              <button class="trade-btn-option red" id="tradeOdd">🔴 ODD <span class="sub">Digit is odd</span></button>
+            </div>
+          </div>
+
+          <!-- Close Trade Button -->
+          <button class="trade-btn-close" id="closeTradeBtn" disabled>⏹ Close Trade & Take P&L</button>
 
         </div>
 
-        <!-- ─── TRADE HISTORY ─── -->
+        <!-- ─── TRANSACTION HISTORY ─── -->
         <div class="history-section">
-          <div class="title">📜 Trade History</div>
+          <div class="title">
+            <span>📜 Recent Transactions</span>
+            <span class="view-all" id="viewAllHistory">View All</span>
+          </div>
           <div id="historyList">
-            <div style="color:var(--text-muted);font-size:13px;padding:4px 0;">No trades yet</div>
+            <div style="color:var(--text-muted);font-size:13px;padding:4px 0;">No transactions yet</div>
           </div>
         </div>
 
@@ -1032,33 +1560,247 @@
 
   </div>
 
-  <!-- ════════════════════════════════════════════════ -->
-  <!--  RESULT MODAL (Pops up on Time End, SL, TP)   -->
-  <!-- ════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  DEPOSIT MODAL                                                -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="depositModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeDepositModal">&times;</button>
+      <h2>💰 Deposit Funds</h2>
+      <div class="sub">Choose a payment method and enter amount</div>
+      <div class="method-grid" id="depositMethods">
+        <button class="method-btn active" data-method="mpesa"><span class="icon">📱</span>M-PESA</button>
+        <button class="method-btn" data-method="visa"><span class="icon">💳</span>Visa</button>
+        <button class="method-btn" data-method="mastercard"><span class="icon">💳</span>Mastercard</button>
+        <button class="method-btn" data-method="bank"><span class="icon">🏦</span>Bank Transfer</button>
+        <button class="method-btn" data-method="crypto"><span class="icon">₿</span>Crypto</button>
+        <button class="method-btn" data-method="ewallet"><span class="icon">📲</span>E-Wallet</button>
+      </div>
+      <div id="depositMethodDetails">
+        <div class="method-details" data-method="mpesa">
+          <div class="row"><span class="label">Minimum</span><span class="value">$10 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$50,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">0%</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">Instant</span></div>
+        </div>
+        <div class="method-details" data-method="visa" style="display:none;">
+          <div class="row"><span class="label">Minimum</span><span class="value">$10 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$50,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">2.5%</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">Instant</span></div>
+        </div>
+        <div class="method-details" data-method="mastercard" style="display:none;">
+          <div class="row"><span class="label">Minimum</span><span class="value">$10 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$50,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">2.5%</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">Instant</span></div>
+        </div>
+        <div class="method-details" data-method="bank" style="display:none;">
+          <div class="row"><span class="label">Bank</span><span class="value">TradePro Global</span></div>
+          <div class="row"><span class="label">Account Name</span><span class="value">TradePro Ltd</span></div>
+          <div class="row"><span class="label">Account Number</span><span class="value copy" onclick="copyText('TP-987654321')">TP-987654321 <span style="font-size:11px;">📋</span></span></div>
+          <div class="row"><span class="label">SWIFT/BIC</span><span class="value copy" onclick="copyText('TPROGB2L')">TPROGB2L <span style="font-size:11px;">📋</span></span></div>
+          <div class="row"><span class="label">Reference</span><span class="value">Use your email</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">1-3 Business Days</span></div>
+        </div>
+        <div class="method-details" data-method="crypto" style="display:none;">
+          <div class="row"><span class="label">Network</span><span class="value">ERC20 / TRC20</span></div>
+          <div class="row"><span class="label">Address</span><span class="value copy" onclick="copyText('0x742d35Cc6634C0532925a3b844Bc454e4438f44e')">0x742d35...8f44e <span style="font-size:11px;">📋</span></span></div>
+          <div class="row"><span class="label">Confirmations</span><span class="value">3</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">5-30 minutes</span></div>
+        </div>
+        <div class="method-details" data-method="ewallet" style="display:none;">
+          <div class="row"><span class="label">Supported</span><span class="value">Skrill, Neteller, Perfect Money</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">1%</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">Instant</span></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Amount (USD)</label>
+        <input type="number" id="depositAmount" value="100" min="1" step="1" />
+      </div>
+      <div id="depositDynamicFields">
+        <div class="form-group" data-method="mpesa">
+          <label>M-PESA Phone Number</label>
+          <input type="tel" id="mpesaPhone" placeholder="+254712345678" />
+        </div>
+        <div class="form-group" data-method="visa" style="display:none;">
+          <label>Card Number</label>
+          <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" />
+        </div>
+        <div class="form-group" data-method="visa" style="display:none;">
+          <label>Expiry Date</label>
+          <input type="text" id="cardExpiry" placeholder="MM/YY" />
+        </div>
+        <div class="form-group" data-method="visa" style="display:none;">
+          <label>CVV</label>
+          <input type="password" id="cardCvv" placeholder="•••" maxlength="4" />
+        </div>
+        <div class="form-group" data-method="mastercard" style="display:none;">
+          <label>Card Number</label>
+          <input type="text" id="cardNumberMc" placeholder="5555 5555 5555 4444" />
+        </div>
+        <div class="form-group" data-method="mastercard" style="display:none;">
+          <label>Expiry Date</label>
+          <input type="text" id="cardExpiryMc" placeholder="MM/YY" />
+        </div>
+        <div class="form-group" data-method="mastercard" style="display:none;">
+          <label>CVV</label>
+          <input type="password" id="cardCvvMc" placeholder="•••" maxlength="4" />
+        </div>
+        <div class="form-group" data-method="crypto" style="display:none;">
+          <label>Select Cryptocurrency</label>
+          <select id="cryptoSelect">
+            <option value="btc">Bitcoin (BTC)</option>
+            <option value="eth">Ethereum (ETH)</option>
+            <option value="usdt-erc20">USDT (ERC20)</option>
+            <option value="usdt-trc20">USDT (TRC20)</option>
+            <option value="ltc">Litecoin (LTC)</option>
+            <option value="sol">Solana (SOL)</option>
+            <option value="bnb">Binance Coin (BNB)</option>
+            <option value="usdc">USDC</option>
+          </select>
+        </div>
+        <div class="form-group" data-method="ewallet" style="display:none;">
+          <label>E-Wallet Email / ID</label>
+          <input type="text" id="ewalletId" placeholder="you@skrill.com" />
+        </div>
+        <div class="form-group" data-method="ewallet" style="display:none;">
+          <label>Select E-Wallet</label>
+          <select id="ewalletSelect">
+            <option value="skrill">Skrill</option>
+            <option value="neteller">Neteller</option>
+            <option value="perfectmoney">Perfect Money</option>
+          </select>
+        </div>
+      </div>
+      <div class="info-box">⚡ <span class="highlight">Instant</span> processing · <span class="highlight">Secure</span> transaction · <span class="highlight">24/7</span> support</div>
+      <button class="modal-btn" id="depositSubmitBtn">💰 Deposit Now</button>
+      <div id="depositMsg" style="margin-top:10px;font-size:13px;color:var(--text-muted);text-align:center;"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  WITHDRAW MODAL                                               -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="withdrawModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeWithdrawModal">&times;</button>
+      <h2>🏦 Withdraw Funds</h2>
+      <div class="sub">Choose a withdrawal method and enter amount</div>
+      <div class="method-grid" id="withdrawMethods">
+        <button class="method-btn active" data-method="mpesa"><span class="icon">📱</span>M-PESA</button>
+        <button class="method-btn" data-method="bank"><span class="icon">🏦</span>Bank Transfer</button>
+        <button class="method-btn" data-method="crypto"><span class="icon">₿</span>Crypto</button>
+        <button class="method-btn" data-method="ewallet"><span class="icon">📲</span>E-Wallet</button>
+      </div>
+      <div id="withdrawMethodDetails">
+        <div class="method-details" data-method="mpesa">
+          <div class="row"><span class="label">Minimum</span><span class="value">$10 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$50,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">0%</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">1-24 hours</span></div>
+        </div>
+        <div class="method-details" data-method="bank" style="display:none;">
+          <div class="row"><span class="label">Minimum</span><span class="value">$50 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$100,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">$25 USD</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">3-5 Business Days</span></div>
+        </div>
+        <div class="method-details" data-method="crypto" style="display:none;">
+          <div class="row"><span class="label">Minimum</span><span class="value">$20 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$100,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">Network Fee</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">10-60 minutes</span></div>
+        </div>
+        <div class="method-details" data-method="ewallet" style="display:none;">
+          <div class="row"><span class="label">Minimum</span><span class="value">$10 USD</span></div>
+          <div class="row"><span class="label">Maximum</span><span class="value">$50,000 USD</span></div>
+          <div class="row"><span class="label">Fee</span><span class="value">1%</span></div>
+          <div class="row"><span class="label">Processing Time</span><span class="value">1-24 hours</span></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Amount (USD)</label>
+        <input type="number" id="withdrawAmount" value="50" min="1" step="1" />
+      </div>
+      <div id="withdrawDynamicFields">
+        <div class="form-group" data-method="mpesa">
+          <label>M-PESA Phone Number</label>
+          <input type="tel" id="withdrawMpesaPhone" placeholder="+254712345678" />
+        </div>
+        <div class="form-group" data-method="bank" style="display:none;">
+          <label>Bank Name</label>
+          <input type="text" id="withdrawBankName" placeholder="e.g. Chase Bank" />
+        </div>
+        <div class="form-group" data-method="bank" style="display:none;">
+          <label>Account Number</label>
+          <input type="text" id="withdrawAccountNumber" placeholder="1234567890" />
+        </div>
+        <div class="form-group" data-method="bank" style="display:none;">
+          <label>Account Name</label>
+          <input type="text" id="withdrawAccountName" placeholder="John Doe" />
+        </div>
+        <div class="form-group" data-method="crypto" style="display:none;">
+          <label>Wallet Address</label>
+          <input type="text" id="withdrawCryptoAddress" placeholder="0x742d35Cc6634C0532925a3b844Bc454e4438f44e" />
+        </div>
+        <div class="form-group" data-method="crypto" style="display:none;">
+          <label>Select Cryptocurrency</label>
+          <select id="withdrawCryptoSelect">
+            <option value="btc">Bitcoin (BTC)</option>
+            <option value="eth">Ethereum (ETH)</option>
+            <option value="usdt-erc20">USDT (ERC20)</option>
+            <option value="usdt-trc20">USDT (TRC20)</option>
+          </select>
+        </div>
+        <div class="form-group" data-method="ewallet" style="display:none;">
+          <label>E-Wallet Email / ID</label>
+          <input type="text" id="withdrawEwalletId" placeholder="you@skrill.com" />
+        </div>
+        <div class="form-group" data-method="ewallet" style="display:none;">
+          <label>Select E-Wallet</label>
+          <select id="withdrawEwalletSelect">
+            <option value="skrill">Skrill</option>
+            <option value="neteller">Neteller</option>
+            <option value="perfectmoney">Perfect Money</option>
+          </select>
+        </div>
+      </div>
+      <div class="info-box">⚡ Withdrawals are processed securely. <span class="highlight">24/7</span> support available.</div>
+      <button class="modal-btn" id="withdrawSubmitBtn">🏦 Withdraw Now</button>
+      <div id="withdrawMsg" style="margin-top:10px;font-size:13px;color:var(--text-muted);text-align:center;"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  RESULT MODAL                                                 -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <div class="modal-overlay" id="resultModal">
     <div class="modal-content">
       <div class="result-icon" id="resultIcon">✅</div>
       <div class="result-title" id="resultTitle">Trade Closed</div>
-      <div class="result-reason" id="resultReason">Reason: Time Ended</div>
+      <div class="result-reason" id="resultReason">Reason: Completed</div>
       <div class="result-grid">
         <div class="item"><div class="label">Stake</div><div class="value accent" id="rStake">$10.00</div></div>
         <div class="item"><div class="label">Profit / Loss</div><div class="value" id="rPnl">+$9.50</div></div>
         <div class="item"><div class="label">Balance</div><div class="value accent" id="rBalance">$10,009.50</div></div>
       </div>
-      <button class="result-btn" id="resultCloseBtn">Continue</button>
+      <button class="modal-btn" id="resultCloseBtn">Continue</button>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════════════ -->
-  <!--  USER MODAL                                   -->
-  <!-- ════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  USER MODAL (Profile)                                         -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <div class="modal-overlay user-modal" id="userModal">
     <div class="modal-content">
-      <h2><span>My Account</span><button class="close" id="modalClose">&times;</button></h2>
+      <button class="close-modal" id="closeUserModal">&times;</button>
+      <h2>👤 My Profile</h2>
       <div class="modal-tabs">
         <button class="active" data-mtab="account">Account</button>
-        <button data-mtab="deposit">Deposit</button>
-        <button data-mtab="withdraw">Withdraw</button>
+        <button data-mtab="transactions">Transactions</button>
+        <button data-mtab="settings">Settings</button>
       </div>
       <div class="modal-tab-content active" id="mtabAccount">
         <div class="info-row"><span class="label">Name</span><span class="value" id="mName">—</span></div>
@@ -1066,42 +1808,29 @@
         <div class="info-row"><span class="label">Balance</span><span class="value" id="mBalance">$0.00</span></div>
         <div class="info-row"><span class="label">Total Trades</span><span class="value" id="mTotalTrades">0</span></div>
         <div class="info-row"><span class="label">Win Rate</span><span class="value" id="mWinRate">0%</span></div>
-        <div class="info-row"><span class="label">Logout</span><button id="logoutBtn" style="background:var(--red);padding:4px 16px;border-radius:30px;font-weight:700;color:#0a0e17;">Logout</button></div>
+        <div class="info-row"><span class="label">Account Created</span><span class="value" id="mCreated">—</span></div>
       </div>
-      <div class="modal-tab-content" id="mtabDeposit">
-        <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Choose a method and enter amount.</p>
-        <select id="depositMethod" style="width:100%;margin-bottom:10px;">
-          <option value="mpesa">M-PESA</option>
-          <option value="bank">Bank Transfer</option>
-          <option value="visa">Visa</option>
-          <option value="crypto">Cryptocurrency</option>
-        </select>
-        <div class="method-row">
-          <input type="number" id="depositAmount" value="100" min="1" step="1" />
-          <button id="depositSubmit">Deposit</button>
+      <div class="modal-tab-content" id="mtabTransactions">
+        <div style="max-height:300px;overflow-y:auto;" id="transactionList">
+          <div style="color:var(--text-muted);text-align:center;padding:20px;">No transactions</div>
         </div>
-        <div id="depositMsg" style="font-size:13px;color:var(--text-muted);margin-top:8px;"></div>
       </div>
-      <div class="modal-tab-content" id="mtabWithdraw">
-        <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Withdraw to your preferred method.</p>
-        <select id="withdrawMethod" style="width:100%;margin-bottom:10px;">
-          <option value="mpesa">M-PESA</option>
-          <option value="bank">Bank Transfer</option>
-          <option value="visa">Visa</option>
-          <option value="crypto">Cryptocurrency</option>
-        </select>
-        <div class="method-row">
-          <input type="number" id="withdrawAmount" value="50" min="1" step="1" />
-          <button id="withdrawSubmit">Withdraw</button>
+      <div class="modal-tab-content" id="mtabSettings">
+        <div class="info-row"><span class="label">Dark Mode</span>
+          <button id="darkModeToggle" style="background:var(--accent);padding:4px 16px;border-radius:30px;font-weight:700;color:#0a0e17;">Toggle</button>
         </div>
-        <div id="withdrawMsg" style="font-size:13px;color:var(--text-muted);margin-top:8px;"></div>
+        <div class="info-row"><span class="label">2FA</span><span class="value">🔐 Enabled</span></div>
+        <div class="info-row"><span class="label">Session</span><span class="value" id="sessionInfo">Active</span></div>
+        <div class="info-row" style="border-bottom:none;padding-top:16px;">
+          <button id="logoutBtn2" style="background:var(--red);padding:8px 24px;border-radius:30px;font-weight:700;color:#0a0e17;width:100%;">🚪 Logout</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════════════ -->
-  <!--  JAVASCRIPT                                   -->
-  <!-- ════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!--  JAVASCRIPT                                                   -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
   <script>
     (function() {
       'use strict';
@@ -1119,19 +1848,24 @@
         isRunning: true,
         isLoggedIn: false,
         hideBalance: false,
-        tradeType: 'rise',
+        tradeType: 'risefall', // risefall | overunder | evenodd
+        activeOption: 'rise', // rise | fall | over | under | even | odd
         stake: 10,
-        takeProfit: 8.50,
-        stopLoss: 14.88,
         duration: 60,
+        barrier: 4,
         history: [],
+        transactions: [],
         isTradeActive: false,
         entryPrice: 0,
+        entryDigit: 0,
         floatingPnl: 0,
         priceInterval: null,
         tradeTimer: null,
         timeRemaining: 0,
-        currentPnl: 0
+        userCreated: new Date().toISOString().slice(0, 10),
+        darkMode: true,
+        // For trade result display
+        lastTradeOutcome: null
       };
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1153,7 +1887,6 @@
       const elRegSuccess = $('regSuccess');
       const elLoginBtn = $('loginBtn');
       const elRegBtn = $('regBtn');
-      const elLogoutBtn = $('logoutBtn');
 
       const elBalance = $('accountBalance');
       const elHeaderBalance = $('headerBalance');
@@ -1167,19 +1900,44 @@
       const elNotification = $('notification');
       const elHistoryList = $('historyList');
 
-      const elStake = $('stakeInput');
-      const elTp = $('tpInput');
-      const elSl = $('slInput');
+      // Trade inputs - shared
       const elDuration = $('durationSelect');
-      const elTradeBtnLeft = $('tradeBtnLeft');
-      const elTradeBtnRight = $('tradeBtnRight');
+      const elDurationOU = $('durationSelectOU');
+      const elDurationEO = $('durationSelectEO');
+
+      // Rise/Fall
+      const elStakeRF = $('stakeInput');
+      const elTradeRise = $('tradeRise');
+      const elTradeFall = $('tradeFall');
+
+      // Over/Under
+      const elStakeOU = $('stakeInputOU');
+      const elBarrierOU = $('barrierSelectOU');
+      const elTradeOver = $('tradeOver');
+      const elTradeUnder = $('tradeUnder');
+
+      // Even/Odd
+      const elStakeEO = $('stakeInputEO');
+      const elTradeEven = $('tradeEven');
+      const elTradeOdd = $('tradeOdd');
+
       const elCloseTradeBtn = $('closeTradeBtn');
-      const elTradeTypeTabs = document.querySelectorAll('.trade-type-tabs button');
+      const elTradeTypeSelector = document.querySelectorAll('#tradeTypeSelector button');
+      const elTradeContents = {
+        risefall: $('content-risefall'),
+        overunder: $('content-overunder'),
+        evenodd: $('content-evenodd')
+      };
 
       const elEntryPriceDisplay = $('entryPriceDisplay');
       const elCurrentPriceDisplay = $('currentPriceDisplay');
       const elFloatingPnlDisplay = $('floatingPnlDisplay');
       const elTimeRemainingDisplay = $('timeRemainingDisplay');
+
+      // Digits display
+      const elLastDigitDisplay = $('lastDigitDisplay');
+      const elParityDisplay = $('parityDisplay');
+      const elOverUnderDisplay = $('overUnderDisplay');
 
       const elResultModal = $('resultModal');
       const elResultIcon = $('resultIcon');
@@ -1191,20 +1949,40 @@
       const elResultCloseBtn = $('resultCloseBtn');
 
       const elUserModal = $('userModal');
-      const elModalClose = $('modalClose');
+      const elCloseUserModal = $('closeUserModal');
       const elMName = $('mName');
       const elMEmail = $('mEmail');
       const elMBalance = $('mBalance');
       const elMTrades = $('mTotalTrades');
       const elMWinRate = $('mWinRate');
-      const elDepositSubmit = $('depositSubmit');
+      const elMCreated = $('mCreated');
+      const elTransactionList = $('transactionList');
+      const elLogoutBtn2 = $('logoutBtn2');
+      const elDarkModeToggle = $('darkModeToggle');
+
+      const elDepositModal = $('depositModal');
+      const elCloseDepositModal = $('closeDepositModal');
+      const elDepositMethods = document.querySelectorAll('#depositMethods .method-btn');
       const elDepositAmount = $('depositAmount');
-      const elDepositMethod = $('depositMethod');
+      const elDepositSubmitBtn = $('depositSubmitBtn');
       const elDepositMsg = $('depositMsg');
-      const elWithdrawSubmit = $('withdrawSubmit');
+      const elDepositDynamicFields = $('depositDynamicFields');
+
+      const elWithdrawModal = $('withdrawModal');
+      const elCloseWithdrawModal = $('closeWithdrawModal');
+      const elWithdrawMethods = document.querySelectorAll('#withdrawMethods .method-btn');
       const elWithdrawAmount = $('withdrawAmount');
-      const elWithdrawMethod = $('withdrawMethod');
+      const elWithdrawSubmitBtn = $('withdrawSubmitBtn');
       const elWithdrawMsg = $('withdrawMsg');
+      const elWithdrawDynamicFields = $('withdrawDynamicFields');
+
+      const elDepositBtn = $('depositBtn');
+      const elWithdrawBtn = $('withdrawBtn');
+      const elAvatarBtn = $('avatarBtn');
+      const elPortfolioBtn = $('portfolioBtn');
+      const elMoreBtn = $('moreBtn');
+      const elLogoutBtn = $('logoutBtn');
+      const elViewAllHistory = $('viewAllHistory');
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       //  HELPERS
@@ -1215,11 +1993,11 @@
 
       function getTime() { return new Date().toTimeString().slice(0, 8); }
 
+      function getDate() { return new Date().toISOString().slice(0, 10); }
+
       function notify(msg) { elNotification.textContent = msg; }
 
-      function getBalance() {
-        return state.balance;
-      }
+      function getBalance() { return state.balance; }
 
       function setBalance(val) {
         state.balance = val;
@@ -1231,24 +2009,80 @@
         const display = state.hideBalance ? '•••••' : fmt(state.balance, 2);
         elBalance.textContent = '$' + display + ' USD';
         elHeaderBalance.innerHTML = display + ' <small>USD</small>';
+        elMBalance.textContent = '$' + fmt(state.balance, 2);
       }
 
       function saveUserData() {
-        const email = localStorage.getItem('bb_session_user');
+        const email = localStorage.getItem('tp_session_user');
         if (email) {
-          const users = JSON.parse(localStorage.getItem('bb_users') || '{}');
+          const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
           if (users[email]) {
             users[email].balance = state.balance;
             users[email].history = state.history;
-            localStorage.setItem('bb_users', JSON.stringify(users));
+            users[email].transactions = state.transactions;
+            localStorage.setItem('tp_users', JSON.stringify(users));
           }
         }
+      }
+
+      function addTransaction(type, method, amount, status, ref, details) {
+        const tx = {
+          id: 'TX-' + Date.now(),
+          type: type,
+          method: method || 'N/A',
+          amount: amount,
+          status: status || 'Completed',
+          ref: ref || 'TX-' + Date.now().toString(36).toUpperCase(),
+          date: getDate() + ' ' + getTime(),
+          details: details || ''
+        };
+        state.transactions.unshift(tx);
+        if (state.transactions.length > 100) state.transactions.pop();
+        renderTransactions();
+        saveUserData();
+        return tx;
+      }
+
+      function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          notify('📋 Copied to clipboard!');
+        }).catch(() => {
+          const el = document.createElement('textarea');
+          el.value = text;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+          notify('📋 Copied!');
+        });
+      }
+      window.copyText = copyText;
+
+      // Get current digit, parity, over/under status
+      function getDigitInfo(price) {
+        const digit = Math.floor(Math.abs(price)) % 10;
+        const parity = digit % 2 === 0 ? 'Even' : 'Odd';
+        return { digit, parity };
+      }
+
+      function updateDigitDisplay() {
+        const info = getDigitInfo(state.currentPrice);
+        elLastDigitDisplay.textContent = info.digit;
+        elParityDisplay.textContent = info.parity;
+        elParityDisplay.style.color = info.parity === 'Even' ? 'var(--green)' : 'var(--red)';
+        // Over/Under relative to barrier
+        const barrier = parseInt(elBarrierOU.value) || 4;
+        const over = info.digit > barrier ? 'Over ✅' : info.digit < barrier ? 'Under ❌' : 'Match 🎯';
+        elOverUnderDisplay.textContent = over + ' (Barrier: ' + barrier + ')';
+        elOverUnderDisplay.style.color = info.digit > barrier ? 'var(--green)' : info.digit < barrier ? 'var(--red)' :
+          'var(--accent)';
+        return info;
       }
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       //  AUTH
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      function showAuth() { elAuthPage.style.display = 'block';
+      function showAuth() { elAuthPage.style.display = 'grid';
         elApp.classList.remove('visible'); }
 
       function showApp() { elAuthPage.style.display = 'none';
@@ -1260,18 +2094,37 @@
         document.getElementById('authRegisterTab').classList.remove('active');
         elLoginForm.classList.add('active');
         elRegisterForm.classList.remove('active');
+        document.getElementById('authTitle').textContent = 'Sign In';
+        document.getElementById('authSub').textContent = 'Access your trading account';
       });
       document.getElementById('authRegisterTab').addEventListener('click', () => {
         document.getElementById('authRegisterTab').classList.add('active');
         document.getElementById('authLoginTab').classList.remove('active');
         elRegisterForm.classList.add('active');
         elLoginForm.classList.remove('active');
+        document.getElementById('authTitle').textContent = 'Create Account';
+        document.getElementById('authSub').textContent = 'Start trading in minutes';
       });
       document.getElementById('switchToRegister').addEventListener('click', () =>
         document.getElementById('authRegisterTab').click());
       document.getElementById('switchToLogin').addEventListener('click', () =>
         document.getElementById('authLoginTab').click());
 
+      window.togglePassword = function(id, btn) {
+        const input = document.getElementById(id);
+        if (!input) return;
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        btn.textContent = isPassword ? '🙈' : '👁';
+      };
+
+      document.getElementById('forgotPasswordLink').addEventListener('click', () => {
+        const email = elLoginEmail.value.trim();
+        if (!email) { notify('Please enter your email address.'); return; }
+        notify('📧 Password reset link sent to ' + email);
+      });
+
+      // Register
       elRegisterForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = elRegName.value.trim();
@@ -1285,16 +2138,19 @@
         if (pw.length < 8) { elRegError.textContent = 'Password must be at least 8 chars.'; return; }
         if (pw !== confirm) { elRegError.textContent = 'Passwords do not match.'; return; }
 
-        const users = JSON.parse(localStorage.getItem('bb_users') || '{}');
+        const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
         if (users[email]) { elRegError.textContent = 'Account already exists.'; return; }
         users[email] = {
-          name,
-          email,
+          name: name,
+          email: email,
           password: pw,
           balance: 10000,
-          history: []
+          history: [],
+          transactions: [],
+          created: new Date().toISOString(),
+          mode: 'demo'
         };
-        localStorage.setItem('bb_users', JSON.stringify(users));
+        localStorage.setItem('tp_users', JSON.stringify(users));
         elRegSuccess.textContent = '✅ Account created! Please log in.';
         elRegName.value = '';
         elRegEmail.value = '';
@@ -1302,8 +2158,10 @@
         elRegConfirm.value = '';
         document.getElementById('authLoginTab').click();
         elLoginEmail.value = email;
+        notify('✅ Account created! Please log in.');
       });
 
+      // Login
       elLoginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = elLoginEmail.value.trim().toLowerCase();
@@ -1311,7 +2169,7 @@
         elLoginError.textContent = '';
         if (!email || !pw) { elLoginError.textContent = 'Fill in all fields.'; return; }
 
-        const users = JSON.parse(localStorage.getItem('bb_users') || '{}');
+        const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
         const user = users[email];
         if (!user) { elLoginError.textContent = 'No account found.'; return; }
         if (user.password !== pw) { elLoginError.textContent = 'Incorrect password.'; return; }
@@ -1319,33 +2177,42 @@
         state.user = user;
         state.balance = user.balance || 10000;
         state.history = user.history || [];
-        localStorage.setItem('bb_session_user', email);
+        state.transactions = user.transactions || [];
+        state.mode = user.mode || 'demo';
+        state.userCreated = user.created ? new Date(user.created).toISOString().slice(0, 10) : '2025-01-01';
+        localStorage.setItem('tp_session_user', email);
         loadDashboard();
         showApp();
+        notify('✅ Welcome back, ' + user.name + '!');
       });
 
-      elLogoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('bb_session_user');
+      function doLogout() {
+        localStorage.removeItem('tp_session_user');
         state.isLoggedIn = false;
         state.user = null;
         stopIntervals();
         showAuth();
         notify('Logged out');
         elUserModal.classList.remove('open');
-      });
+        elResultModal.classList.remove('open');
+      }
+      elLogoutBtn.addEventListener('click', doLogout);
+      elLogoutBtn2.addEventListener('click', doLogout);
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       //  DASHBOARD
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       function loadDashboard() {
-        elAccountNumber.textContent = 'BB-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(1000 + Math
+        elAccountNumber.textContent = 'TP-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(1000 + Math
         .random() * 9000);
         updateBalanceUI();
         renderHistory();
+        renderTransactions();
         updateTradeButtons();
         updateModalInfo();
         if (!state.chart) initChart();
         startIntervals();
+        updateDigitDisplay();
         notify('✅ Ready to trade');
       }
 
@@ -1406,9 +2273,10 @@
         state.currentPrice = newPrice;
         updatePriceDisplay();
         updateChart();
+        updateDigitDisplay();
         if (state.isTradeActive) {
           updateFloatingPnl();
-          checkSlTp();
+          checkTradeCondition();
         }
       }
 
@@ -1425,19 +2293,32 @@
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       //  TRADE LOGIC
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      function updateTradeButtons() {
-        const stake = parseFloat(elStake.value) || 10;
-        const tp = parseFloat(elTp.value) || 8.50;
-        const sl = parseFloat(elSl.value) || 14.88;
-        state.stake = stake;
-        state.takeProfit = tp;
-        state.stopLoss = sl;
+      function getActiveStake() {
+        if (state.tradeType === 'risefall') return parseFloat(elStakeRF.value) || 10;
+        if (state.tradeType === 'overunder') return parseFloat(elStakeOU.value) || 10;
+        if (state.tradeType === 'evenodd') return parseFloat(elStakeEO.value) || 10;
+        return 10;
+      }
 
-        const profitDisplay = '+$' + fmt(tp, 2);
-        elTradeBtnLeft.querySelector('.sub').textContent = 'Profit: ' + profitDisplay;
-        elTradeBtnRight.querySelector('.sub').textContent = 'Profit: ' + profitDisplay;
-        elTradeBtnLeft.disabled = state.isTradeActive;
-        elTradeBtnRight.disabled = state.isTradeActive;
+      function getActiveDuration() {
+        if (state.tradeType === 'risefall') return parseInt(elDuration.value) || 60;
+        if (state.tradeType === 'overunder') return parseInt(elDurationOU.value) || 60;
+        if (state.tradeType === 'evenodd') return parseInt(elDurationEO.value) || 60;
+        return 60;
+      }
+
+      function getActiveBarrier() {
+        return parseInt(elBarrierOU.value) || 4;
+      }
+
+      function updateTradeButtons() {
+        const stake = getActiveStake();
+        state.stake = stake;
+        state.duration = getActiveDuration();
+        state.barrier = getActiveBarrier();
+
+        const allTradeBtns = [elTradeRise, elTradeFall, elTradeOver, elTradeUnder, elTradeEven, elTradeOdd];
+        allTradeBtns.forEach(b => b.disabled = state.isTradeActive);
         elCloseTradeBtn.disabled = !state.isTradeActive;
       }
 
@@ -1446,47 +2327,78 @@
         const entry = state.entryPrice;
         const current = state.currentPrice;
         let pnl = 0;
-        if (state.tradeType === 'rise') {
+        if (state.activeOption === 'rise') {
           pnl = ((current - entry) / entry) * state.stake;
-        } else {
+        } else if (state.activeOption === 'fall') {
           pnl = ((entry - current) / entry) * state.stake;
+        } else {
+          // For digit-based trades, PnL is determined by win/loss at expiry
+          // During the trade, we show a fixed % based on time passed
+          // We'll use a simple approach: show potential PnL based on current price direction
+          // For now, keep it at 0 during the trade for digit-based
+          pnl = 0;
         }
         state.floatingPnl = pnl;
         elFloatingPnlDisplay.textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
         elFloatingPnlDisplay.className = 'value ' + (pnl >= 0 ? 'green' : 'red');
       }
 
-      function checkSlTp() {
+      function checkTradeCondition() {
         if (!state.isTradeActive) return;
-        const pnl = state.floatingPnl;
-        const tp = state.takeProfit;
-        const sl = state.stopLoss;
+        // For Rise/Fall, check SL/TP via price movement
+        if (state.tradeType === 'risefall') {
+          const entry = state.entryPrice;
+          const current = state.currentPrice;
+          let pnl = 0;
+          if (state.activeOption === 'rise') {
+            pnl = ((current - entry) / entry) * state.stake;
+          } else {
+            pnl = ((entry - current) / entry) * state.stake;
+          }
+          state.floatingPnl = pnl;
+          elFloatingPnlDisplay.textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
+          elFloatingPnlDisplay.className = 'value ' + (pnl >= 0 ? 'green' : 'red');
 
-        if (pnl >= tp) {
-          closeTrade('Take Profit', pnl);
-        } else if (pnl <= -sl) {
-          closeTrade('Stop Loss', pnl);
+          // Check SL/TP (using fixed TP/SL of 85% and 150% of stake for simplicity)
+          const tp = state.stake * 0.85;
+          const sl = state.stake * 1.5;
+          if (pnl >= tp) {
+            closeTrade('Take Profit', pnl);
+          } else if (pnl <= -sl) {
+            closeTrade('Stop Loss', pnl);
+          }
+        } else {
+          // For Over/Under and Even/Odd, we check at expiry time only
+          // But we can show a countdown
         }
+        updateFloatingPnl();
       }
 
-      function placeTrade(type) {
+      function placeTrade(option) {
         if (state.isTradeActive) { notify('Trade already active!'); return; }
-        const stake = parseFloat(elStake.value) || 10;
-        const tp = parseFloat(elTp.value) || 8.50;
-        const sl = parseFloat(elSl.value) || 14.88;
-        const duration = parseInt(elDuration.value) || 60;
+
+        const stake = getActiveStake();
+        const duration = getActiveDuration();
 
         if (stake > getBalance()) { notify('Insufficient balance'); return; }
 
-        state.tradeType = type;
+        state.activeOption = option;
         state.stake = stake;
-        state.takeProfit = tp;
-        state.stopLoss = sl;
         state.duration = duration;
         state.entryPrice = state.currentPrice;
+        state.entryDigit = getDigitInfo(state.currentPrice).digit;
         state.isTradeActive = true;
         state.floatingPnl = 0;
         state.timeRemaining = duration;
+
+        // Update trade type based on which button was clicked
+        const allOptions = ['rise', 'fall', 'over', 'under', 'even', 'odd'];
+        if (allOptions.includes(option)) {
+          // Determine trade type
+          if (option === 'rise' || option === 'fall') state.tradeType = 'risefall';
+          else if (option === 'over' || option === 'under') state.tradeType = 'overunder';
+          else if (option === 'even' || option === 'odd') state.tradeType = 'evenodd';
+        }
 
         elEntryPriceDisplay.textContent = '$' + fmt(state.entryPrice, 2);
         elFloatingPnlDisplay.textContent = '$0.00';
@@ -1494,17 +2406,52 @@
         elTimeRemainingDisplay.textContent = duration + 's';
         elTimeRemainingDisplay.className = 'value timer';
 
+        // Disable all trade buttons
         updateTradeButtons();
-        notify(`📈 ${type.toUpperCase()} trade placed! SL: -$${fmt(sl,2)} TP: +$${fmt(tp,2)}`);
+        notify('📈 ' + option.toUpperCase() + ' trade placed! Duration: ' + duration + 's');
 
-        // Start trade timer
         if (state.tradeTimer) clearInterval(state.tradeTimer);
         state.tradeTimer = setInterval(() => {
           state.timeRemaining--;
           elTimeRemainingDisplay.textContent = state.timeRemaining + 's';
           if (state.timeRemaining <= 0) {
-            // Time's up - close trade at current price
-            closeTrade('Time Ended', state.floatingPnl);
+            // Time's up - determine outcome based on trade type
+            const digit = getDigitInfo(state.currentPrice).digit;
+            let isWin = false;
+            let resultMsg = '';
+
+            if (state.tradeType === 'risefall') {
+              // For rise/fall, check price direction
+              const current = state.currentPrice;
+              const entry = state.entryPrice;
+              if (state.activeOption === 'rise') {
+                isWin = current > entry;
+                resultMsg = isWin ? 'Price went up! ✅' : 'Price went down! ❌';
+              } else {
+                isWin = current < entry;
+                resultMsg = isWin ? 'Price went down! ✅' : 'Price went up! ❌';
+              }
+            } else if (state.tradeType === 'overunder') {
+              const barrier = getActiveBarrier();
+              if (state.activeOption === 'over') {
+                isWin = digit > barrier;
+                resultMsg = isWin ? 'Digit ' + digit + ' > ' + barrier + ' ✅' : 'Digit ' + digit + ' ≤ ' + barrier + ' ❌';
+              } else {
+                isWin = digit < barrier;
+                resultMsg = isWin ? 'Digit ' + digit + ' < ' + barrier + ' ✅' : 'Digit ' + digit + ' ≥ ' + barrier + ' ❌';
+              }
+            } else if (state.tradeType === 'evenodd') {
+              if (state.activeOption === 'even') {
+                isWin = digit % 2 === 0;
+                resultMsg = isWin ? 'Digit ' + digit + ' is Even ✅' : 'Digit ' + digit + ' is Odd ❌';
+              } else {
+                isWin = digit % 2 !== 0;
+                resultMsg = isWin ? 'Digit ' + digit + ' is Odd ✅' : 'Digit ' + digit + ' is Even ❌';
+              }
+            }
+
+            const pnl = isWin ? state.stake * 0.85 : -state.stake;
+            closeTrade(resultMsg + ' (Time Ended)', pnl);
           }
         }, 1000);
       }
@@ -1516,44 +2463,51 @@
         if (state.tradeTimer) { clearInterval(state.tradeTimer);
           state.tradeTimer = null; }
 
-        // Apply P&L to balance
         const newBalance = getBalance() + pnl;
         setBalance(newBalance);
 
-        // Record history
+        const isWin = pnl > 0;
         const trade = {
-          side: state.tradeType,
+          side: state.activeOption,
           stake: state.stake,
           pnl: pnl,
           time: getTime(),
           reason: reason,
-          win: pnl > 0
+          win: isWin,
+          type: state.tradeType
         };
         state.history.unshift(trade);
+        addTransaction(
+          'trade',
+          state.activeOption.toUpperCase(),
+          pnl,
+          isWin ? 'Win' : 'Loss',
+          'TRD-' + Date.now().toString(36).toUpperCase(),
+          state.activeOption.toUpperCase() + ' ' + reason
+        );
         renderHistory();
         saveUserData();
 
-        // Show result popup
         showResultPopup(trade, reason);
 
-        // Reset UI
         elEntryPriceDisplay.textContent = '-';
         elFloatingPnlDisplay.textContent = '$0.00';
         elFloatingPnlDisplay.className = 'value';
         elTimeRemainingDisplay.textContent = '-';
         elTimeRemainingDisplay.className = 'value timer';
         updateTradeButtons();
-        notify(`Trade closed: ${reason} | ${pnl >= 0 ? '✅ WIN' : '❌ LOSS'} $${fmt(Math.abs(pnl),2)}`);
+        notify('Trade closed: ' + reason + ' | ' + (isWin ? '✅ WIN' : '❌ LOSS') + ' $' + fmt(Math.abs(pnl), 2));
       }
 
       function manualClose() {
         if (!state.isTradeActive) return;
+        // Calculate current PnL for manual close
         const pnl = state.floatingPnl;
         closeTrade('Manual Close', pnl);
       }
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      //  RESULT POPUP (Appears when Time ends, SL or TP hit)
+      //  RESULT POPUP
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       function showResultPopup(trade, reason) {
         const isWin = trade.win;
@@ -1573,39 +2527,183 @@
       });
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      //  HISTORY
+      //  HISTORY & TRANSACTIONS
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       function renderHistory() {
         if (!state.history.length) {
-          elHistoryList.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:4px 0;">No trades yet</div>';
+          elHistoryList.innerHTML =
+            '<div style="color:var(--text-muted);font-size:13px;padding:4px 0;">No trades yet</div>';
           return;
         }
         let html = '';
         state.history.slice(0, 10).forEach(h => {
           html += `
-              <div class="history-item">
-                <span class="type ${h.win ? 'win' : 'loss'}">${h.side.toUpperCase()} ${h.win ? '✅' : '❌'}</span>
-                <span>$${fmt(h.stake, 2)}</span>
-                <span>${h.pnl >= 0 ? '+' : ''}$${fmt(h.pnl, 2)}</span>
-                <span class="time">${h.time} (${h.reason})</span>
-              </div>
-            `;
+            <div class="history-item">
+              <span class="type ${h.win ? 'win' : 'loss'}">${h.side.toUpperCase()} ${h.win ? '✅' : '❌'}</span>
+              <span>$${fmt(h.stake, 2)}</span>
+              <span>${h.pnl >= 0 ? '+' : ''}$${fmt(h.pnl, 2)}</span>
+              <span class="time">${h.time}</span>
+            </div>
+          `;
         });
         elHistoryList.innerHTML = html;
       }
 
-      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      //  MODAL
-      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-      function openModal(tab = 'account') {
-        updateModalInfo();
-        document.querySelectorAll('.modal-tabs button').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelector(`.modal-tabs button[data-mtab="${tab}"]`)?.classList.add('active');
-        document.getElementById(`mtab${tab.charAt(0).toUpperCase() + tab.slice(1)}`)?.classList.add('active');
-        elUserModal.classList.add('open');
+      function renderTransactions() {
+        if (!state.transactions.length) {
+          elTransactionList.innerHTML =
+            '<div style="color:var(--text-muted);text-align:center;padding:20px;">No transactions</div>';
+          return;
+        }
+        let html = '';
+        state.transactions.slice(0, 20).forEach(tx => {
+          const isCredit = tx.type === 'deposit' || (tx.type === 'trade' && tx.amount > 0);
+          const isDebit = tx.type === 'withdraw' || (tx.type === 'trade' && tx.amount < 0);
+          const color = isCredit ? 'var(--green)' : isDebit ? 'var(--red)' : 'var(--accent)';
+          html += `
+            <div class="info-row" style="font-size:12px;">
+              <span class="label">${tx.type.toUpperCase()} ${tx.ref}</span>
+              <span class="value" style="color:${color};">${tx.amount >= 0 ? '+' : ''}$${fmt(tx.amount,2)}</span>
+              <span style="color:var(--text-muted);font-size:10px;">${tx.date}</span>
+            </div>
+          `;
+        });
+        elTransactionList.innerHTML = html;
       }
 
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      //  DEPOSIT / WITHDRAW
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      function openDepositModal() {
+        elDepositModal.classList.add('open');
+        elDepositMsg.textContent = '';
+        elDepositMethods.forEach(b => b.classList.remove('active'));
+        elDepositMethods[0].classList.add('active');
+        updateDepositFields('mpesa');
+      }
+
+      function updateDepositFields(method) {
+        document.querySelectorAll('#depositMethodDetails .method-details').forEach(el => {
+          el.style.display = el.dataset.method === method ? 'block' : 'none';
+        });
+        const fields = elDepositDynamicFields.querySelectorAll('.form-group');
+        fields.forEach(el => {
+          el.style.display = el.dataset.method === method ? 'block' : 'none';
+        });
+      }
+
+      elDepositMethods.forEach(btn => {
+        btn.addEventListener('click', () => {
+          elDepositMethods.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updateDepositFields(btn.dataset.method);
+        });
+      });
+
+      elDepositSubmitBtn.addEventListener('click', () => {
+        const amount = parseFloat(elDepositAmount.value);
+        if (!amount || amount <= 0) { elDepositMsg.textContent = 'Enter a valid amount.';
+          elDepositMsg.style.color = 'var(--red)'; return; }
+        if (amount < 10) { elDepositMsg.textContent = 'Minimum deposit is $10.';
+          elDepositMsg.style.color = 'var(--red)'; return; }
+
+        const activeMethod = document.querySelector('#depositMethods .method-btn.active');
+        const method = activeMethod ? activeMethod.dataset.method : 'mpesa';
+
+        elDepositSubmitBtn.disabled = true;
+        elDepositSubmitBtn.textContent = 'Processing...';
+        elDepositMsg.textContent = '⏳ Processing deposit...';
+        elDepositMsg.style.color = 'var(--accent)';
+
+        setTimeout(() => {
+          setBalance(getBalance() + amount);
+          const tx = addTransaction('deposit', method.toUpperCase(), amount, 'Completed', 'DEP-' + Date.now()
+            .toString(36).toUpperCase(), 'Deposit via ' + method.toUpperCase());
+          elDepositMsg.textContent = '✅ Deposited $' + fmt(amount, 2) + ' successfully! Ref: ' + tx.ref;
+          elDepositMsg.style.color = 'var(--green)';
+          elDepositSubmitBtn.disabled = false;
+          elDepositSubmitBtn.textContent = '💰 Deposit Now';
+          updateBalanceUI();
+          renderTransactions();
+          notify('✅ Deposited $' + fmt(amount, 2));
+          setTimeout(() => {
+            elDepositModal.classList.remove('open');
+          }, 2000);
+        }, 1500);
+      });
+
+      elCloseDepositModal.addEventListener('click', () => elDepositModal.classList.remove('open'));
+      elDepositModal.addEventListener('click', (e) => { if (e.target === elDepositModal) elDepositModal.classList.remove(
+          'open'); });
+
+      // Withdraw
+      function openWithdrawModal() {
+        elWithdrawModal.classList.add('open');
+        elWithdrawMsg.textContent = '';
+        elWithdrawMethods.forEach(b => b.classList.remove('active'));
+        elWithdrawMethods[0].classList.add('active');
+        updateWithdrawFields('mpesa');
+      }
+
+      function updateWithdrawFields(method) {
+        document.querySelectorAll('#withdrawMethodDetails .method-details').forEach(el => {
+          el.style.display = el.dataset.method === method ? 'block' : 'none';
+        });
+        const fields = elWithdrawDynamicFields.querySelectorAll('.form-group');
+        fields.forEach(el => {
+          el.style.display = el.dataset.method === method ? 'block' : 'none';
+        });
+      }
+
+      elWithdrawMethods.forEach(btn => {
+        btn.addEventListener('click', () => {
+          elWithdrawMethods.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updateWithdrawFields(btn.dataset.method);
+        });
+      });
+
+      elWithdrawSubmitBtn.addEventListener('click', () => {
+        const amount = parseFloat(elWithdrawAmount.value);
+        if (!amount || amount <= 0) { elWithdrawMsg.textContent = 'Enter a valid amount.';
+          elWithdrawMsg.style.color = 'var(--red)'; return; }
+        if (amount < 10) { elWithdrawMsg.textContent = 'Minimum withdrawal is $10.';
+          elWithdrawMsg.style.color = 'var(--red)'; return; }
+        if (amount > getBalance()) { elWithdrawMsg.textContent = 'Insufficient balance.';
+          elWithdrawMsg.style.color = 'var(--red)'; return; }
+
+        const activeMethod = document.querySelector('#withdrawMethods .method-btn.active');
+        const method = activeMethod ? activeMethod.dataset.method : 'mpesa';
+
+        elWithdrawSubmitBtn.disabled = true;
+        elWithdrawSubmitBtn.textContent = 'Processing...';
+        elWithdrawMsg.textContent = '⏳ Processing withdrawal...';
+        elWithdrawMsg.style.color = 'var(--accent)';
+
+        setTimeout(() => {
+          setBalance(getBalance() - amount);
+          const tx = addTransaction('withdraw', method.toUpperCase(), -amount, 'Completed', 'WTH-' + Date
+            .now().toString(36).toUpperCase(), 'Withdrawal via ' + method.toUpperCase());
+          elWithdrawMsg.textContent = '✅ Withdrew $' + fmt(amount, 2) + ' successfully! Ref: ' + tx.ref;
+          elWithdrawMsg.style.color = 'var(--green)';
+          elWithdrawSubmitBtn.disabled = false;
+          elWithdrawSubmitBtn.textContent = '🏦 Withdraw Now';
+          updateBalanceUI();
+          renderTransactions();
+          notify('✅ Withdrew $' + fmt(amount, 2));
+          setTimeout(() => {
+            elWithdrawModal.classList.remove('open');
+          }, 2000);
+        }, 1500);
+      });
+
+      elCloseWithdrawModal.addEventListener('click', () => elWithdrawModal.classList.remove('open'));
+      elWithdrawModal.addEventListener('click', (e) => { if (e.target === elWithdrawModal) elWithdrawModal.classList
+          .remove('open'); });
+
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      //  USER MODAL
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       function updateModalInfo() {
         elMName.textContent = state.user?.name || 'User';
         elMEmail.textContent = state.user?.email || '—';
@@ -1614,41 +2712,38 @@
         const wins = state.history.filter(h => h.win).length;
         const total = state.history.length || 1;
         elMWinRate.textContent = Math.round((wins / total) * 100) + '%';
+        elMCreated.textContent = state.userCreated || '—';
+        renderTransactions();
       }
 
-      document.getElementById('avatarBtn').addEventListener('click', () => openModal('account'));
-      document.getElementById('portfolioBtn').addEventListener('click', () => openModal('account'));
-      document.getElementById('moreBtn').addEventListener('click', () => openModal('account'));
-      elModalClose.addEventListener('click', () => elUserModal.classList.remove('open'));
+      function openUserModal(tab = 'account') {
+        updateModalInfo();
+        document.querySelectorAll('.user-modal .modal-tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.user-modal .modal-tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelector(`.user-modal .modal-tabs button[data-mtab="${tab}"]`)?.classList.add('active');
+        document.getElementById(`mtab${tab.charAt(0).toUpperCase() + tab.slice(1)}`)?.classList.add('active');
+        elUserModal.classList.add('open');
+      }
+
+      elAvatarBtn.addEventListener('click', () => openUserModal('account'));
+      elPortfolioBtn.addEventListener('click', () => openUserModal('account'));
+      elMoreBtn.addEventListener('click', () => openUserModal('settings'));
+      elCloseUserModal.addEventListener('click', () => elUserModal.classList.remove('open'));
       elUserModal.addEventListener('click', (e) => { if (e.target === elUserModal) elUserModal.classList.remove('open'); });
 
-      document.querySelectorAll('.modal-tabs button').forEach(btn => {
+      document.querySelectorAll('.user-modal .modal-tabs button').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.querySelectorAll('.modal-tabs button').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.user-modal .modal-tabs button').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-          document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('.user-modal .modal-tab-content').forEach(c => c.classList.remove('active'));
           document.getElementById('mtab' + btn.dataset.mtab.charAt(0).toUpperCase() + btn.dataset.mtab.slice(1))
             .classList.add('active');
         });
       });
 
-      elDepositSubmit.addEventListener('click', () => {
-        const amt = parseFloat(elDepositAmount.value);
-        if (!amt || amt <= 0) { elDepositMsg.textContent = 'Enter a valid amount.'; return; }
-        setBalance(getBalance() + amt);
-        elDepositMsg.textContent = '✅ Deposited $' + fmt(amt, 2);
-        updateModalInfo();
-        notify('Deposited $' + fmt(amt, 2));
-      });
-
-      elWithdrawSubmit.addEventListener('click', () => {
-        const amt = parseFloat(elWithdrawAmount.value);
-        if (!amt || amt <= 0) { elWithdrawMsg.textContent = 'Enter a valid amount.'; return; }
-        if (amt > getBalance()) { elWithdrawMsg.textContent = '❌ Insufficient balance.'; return; }
-        setBalance(getBalance() - amt);
-        elWithdrawMsg.textContent = '✅ Withdrew $' + fmt(amt, 2);
-        updateModalInfo();
-        notify('Withdrew $' + fmt(amt, 2));
+      elDarkModeToggle.addEventListener('click', () => {
+        state.darkMode = !state.darkMode;
+        document.body.classList.toggle('light-mode', !state.darkMode);
       });
 
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1657,6 +2752,13 @@
 
       elModeSelect.addEventListener('change', () => {
         state.mode = elModeSelect.value;
+        if (state.user) {
+          const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+          if (users[state.user.email]) {
+            users[state.user.email].mode = state.mode;
+            localStorage.setItem('tp_users', JSON.stringify(users));
+          }
+        }
         notify('Switched to ' + state.mode.toUpperCase() + ' mode');
       });
 
@@ -1666,27 +2768,58 @@
         updateBalanceUI();
       });
 
-      document.querySelector('.deposit-btn').addEventListener('click', () => openModal('deposit'));
+      elDepositBtn.addEventListener('click', openDepositModal);
+      elWithdrawBtn.addEventListener('click', openWithdrawModal);
 
-      elStake.addEventListener('input', updateTradeButtons);
-      elTp.addEventListener('input', updateTradeButtons);
-      elSl.addEventListener('input', updateTradeButtons);
-      elDuration.addEventListener('change', updateTradeButtons);
-
-      elTradeTypeTabs.forEach(btn => {
+      // Trade Type Selector
+      elTradeTypeSelector.forEach(btn => {
         btn.addEventListener('click', () => {
-          elTradeTypeTabs.forEach(b => b.classList.remove('active'));
+          elTradeTypeSelector.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-          state.tradeType = btn.dataset.tradeType;
+          const type = btn.dataset.type;
+          state.tradeType = type;
+          // Show/hide content
+          Object.keys(elTradeContents).forEach(key => {
+            elTradeContents[key].classList.toggle('active', key === type);
+          });
           updateTradeButtons();
+          // Update barrier display
+          updateDigitDisplay();
+          notify('Switched to ' + type.toUpperCase());
         });
       });
 
-      elTradeBtnLeft.addEventListener('click', () => placeTrade('rise'));
-      elTradeBtnRight.addEventListener('click', () => placeTrade('fall'));
+      // Stake inputs
+      elStakeRF.addEventListener('input', updateTradeButtons);
+      elStakeOU.addEventListener('input', updateTradeButtons);
+      elStakeEO.addEventListener('input', updateTradeButtons);
+      elDuration.addEventListener('change', updateTradeButtons);
+      elDurationOU.addEventListener('change', updateTradeButtons);
+      elDurationEO.addEventListener('change', updateTradeButtons);
+      elBarrierOU.addEventListener('change', () => {
+        updateTradeButtons();
+        updateDigitDisplay();
+      });
+
+      // Trade buttons - Rise/Fall
+      elTradeRise.addEventListener('click', () => placeTrade('rise'));
+      elTradeFall.addEventListener('click', () => placeTrade('fall'));
+
+      // Trade buttons - Over/Under
+      elTradeOver.addEventListener('click', () => placeTrade('over'));
+      elTradeUnder.addEventListener('click', () => placeTrade('under'));
+
+      // Trade buttons - Even/Odd
+      elTradeEven.addEventListener('click', () => placeTrade('even'));
+      elTradeOdd.addEventListener('click', () => placeTrade('odd'));
+
       elCloseTradeBtn.addEventListener('click', manualClose);
 
-      // Keyboard: Space to pause, C to close
+      elViewAllHistory.addEventListener('click', () => {
+        openUserModal('transactions');
+      });
+
+      // Keyboard shortcuts
       document.addEventListener('keydown', (e) => {
         if (e.key === ' ' && e.target.tagName !== 'INPUT' && state.isLoggedIn) {
           e.preventDefault();
@@ -1695,6 +2828,12 @@
         }
         if (e.key === 'c' && e.target.tagName !== 'INPUT' && state.isLoggedIn && state.isTradeActive) {
           manualClose();
+        }
+        if (e.key === 'Escape') {
+          if (elResultModal.classList.contains('open')) elResultModal.classList.remove('open');
+          if (elUserModal.classList.contains('open')) elUserModal.classList.remove('open');
+          if (elDepositModal.classList.contains('open')) elDepositModal.classList.remove('open');
+          if (elWithdrawModal.classList.contains('open')) elWithdrawModal.classList.remove('open');
         }
       });
 
@@ -1718,40 +2857,47 @@
       //  BOOTSTRAP
       // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       function bootstrap() {
-        const session = localStorage.getItem('bb_session_user');
+        const session = localStorage.getItem('tp_session_user');
         if (session) {
-          const users = JSON.parse(localStorage.getItem('bb_users') || '{}');
+          const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
           if (users[session]) {
             state.user = users[session];
             state.balance = users[session].balance || 10000;
             state.history = users[session].history || [];
+            state.transactions = users[session].transactions || [];
+            state.mode = users[session].mode || 'demo';
+            state.userCreated = users[session].created ? new Date(users[session].created).toISOString().slice(0, 10) :
+              '2025-01-01';
             loadDashboard();
             showApp();
+            notify('✅ Welcome back, ' + (state.user.name || 'User') + '!');
             return;
           }
         }
 
         showAuth();
-        elLoginEmail.value = 'demo@example.com';
+        elLoginEmail.value = 'demo@tradepro.com';
         elLoginPassword.value = 'demo123';
-        const users = JSON.parse(localStorage.getItem('bb_users') || '{}');
-        if (!users['demo@example.com']) {
-          users['demo@example.com'] = {
+        const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+        if (!users['demo@tradepro.com']) {
+          users['demo@tradepro.com'] = {
             name: 'Demo User',
-            email: 'demo@example.com',
+            email: 'demo@tradepro.com',
             password: 'demo123',
             balance: 10000,
-            history: []
+            history: [],
+            transactions: [],
+            created: new Date().toISOString(),
+            mode: 'demo'
           };
-          localStorage.setItem('bb_users', JSON.stringify(users));
+          localStorage.setItem('tp_users', JSON.stringify(users));
         }
-        notify('🔐 Log in with demo@example.com / demo123');
+        notify('🔐 Log in with demo@tradepro.com / demo123');
       }
 
       bootstrap();
 
     })();
   </script>
-
 </body>
 </html>
