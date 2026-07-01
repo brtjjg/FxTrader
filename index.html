@@ -1991,6 +1991,7 @@
                 </div>
                 <div class="admin-login-error" id="adminLoginError"></div>
                 <button type="submit" class="admin-login-btn">🔐 Access Dashboard</button>
+                <div class="admin-card">
             </form>
         </div>
     </div>
@@ -2703,6 +2704,444 @@
             }
         });
 
+         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  TRANSACTION MANAGEMENT SYSTEM
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ─── Transaction Types ───
+const TX_TYPES = {
+    DEPOSIT: 'deposit',
+    WITHDRAW: 'withdraw',
+    TRADE_PROFIT: 'profit',
+    TRADE_LOSS: 'loss',
+    ADMIN_ADJUST: 'adjustment'
+};
+
+// ─── Transaction Status ───
+const TX_STATUS = {
+    PENDING: 'pending',
+    APPROVED: 'approved',
+    REJECTED: 'rejected',
+    COMPLETED: 'completed',
+    FAILED: 'failed'
+};
+
+// ─── Transaction Object Structure ───
+class Transaction {
+    constructor({ type, amount, method, userId, userEmail, details, status = TX_STATUS.PENDING, reference = null }) {
+        this.id = 'TX-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        this.type = type; // deposit, withdraw, profit, loss, adjustment
+        this.amount = amount; // positive for deposit/profit, negative for withdraw/loss
+        this.method = method || 'N/A'; // M-PESA, Visa, PayPal, etc.
+        this.userId = userId || 'demo';
+        this.userEmail = userEmail || 'demo@trader.com';
+        this.details = details || '';
+        this.status = status; // pending, approved, rejected, completed, failed
+        this.reference = reference || this.id;
+        this.createdAt = new Date().toISOString();
+        this.updatedAt = this.createdAt;
+        this.approvedAt = null;
+        this.approvedBy = null;
+        this.notes = '';
+    }
+
+    // Convert to plain object for storage
+    toJSON() {
+        return {
+            id: this.id,
+            type: this.type,
+            amount: this.amount,
+            method: this.method,
+            userId: this.userId,
+            userEmail: this.userEmail,
+            details: this.details,
+            status: this.status,
+            reference: this.reference,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            approvedAt: this.approvedAt,
+            approvedBy: this.approvedBy,
+            notes: this.notes
+        };
+    }
+
+    // Create from stored object
+    static fromJSON(data) {
+        const tx = new Transaction(data);
+        Object.assign(tx, data);
+        return tx;
+    }
+}
+
+// ─── Transaction Manager ───
+const TransactionManager = {
+    // Get all transactions
+    getAll() {
+        const stored = localStorage.getItem('tp_transactions');
+        if (stored) {
+            try {
+                return JSON.parse(stored).map(t => Transaction.fromJSON(t));
+            } catch (e) {
+                return [];
+            }
+        }
+        return [];
+    },
+
+    // Save transactions
+    saveAll(transactions) {
+        localStorage.setItem('tp_transactions', JSON.stringify(transactions.map(t => t.toJSON())));
+    },
+
+    // Add a new transaction
+    add(transaction) {
+        const txs = this.getAll();
+        txs.unshift(transaction);
+        this.saveAll(txs);
+        return transaction;
+    },
+
+    // Get transactions for a specific user
+    getByUser(email) {
+        return this.getAll().filter(t => t.userEmail === email);
+    },
+
+    // Get transactions by status
+    getByStatus(status) {
+        return this.getAll().filter(t => t.status === status);
+    },
+
+    // Get pending transactions (for admin)
+    getPending() {
+        return this.getAll().filter(t => t.status === TX_STATUS.PENDING);
+    },
+
+    // Get transaction by ID
+    getById(id) {
+        return this.getAll().find(t => t.id === id) || null;
+    },
+
+    // Update transaction status (admin)
+    updateStatus(id, newStatus, approvedBy = 'admin', notes = '') {
+        const txs = this.getAll();
+        const tx = txs.find(t => t.id === id);
+        if (!tx) return null;
+
+        tx.status = newStatus;
+        tx.updatedAt = new Date().toISOString();
+        if (newStatus === TX_STATUS.APPROVED || newStatus === TX_STATUS.REJECTED) {
+            tx.approvedAt = new Date().toISOString();
+            tx.approvedBy = approvedBy;
+        }
+        if (notes) tx.notes = notes;
+
+        this.saveAll(txs);
+        return tx;
+    },
+
+    // Approve a transaction (admin)
+    approve(id, approvedBy = 'admin', notes = '') {
+        const tx = this.updateStatus(id, TX_STATUS.APPROVED, approvedBy, notes);
+        if (tx && tx.type === TX_TYPES.DEPOSIT) {
+            // Add to user balance
+            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+            const user = users[tx.userEmail];
+            if (user) {
+                user.balance = (user.balance || 0) + tx.amount;
+                localStorage.setItem('tp_users', JSON.stringify(users));
+                // Also update state if logged in user
+                if (state.user && state.user.email === tx.userEmail) {
+                    state.balance = user.balance;
+                    updateBalanceUI();
+                }
+            }
+        } else if (tx && tx.type === TX_TYPES.WITHDRAW) {
+            // Deduct from user balance
+            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+            const user = users[tx.userEmail];
+            if (user) {
+                user.balance = (user.balance || 0) - Math.abs(tx.amount);
+                localStorage.setItem('tp_users', JSON.stringify(users));
+                if (state.user && state.user.email === tx.userEmail) {
+                    state.balance = user.balance;
+                    updateBalanceUI();
+                }
+            }
+        }
+        return tx;
+    },
+
+    // Reject a transaction (admin)
+    reject(id, approvedBy = 'admin', notes = '') {
+        return this.updateStatus(id, TX_STATUS.REJECTED, approvedBy, notes);
+    },
+
+    // Create a deposit transaction (user)
+    createDeposit(amount, method, userEmail, details = '') {
+        const tx = new Transaction({
+            type: TX_TYPES.DEPOSIT,
+            amount: amount,
+            method: method,
+            userEmail: userEmail,
+            details: details,
+            status: TX_STATUS.PENDING
+        });
+        this.add(tx);
+        return tx;
+    },
+
+    // Create a withdrawal transaction (user)
+    createWithdraw(amount, method, userEmail, details = '') {
+        const tx = new Transaction({
+            type: TX_TYPES.WITHDRAW,
+            amount: -Math.abs(amount),
+            method: method,
+            userEmail: userEmail,
+            details: details,
+            status: TX_STATUS.PENDING
+        });
+        this.add(tx);
+        return tx;
+    },
+
+    // Create a trade transaction (profit/loss)
+    createTrade(userEmail, pnl, tradeDetails = '') {
+        const type = pnl >= 0 ? TX_TYPES.TRADE_PROFIT : TX_TYPES.TRADE_LOSS;
+        const tx = new Transaction({
+            type: type,
+            amount: pnl,
+            method: 'Trading',
+            userEmail: userEmail,
+            details: tradeDetails,
+            status: TX_STATUS.COMPLETED  // Trade results are automatic
+        });
+        this.add(tx);
+        return tx;
+    },
+
+    // Get summary for admin dashboard
+    getSummary() {
+        const txs = this.getAll();
+        const pending = txs.filter(t => t.status === TX_STATUS.PENDING);
+        const deposits = txs.filter(t => t.type === TX_TYPES.DEPOSIT && t.status === TX_STATUS.APPROVED);
+        const withdrawals = txs.filter(t => t.type === TX_TYPES.WITHDRAW && t.status === TX_STATUS.APPROVED);
+        const totalDeposits = deposits.reduce((sum, t) => sum + t.amount, 0);
+        const totalWithdrawals = withdrawals.reduce((sum, t) => sum + Math.abs(t.amount), 0);
+        const profits = txs.filter(t => t.type === TX_TYPES.TRADE_PROFIT);
+        const losses = txs.filter(t => t.type === TX_TYPES.TRADE_LOSS);
+        const totalProfit = profits.reduce((sum, t) => sum + t.amount, 0);
+        const totalLoss = losses.reduce((sum, t) => sum + Math.abs(t.amount), 0);
+        const netRevenue = totalDeposits - totalWithdrawals + (totalProfit - totalLoss) * 0.05; // 5% fee
+
+        return {
+            total: txs.length,
+            pending: pending.length,
+            deposits: deposits.length,
+            withdrawals: withdrawals.length,
+            totalDeposits: totalDeposits,
+            totalWithdrawals: totalWithdrawals,
+            totalProfit: totalProfit,
+            totalLoss: totalLoss,
+            netRevenue: netRevenue
+        };
+    },
+
+    // Export transactions as CSV (admin)
+    exportCSV() {
+        const txs = this.getAll();
+        if (txs.length === 0) return null;
+        const headers = ['ID', 'Type', 'Amount', 'Method', 'User', 'Status', 'Date', 'Notes'];
+        const rows = txs.map(t => [
+            t.id,
+            t.type,
+            t.amount,
+            t.method,
+            t.userEmail,
+            t.status,
+            new Date(t.createdAt).toLocaleString(),
+            t.notes || ''
+        ]);
+        const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        return csv;
+    }
+};
+
+// ─── Auto-create admin transaction UI for admin dashboard ───
+// This function renders transaction management for admin
+function renderAdminTransactions() {
+    const txs = TransactionManager.getPending();
+    const container = document.getElementById('adminTransactionList');
+    if (!container) return;
+
+    if (txs.length === 0) {
+        container.innerHTML = '<div style="color:var(--text-muted);padding:20px;text-align:center;">No pending transactions</div>';
+        return;
+    }
+
+    let html = '<table class="admin-table"><thead><tr><th>User</th><th>Type</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead><tbody>';
+    txs.forEach(tx => {
+        const isDeposit = tx.type === TX_TYPES.DEPOSIT;
+        const sign = isDeposit ? '+' : '';
+        html += `
+            <tr>
+                <td>${tx.userEmail}</td>
+                <td>${tx.type.toUpperCase()}</td>
+                <td style="color:${isDeposit ? 'var(--green)' : 'var(--red)'}">${sign}$${Math.abs(tx.amount).toFixed(2)}</td>
+                <td>${tx.method}</td>
+                <td>
+                    <button class="action-btn approve" onclick="handleAdminApprove('${tx.id}')">✅ Approve</button>
+                    <button class="action-btn reject" onclick="handleAdminReject('${tx.id}')">❌ Reject</button>
+                </td>
+            </tr>
+        `;
+    });
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+// ─── Admin approve handler ───
+function handleAdminApprove(txId) {
+    if (confirm('Approve this transaction?')) {
+        const tx = TransactionManager.approve(txId, 'admin');
+        if (tx) {
+            alert('✅ Transaction approved successfully!');
+            renderAdminTransactions();
+            // Refresh admin stats if available
+            if (typeof refreshAdminStats === 'function') refreshAdminStats();
+        }
+    }
+}
+
+// ─── Admin reject handler ───
+function handleAdminReject(txId) {
+    if (confirm('Reject this transaction?')) {
+        const tx = TransactionManager.reject(txId, 'admin');
+        if (tx) {
+            alert('❌ Transaction rejected.');
+            renderAdminTransactions();
+            if (typeof refreshAdminStats === 'function') refreshAdminStats();
+        }
+    }
+}
+
+// ─── Expose to global scope for inline event handlers ───
+window.TransactionManager = TransactionManager;
+window.handleAdminApprove = handleAdminApprove;
+window.handleAdminReject = handleAdminReject;
+
+// ─── Integration with existing deposit/withdraw functions ───
+// Override the deposit and withdraw submit handlers to use TransactionManager
+
+// Patch deposit button handler (if using existing)
+const originalDepositSubmit = document.getElementById('depositSubmitBtn')?.click;
+if (document.getElementById('depositSubmitBtn')) {
+    document.getElementById('depositSubmitBtn').addEventListener('click', function(e) {
+        // Only run if not already handled
+        if (this.dataset.handled) return;
+        this.dataset.handled = true;
+
+        const amount = parseFloat(document.getElementById('depositAmount').value);
+        if (isNaN(amount) || amount < 5) {
+            document.getElementById('depositMsg').textContent = '❌ Minimum deposit is $5.';
+            return;
+        }
+        if (amount > 3000) {
+            document.getElementById('depositMsg').textContent = '❌ Maximum deposit is $3,000.';
+            return;
+        }
+
+        const methodBtn = document.querySelector('#depositMethods .method-btn.active');
+        const method = methodBtn ? methodBtn.dataset.method : 'unknown';
+        const userEmail = state.user?.email || 'demo@trader.com';
+
+        // Create pending transaction
+        const tx = TransactionManager.createDeposit(amount, method, userEmail);
+
+        // Simulate processing and auto-approve (in real app, this would be admin approval)
+        // For demo, we can auto-approve after 1 second
+        document.getElementById('depositMsg').textContent = '⏳ Processing deposit request...';
+        this.disabled = true;
+
+        setTimeout(() => {
+            // Auto-approve for demo
+            TransactionManager.approve(tx.id, 'system', 'Auto-approved for demo');
+            // Update balance
+            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+            const user = users[userEmail];
+            if (user) {
+                user.balance = (user.balance || 0) + amount;
+                localStorage.setItem('tp_users', JSON.stringify(users));
+                if (state.user && state.user.email === userEmail) {
+                    state.balance = user.balance;
+                    updateBalanceUI();
+                }
+            }
+            document.getElementById('depositMsg').textContent = `✅ Deposit of $${amount.toFixed(2)} approved!`;
+            document.getElementById('depositMsg').style.color = 'var(--green)';
+            this.disabled = false;
+            setTimeout(() => {
+                document.getElementById('depositModal').classList.remove('open');
+            }, 1500);
+        }, 1500);
+    });
+}
+
+// Similarly patch withdraw
+if (document.getElementById('withdrawSubmitBtn')) {
+    document.getElementById('withdrawSubmitBtn').addEventListener('click', function(e) {
+        if (this.dataset.handled) return;
+        this.dataset.handled = true;
+
+        const amount = parseFloat(document.getElementById('withdrawAmount').value);
+        if (isNaN(amount) || amount < 10) {
+            document.getElementById('withdrawMsg').textContent = '❌ Minimum withdrawal is $10.';
+            return;
+        }
+        if (amount > 10000) {
+            document.getElementById('withdrawMsg').textContent = '❌ Maximum withdrawal is $10,000.';
+            return;
+        }
+        if (amount > getBalance()) {
+            document.getElementById('withdrawMsg').textContent = '❌ Insufficient balance.';
+            return;
+        }
+
+        const methodBtn = document.querySelector('#withdrawMethods .method-btn.active');
+        const method = methodBtn ? methodBtn.dataset.method : 'unknown';
+        const userEmail = state.user?.email || 'demo@trader.com';
+
+        // Create pending withdrawal
+        const tx = TransactionManager.createWithdraw(amount, method, userEmail);
+
+        document.getElementById('withdrawMsg').textContent = '⏳ Processing withdrawal request...';
+        this.disabled = true;
+
+        setTimeout(() => {
+            // Auto-approve for demo
+            TransactionManager.approve(tx.id, 'system', 'Auto-approved for demo');
+            // Deduct balance
+            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+            const user = users[userEmail];
+            if (user) {
+                user.balance = (user.balance || 0) - amount;
+                localStorage.setItem('tp_users', JSON.stringify(users));
+                if (state.user && state.user.email === userEmail) {
+                    state.balance = user.balance;
+                    updateBalanceUI();
+                }
+            }
+            document.getElementById('withdrawMsg').textContent = `✅ Withdrawal of $${amount.toFixed(2)} approved!`;
+            document.getElementById('withdrawMsg').style.color = 'var(--green)';
+            this.disabled = false;
+            setTimeout(() => {
+                document.getElementById('withdrawModal').classList.remove('open');
+            }, 1500);
+        }, 1500);
+    });
+}
+
+console.log('✅ Transaction Management System loaded!');
+        
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         //  AUTH FUNCTIONS
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
