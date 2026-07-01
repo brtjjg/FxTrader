@@ -2250,34 +2250,44 @@ const API_CONFIG = {
 };
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  API CALL FUNCTION
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        async function callAPI(endpoint, method = 'GET', body = null) {
-            try {
-                const url = API_CONFIG.baseURL + endpoint;
-                const headers = { ...API_CONFIG.headers };
-                if (API_CONFIG.apiKey) {
-                    headers['X-API-Key'] = API_CONFIG.apiKey;
-                }
-                const options = {
-                    method,
-                    headers,
-                    signal: AbortSignal.timeout(API_CONFIG.timeout)
-                };
-                if (body) {
-                    options.body = JSON.stringify(body);
-                }
-                const response = await fetch(url, options);
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status}`);
-                }
-                return await response.json();
-            } catch (error) {
-                console.warn('API call failed:', error);
-                return null;
-            }
+       async function callAPI(endpoint, method = 'GET', body = null) {
+    try {
+        const url = API_CONFIG.baseURL + endpoint;
+        
+        // ⚠️ IMPORTANT: Merge headers from API_CONFIG
+        const headers = { ...API_CONFIG.headers };
+        
+        // If you have an apiKey, add it as X-API-Key (optional)
+        if (API_CONFIG.apiKey) {
+            headers['X-API-Key'] = API_CONFIG.apiKey;
         }
-
+        
+        const options = {
+            method,
+            headers,
+            signal: AbortSignal.timeout(API_CONFIG.timeout)
+        };
+        
+        if (body) {
+            options.body = JSON.stringify(body);
+        }
+        
+        // 🔍 DEBUG: Check what headers are being sent
+        console.log('📡 API Request:', url, 'Headers:', headers);
+        
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`API Error ${response.status}: ${errorText}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.warn('❌ API call failed:', error);
+        return null;
+    }
+}
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         //  MARKET PRICES (fallback)
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
