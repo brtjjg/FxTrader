@@ -2077,128 +2077,129 @@
                     <div class="stat"><div class="label">Entry Price</div><div class="value accent" id="entryPriceDisplay">-</div></div>
                     <div class="stat"><div class="label">Current Price</div><div class="value accent" id="currentPriceDisplay">-</div></div>
                     <div class="stat"><div class="label">Floating P&L</div><div class="value" id="floatingPnlDisplay">$0.00</div></div>
-                    <div class="stat"><div class="label">Time Remaining</div><div class="value timer" id="timeRemainingDisplay">-</div></div>
                 </div>
             </div>
 
             <div class="right-col">
                 <div class="trading-panel">
                     <div class="trade-type-selector" id="tradeTypeSelector">
-                        <button class="active" data-type="risefall">📈 Rise/Fall</button>
+                        <button class="active" data-type="matchdiffer">📈 Match/Differ</button>
                         <button data-type="overunder">🔺 Over/Under</button>
                         <button data-type="evenodd">🎯 Even/Odd</button>
                     </div>
 
-                    <div class="trade-type-content active" id="content-risefall">
-                        <div class="trade-inputs-horizontal">
-                            <div class="trade-input-group">
-                                <label>Stake (USD)</label>
-                                <input type="number" id="stakeInput" value="10.00" step="0.01" min="0.35" max="2000" />
-                                <span class="hint">Min: $0.35 · Max: $2,000</span>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Duration</label>
-                                <select id="durationSelect">
-                                    <option value="15">15s</option><option value="30">30s</option>
-                                    <option value="60" selected>1m</option><option value="300">5m</option>
-                                    <option value="900">15m</option><option value="3600">1h</option>
-                                </select>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Take Profit</label>
-                                <input type="number" id="tpInput" value="200" step="5" min="1" />
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Stop Loss</label>
-                                <input type="number" id="slInput" value="999" step="5" min="1" />
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Multiplier</label>
-                                <div class="multiplier-display" id="multiplierDisplay">× 2</div>
-                                <input type="range" class="range-slider" id="multiplierSlider" min="1" max="5" step="0.5" value="2" />
-                            </div>
-                        </div>
-                        <div class="trade-buttons-group">
-                            <button class="trade-btn-option green" id="tradeRise">📈 RISE <span class="sub" id="riseSub">Profit: $200</span></button>
-                            <button class="trade-btn-option red" id="tradeFall">📉 FALL <span class="sub" id="fallSub">Profit: $200</span></button>
-                        </div>
-                    </div>
+                   <div class="trade-type-content active" id="content-risefall">
+    <div class="trade-inputs-horizontal">
+        <div class="trade-input-group">
+            <label>Stake (USD)</label>
+            <input type="number" id="stakeInput" value="10.00" step="0.01" min="0.35" max="2000" />
+            <span class="hint">Min: $0.35 · Max: $2,000</span>
+        </div>
+        <div class="trade-input-group">
+            <label>Take Profit (× Stake)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="number" id="tpMultiplier" value="2" step="0.5" min="0.5" max="20" style="width:70px;" />
+                <span style="color:var(--text-muted);font-size:12px;">×</span>
+                <span id="tpAmountDisplay" style="font-weight:700;color:var(--green);">$20.00</span>
+            </div>
+            <span class="hint">Profit = Stake × Multiplier</span>
+        </div>
+        <div class="trade-input-group">
+            <label>Stop Loss (× Stake)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="number" id="slMultiplier" value="1" step="0.5" min="0.5" max="10" style="width:70px;" />
+                <span style="color:var(--text-muted);font-size:12px;">×</span>
+                <span id="slAmountDisplay" style="font-weight:700;color:var(--red);">$10.00</span>
+            </div>
+            <span class="hint">Loss = Stake × Multiplier</span>
+        </div>
+        <div class="trade-input-group" style="grid-column: span 2;">
+            <label>Multiplier (Contract Payout)</label>
+            <div class="multiplier-display" id="multiplierDisplay">× 2</div>
+            <input type="range" class="range-slider" id="multiplierSlider" min="1" max="5" step="0.5" value="2" />
+            <span class="hint">Payout = Stake × Multiplier</span>
+        </div>
+    </div>
+    <div class="trade-buttons-group">
+        <button class="trade-btn-option green" id="tradeRise">📈 RISE <span class="sub" id="riseSub">Profit: $20.00</span></button>
+        <button class="trade-btn-option red" id="tradeFall">📉 FALL <span class="sub" id="fallSub">Profit: $20.00</span></button>
+    </div>
+</div>
 
-                    <div class="trade-type-content" id="content-overunder">
-                        <div class="trade-inputs-horizontal">
-                            <div class="trade-input-group">
-                                <label>Stake (USD)</label>
-                                <input type="number" id="stakeInputOU" value="10.00" step="0.01" min="0.35" max="2000" />
-                                <span class="hint">Min: $0.35 · Max: $2,000</span>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Barrier</label>
-                                <select id="barrierSelectOU" class="barrier-select">
-                                    <option value="0">0</option><option value="1">1</option>
-                                    <option value="2">2</option><option value="3">3</option>
-                                    <option value="4" selected>4</option>
-                                    <option value="5">5</option><option value="6">6</option>
-                                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-                                </select>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Duration</label>
-                                <select id="durationSelectOU">
-                                    <option value="15">15s</option><option value="30">30s</option>
-                                    <option value="60" selected>1m</option><option value="300">5m</option>
-                                    <option value="900">15m</option><option value="3600">1h</option>
-                                </select>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Take Profit</label>
-                                <input type="number" id="tpInputOU" value="200" step="5" min="1" />
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Multiplier</label>
-                                <div class="multiplier-display" id="multiplierDisplayOU">× 2</div>
-                                <input type="range" class="range-slider" id="multiplierSliderOU" min="1" max="5" step="0.5" value="2" />
-                            </div>
-                        </div>
-                        <div class="trade-buttons-group">
-                            <button class="trade-btn-option blue" id="tradeOver">🔺 OVER <span class="sub">Profit: $200</span></button>
-                            <button class="trade-btn-option orange" id="tradeUnder">🔻 UNDER <span class="sub">Profit: $200</span></button>
-                        </div>
-                    </div>
-
-                    <div class="trade-type-content" id="content-evenodd">
-                        <div class="trade-inputs-horizontal">
-                            <div class="trade-input-group">
-                                <label>Stake (USD)</label>
-                                <input type="number" id="stakeInputEO" value="10.00" step="0.01" min="0.35" max="2000" />
-                                <span class="hint">Min: $0.35 · Max: $2,000</span>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Duration</label>
-                                <select id="durationSelectEO">
-                                    <option value="15">15s</option><option value="30">30s</option>
-                                    <option value="60" selected>1m</option><option value="300">5m</option>
-                                    <option value="900">15m</option><option value="3600">1h</option>
-                                </select>
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Take Profit</label>
-                                <input type="number" id="tpInputEO" value="200" step="5" min="1" />
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Stop Loss</label>
-                                <input type="number" id="slInputEO" value="999" step="5" min="1" />
-                            </div>
-                            <div class="trade-input-group">
-                                <label>Multiplier</label>
-                                <div class="multiplier-display" id="multiplierDisplayEO">× 2</div>
-                                <input type="range" class="range-slider" id="multiplierSliderEO" min="1" max="5" step="0.5" value="2" />
-                            </div>
-                        </div>
-                        <div class="trade-buttons-group">
-                            <button class="trade-btn-option green" id="tradeEven">🟢 EVEN <span class="sub">Profit: $200</span></button>
-                            <button class="trade-btn-option red" id="tradeOdd">🔴 ODD <span class="sub">Profit: $200</span></button>
-                        </div>
-                    </div>
+                   <div class="trade-type-content" id="content-overunder">
+    <div class="trade-inputs-horizontal">
+        <div class="trade-input-group">
+            <label>Stake (USD)</label>
+            <input type="number" id="stakeInputOU" value="10.00" step="0.01" min="0.35" max="2000" />
+            <span class="hint">Min: $0.35 · Max: $2,000</span>
+        </div>
+        <div class="trade-input-group">
+            <label>Barrier</label>
+            <select id="barrierSelectOU" class="barrier-select">
+                <option value="0">0</option><option value="1">1</option>
+                <option value="2">2</option><option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option><option value="6">6</option>
+                <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+            </select>
+        </div>
+        <div class="trade-input-group">
+            <label>Take Profit (× Stake)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="number" id="tpMultiplierOU" value="2" step="0.5" min="0.5" max="20" style="width:70px;" />
+                <span id="tpAmountDisplayOU" style="font-weight:700;color:var(--green);">$20.00</span>
+            </div>
+        </div>
+        <div class="trade-input-group">
+            <label>Stop Loss (× Stake)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="number" id="slMultiplierOU" value="1" step="0.5" min="0.5" max="10" style="width:70px;" />
+                <span id="slAmountDisplayOU" style="font-weight:700;color:var(--red);">$10.00</span>
+            </div>
+        </div>
+        <div class="trade-input-group" style="grid-column: span 1;">
+            <label>Multiplier</label>
+            <div class="multiplier-display" id="multiplierDisplayOU">× 2</div>
+            <input type="range" class="range-slider" id="multiplierSliderOU" min="1" max="5" step="0.5" value="2" />
+        </div>
+    </div>
+    <div class="trade-buttons-group">
+        <button class="trade-btn-option blue" id="tradeOver">🔺 OVER <span class="sub" id="riseSubOU">Profit: $20.00</span></button>
+        <button class="trade-btn-option orange" id="tradeUnder">🔻 UNDER <span class="sub" id="fallSubOU">Profit: $20.00</span></button>
+    </div>
+</div>
+                        <div class="trade-type-content" id="content-evenodd">
+    <div class="trade-inputs-horizontal">
+        <div class="trade-input-group">
+            <label>Stake (USD)</label>
+            <input type="number" id="stakeInputEO" value="10.00" step="0.01" min="0.35" max="2000" />
+            <span class="hint">Min: $0.35 · Max: $2,000</span>
+        </div>
+        <div class="trade-input-group">
+            <label>Take Profit (× Stake)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="number" id="tpMultiplierEO" value="2" step="0.5" min="0.5" max="20" style="width:70px;" />
+                <span id="tpAmountDisplayEO" style="font-weight:700;color:var(--green);">$20.00</span>
+            </div>
+        </div>
+        <div class="trade-input-group">
+            <label>Stop Loss (× Stake)</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="number" id="slMultiplierEO" value="1" step="0.5" min="0.5" max="10" style="width:70px;" />
+                <span id="slAmountDisplayEO" style="font-weight:700;color:var(--red);">$10.00</span>
+            </div>
+        </div>
+        <div class="trade-input-group" style="grid-column: span 2;">
+            <label>Multiplier</label>
+            <div class="multiplier-display" id="multiplierDisplayEO">× 2</div>
+            <input type="range" class="range-slider" id="multiplierSliderEO" min="1" max="5" step="0.5" value="2" />
+        </div>
+    </div>
+    <div class="trade-buttons-group">
+        <button class="trade-btn-option green" id="tradeEven">🟢 EVEN <span class="sub" id="riseSubEO">Profit: $20.00</span></button>
+        <button class="trade-btn-option red" id="tradeOdd">🔴 ODD <span class="sub" id="fallSubEO">Profit: $20.00</span></button>
+    </div>
+</div>
 
                     <button class="trade-btn-close" id="closeTradeBtn" disabled>⏹ Close Trade & Take P&L</button>
                 </div>
@@ -3192,48 +3193,57 @@
 
         function getActiveBarrier() { return parseInt(document.getElementById('barrierSelectOU').value) || 4; }
 
-        function getActiveTpSlMultiplier() {
-            let tp, sl, mult;
-            if (state.tradeType === 'risefall') {
-                tp = parseFloat(document.getElementById('tpInput').value) || 200;
-                sl = parseFloat(document.getElementById('slInput').value) || 999;
-                mult = parseFloat(document.getElementById('multiplierSlider').value) || 2;
-            } else if (state.tradeType === 'overunder') {
-                tp = parseFloat(document.getElementById('tpInputOU').value) || 200;
-                sl = 999;
-                mult = parseFloat(document.getElementById('multiplierSliderOU').value) || 2;
-            } else {
-                tp = parseFloat(document.getElementById('tpInputEO').value) || 200;
-                sl = parseFloat(document.getElementById('slInputEO').value) || 999;
-                mult = parseFloat(document.getElementById('multiplierSliderEO').value) || 2;
-            }
-            return { tp, sl, mult };
-        }
+function getActiveTpSlMultipliers() {
+    let tpMult, slMult;
+    if (state.tradeType === 'risefall') {
+        tpMult = parseFloat(document.getElementById('tpMultiplier').value) || 2;
+        slMult = parseFloat(document.getElementById('slMultiplier').value) || 1;
+    } else if (state.tradeType === 'overunder') {
+        tpMult = parseFloat(document.getElementById('tpMultiplierOU').value) || 2;
+        slMult = parseFloat(document.getElementById('slMultiplierOU').value) || 1;
+    } else {
+        tpMult = parseFloat(document.getElementById('tpMultiplierEO').value) || 2;
+        slMult = parseFloat(document.getElementById('slMultiplierEO').value) || 1;
+    }
+    return { tpMultiplier: tpMult, slMultiplier: slMult };
+}
 
-        function updateTradeButtons() {
-            const stake = getActiveStake();
-            const { tp, sl, mult } = getActiveTpSlMultiplier();
-            state.stake = stake;
-            state.duration = getActiveDuration();
-            state.barrier = getActiveBarrier();
-            state.tp = tp;
-            state.sl = sl;
-            state.multiplier = mult;
+function getActiveMultiplier() {
+    if (state.tradeType === 'risefall') return parseFloat(document.getElementById('multiplierSlider').value) || 2;
+    if (state.tradeType === 'overunder') return parseFloat(document.getElementById('multiplierSliderOU').value) || 2;
+    return parseFloat(document.getElementById('multiplierSliderEO').value) || 2;
+}
+        
+       function updateTradeButtons() {
+    const stake = getActiveStake();
+    const { tpMultiplier, slMultiplier } = getActiveTpSlMultipliers();
+    const mult = getActiveMultiplier();
 
-            const profitLabel = 'Profit: $' + fmt(tp, 0);
-            document.getElementById('riseSub').textContent = profitLabel;
-            document.getElementById('fallSub').textContent = profitLabel;
-            document.querySelectorAll('.trade-btn-option .sub').forEach(s => s.textContent = profitLabel);
+    // Update displays
+    document.getElementById('tpAmountDisplay').textContent = '$' + fmt(stake * tpMultiplier, 2);
+    document.getElementById('slAmountDisplay').textContent = '$' + fmt(stake * slMultiplier, 2);
+    // Repeat for OU and EO versions
+    document.getElementById('tpAmountDisplayOU').textContent = '$' + fmt(stake * getActiveTpSlMultipliers().tpMultiplier, 2);
+    document.getElementById('slAmountDisplayOU').textContent = '$' + fmt(stake * getActiveTpSlMultipliers().slMultiplier, 2);
+    document.getElementById('tpAmountDisplayEO').textContent = '$' + fmt(stake * getActiveTpSlMultipliers().tpMultiplier, 2);
+    document.getElementById('slAmountDisplayEO').textContent = '$' + fmt(stake * getActiveTpSlMultipliers().slMultiplier, 2);
 
-            document.getElementById('multiplierDisplay').textContent = '× ' + mult;
-            document.getElementById('multiplierDisplayOU').textContent = '× ' + mult;
-            document.getElementById('multiplierDisplayEO').textContent = '× ' + mult;
+    // Update profit labels on buttons
+    const profit = stake * mult;
+    document.getElementById('riseSub').textContent = 'Profit: $' + fmt(profit, 0);
+    document.getElementById('fallSub').textContent = 'Profit: $' + fmt(profit, 0);
+    // ... repeat for other trade types
 
-            const btns = ['tradeRise', 'tradeFall', 'tradeOver', 'tradeUnder', 'tradeEven', 'tradeOdd'];
-            btns.forEach(id => document.getElementById(id).disabled = state.isTradeActive);
-            document.getElementById('closeTradeBtn').disabled = !state.isTradeActive;
-        }
+    // Disable/enable buttons
+    const btns = ['tradeRise', 'tradeFall', 'tradeOver', 'tradeUnder', 'tradeEven', 'tradeOdd'];
+    btns.forEach(id => document.getElementById(id).disabled = state.isTradeActive);
+    document.getElementById('closeTradeBtn').disabled = !state.isTradeActive;
 
+    // Update multiplier display
+    document.getElementById('multiplierDisplay').textContent = '× ' + mult;
+    document.getElementById('multiplierDisplayOU').textContent = '× ' + mult;
+    document.getElementById('multiplierDisplayEO').textContent = '× ' + mult;
+}
         function updateFloatingPnl() {
             if (!state.isTradeActive) return;
             const entry = state.entryPrice;
@@ -3247,129 +3257,90 @@
         }
 
         function checkTradeCondition() {
-            if (!state.isTradeActive || state.tradeType !== 'risefall') return;
-            const entry = state.entryPrice;
-            const current = state.currentPrice;
-            let pnl = state.activeOption === 'rise' ? ((current - entry) / entry) * state.stake : ((entry - current) /
-                entry) * state.stake;
-            state.floatingPnl = pnl;
-            document.getElementById('floatingPnlDisplay').textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
-            document.getElementById('floatingPnlDisplay').className = 'value ' + (pnl >= 0 ? 'green' : 'red');
-            if (pnl >= state.tp) closeTrade('Take Profit', pnl);
-            else if (pnl <= -state.sl) closeTrade('Stop Loss', pnl);
+    if (!state.isTradeActive) return;
+
+    // Calculate current P&L (simplified for rise/fall)
+    let pnl = 0;
+    if (state.tradeType === 'risefall') {
+        const entry = state.entryPrice;
+        const current = state.currentPrice;
+        if (state.activeOption === 'rise') {
+            pnl = ((current - entry) / entry) * state.stake;
+        } else {
+            pnl = ((entry - current) / entry) * state.stake;
+        }
+    } else if (state.tradeType === 'overunder') {
+        // For over/under we use digit barrier
+        const barrier = getActiveBarrier();
+        const digit = getDigitInfo(state.currentPrice).digit;
+        const isWin = (state.activeOption === 'over') ? digit > barrier : digit < barrier;
+        pnl = isWin ? state.stake * 0.85 : -state.stake; // Example payout
+    } else if (state.tradeType === 'evenodd') {
+        const digit = getDigitInfo(state.currentPrice).digit;
+        const isWin = (state.activeOption === 'even') ? digit % 2 === 0 : digit % 2 !== 0;
+        pnl = isWin ? state.stake * 0.85 : -state.stake;
+    }
+
+    state.floatingPnl = pnl;
+    document.getElementById('floatingPnlDisplay').textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
+    document.getElementById('floatingPnlDisplay').className = 'value ' + (pnl >= 0 ? 'green' : 'red');
+
+    // Check TP/SL
+    if (pnl >= state.tp) {
+        closeTrade('Take Profit', pnl);
+    } else if (pnl <= -state.sl) {
+        closeTrade('Stop Loss', pnl);
+    }
+}
         }
 
-        function placeTrade(option) {
-            if (state.isTradeActive) { notify('Trade already active!'); return; }
+       function placeTrade(option) {
+    if (state.isTradeActive) { notify('Trade already active!'); return; }
 
-            const stake = getActiveStake();
-            if (stake < 0.35) { notify('Minimum stake is $0.35'); return; }
-            if (stake > 2000) { notify('Maximum stake is $2,000'); return; }
-            if (stake > getBalance()) {
-                document.getElementById('insufficientBalance').textContent = '$' + fmt(getBalance(), 2);
-                document.getElementById('insufficientModal').classList.add('open');
-                return;
-            }
+    const stake = getActiveStake();
+    if (stake < 0.35) { notify('Minimum stake is $0.35'); return; }
+    if (stake > 2000) { notify('Maximum stake is $2,000'); return; }
+    if (stake > getBalance()) {
+        document.getElementById('insufficientBalance').textContent = '$' + fmt(getBalance(), 2);
+        document.getElementById('insufficientModal').classList.add('open');
+        return;
+    }
 
-            const duration = getActiveDuration();
-            const { tp, sl, mult } = getActiveTpSlMultiplier();
+    // Get TP and SL from multipliers
+    const { tpMultiplier, slMultiplier } = getActiveTpSlMultipliers();
+    const tp = stake * tpMultiplier;
+    const sl = stake * slMultiplier;
+    const mult = getActiveMultiplier();
 
-            setBalance(getBalance() - stake);
+    // Deduct stake
+    setBalance(getBalance() - stake);
 
-            state.activeOption = option;
-            state.stake = stake;
-            state.duration = duration;
-            state.tp = tp;
-            state.sl = sl;
-            state.multiplier = mult;
-            state.entryPrice = state.currentPrice;
-            state.isTradeActive = true;
-            state.floatingPnl = 0;
-            state.timeRemaining = duration;
+    state.activeOption = option;
+    state.stake = stake;
+    state.tp = tp;
+    state.sl = sl;
+    state.multiplier = mult;
+    state.entryPrice = state.currentPrice;
+    state.isTradeActive = true;
+    state.floatingPnl = 0;
+    state.timeRemaining = 0; // No duration
 
-            if (['rise', 'fall'].includes(option)) state.tradeType = 'risefall';
-            else if (['over', 'under'].includes(option)) state.tradeType = 'overunder';
-            else if (['even', 'odd'].includes(option)) state.tradeType = 'evenodd';
+    // Determine trade type
+    if (['rise', 'fall'].includes(option)) state.tradeType = 'risefall';
+    else if (['over', 'under'].includes(option)) state.tradeType = 'overunder';
+    else if (['even', 'odd'].includes(option)) state.tradeType = 'evenodd';
 
-            document.getElementById('entryPriceDisplay').textContent = '$' + fmt(state.entryPrice, 2);
-            document.getElementById('floatingPnlDisplay').textContent = '$0.00';
-            document.getElementById('floatingPnlDisplay').className = 'value';
-            document.getElementById('timeRemainingDisplay').textContent = duration + 's';
-            document.getElementById('timeRemainingDisplay').className = 'value timer';
+    document.getElementById('entryPriceDisplay').textContent = '$' + fmt(state.entryPrice, 2);
+    document.getElementById('floatingPnlDisplay').textContent = '$0.00';
+    document.getElementById('floatingPnlDisplay').className = 'value';
+    document.getElementById('timeRemainingDisplay').textContent = '∞';
+    document.getElementById('timeRemainingDisplay').className = 'value timer';
 
-            updateTradeButtons();
-            notify('📈 ' + option.toUpperCase() + ' trade placed! Duration: ' + duration + 's');
+    updateTradeButtons();
+    notify('📈 ' + option.toUpperCase() + ' trade placed! TP: $' + fmt(tp, 2) + ' | SL: $' + fmt(sl, 2));
 
-            // Place trade via WebSocket
-            if (deriveConnected && deriveWs) {
-                const symbol = API_CONFIG.symbolMap[state.currentMarket] || 'R_50';
-                const contractMap = {
-                    'rise': 'CALL',
-                    'fall': 'PUT',
-                    'over': 'CALL',
-                    'under': 'PUT',
-                    'even': 'CALL',
-                    'odd': 'PUT'
-                };
-
-                const proposalMsg = {
-                    proposal: 1,
-                    amount: stake,
-                    basis: 'stake',
-                    contract_type: contractMap[option] || 'CALL',
-                    currency: 'USD',
-                    duration: duration,
-                    duration_unit: 's',
-                    symbol: symbol,
-                    barrier: state.entryPrice.toFixed(2)
-                };
-
-                deriveWs.send(JSON.stringify(proposalMsg));
-            }
-
-            if (state.tradeTimer) clearInterval(state.tradeTimer);
-            state.tradeTimer = setInterval(() => {
-                state.timeRemaining--;
-                document.getElementById('timeRemainingDisplay').textContent = state.timeRemaining + 's';
-                if (state.timeRemaining <= 0) {
-                    clearInterval(state.tradeTimer);
-                    state.tradeTimer = null;
-                    let pnl = 0,
-                        reason = 'Expired',
-                        isWin = false;
-
-                    if (state.tradeType === 'risefall') {
-                        const current = state.currentPrice;
-                        const entry = state.entryPrice;
-                        if (state.activeOption === 'rise') {
-                            isWin = current > entry;
-                            pnl = isWin ? state.stake * 0.85 : -state.stake;
-                        } else {
-                            isWin = current < entry;
-                            pnl = isWin ? state.stake * 0.85 : -state.stake;
-                        }
-                    } else if (state.tradeType === 'overunder') {
-                        const barrier = getActiveBarrier();
-                        const digit = getDigitInfo(state.currentPrice).digit;
-                        if (state.activeOption === 'over') {
-                            isWin = digit > barrier;
-                        } else {
-                            isWin = digit < barrier;
-                        }
-                        pnl = isWin ? state.stake * 0.85 : -state.stake;
-                    } else {
-                        const digit = getDigitInfo(state.currentPrice).digit;
-                        if (state.activeOption === 'even') {
-                            isWin = digit % 2 === 0;
-                        } else {
-                            isWin = digit % 2 !== 0;
-                        }
-                        pnl = isWin ? state.stake * 0.85 : -state.stake;
-                    }
-                    closeTrade(reason, pnl);
-                }
-            }, 1000);
-        }
+    // No trade timer – will close on TP/SL via price updates
+}
 
         function closeTrade(reason, pnl) {
             if (!state.isTradeActive) return;
@@ -3784,7 +3755,23 @@
                 document.querySelector('#userModal .modal-tabs button[data-mtab="transactions"]').click();
             }, 100);
         });
+        // Update TP/SL displays on input change
+['stakeInput', 'tpMultiplier', 'slMultiplier'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', updateTradeButtons);
+});
+['stakeInputOU', 'tpMultiplierOU', 'slMultiplierOU'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', updateTradeButtons);
+});
+['stakeInputEO', 'tpMultiplierEO', 'slMultiplierEO'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', updateTradeButtons);
+});
 
+// Multiplier sliders update
+document.getElementById('multiplierSlider').addEventListener('input', function() {
+    document.getElementById('multiplierDisplay').textContent = '× ' + parseFloat(this.value).toFixed(1);
+    updateTradeButtons();
+});
+// ... repeat for OU and EO
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         //  SLIDER & INPUT EVENTS
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
