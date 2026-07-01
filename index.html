@@ -96,343 +96,7 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════ */
-        /*  PAGE 1: AUTH – Create Account ONLY                          */
-        /* ═══════════════════════════════════════════════════════════════ */
-        .auth-page {
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: var(--bg-secondary);
-            padding: 20px;
-        }
-        .auth-page .card {
-            width: 100%;
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px 32px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-        }
-        .auth-page .card .logo {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent), #f8d33a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-        .auth-page .card .sub {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 28px;
-        }
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .auth-form .input-group {
-            position: relative;
-        }
-        .auth-form .input-group label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .auth-form .input-group input {
-            padding: 14px 16px;
-            font-size: 15px;
-            border-radius: var(--radius-sm);
-            background: var(--bg-input);
-        }
-        .auth-form .input-group .toggle-pw {
-            position: absolute;
-            right: 14px;
-            top: 42px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-        .auth-form .input-group .toggle-pw:hover {
-            color: var(--text-primary);
-        }
-        .auth-btn {
-            background: var(--accent);
-            padding: 14px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 16px;
-            color: #0a0e17;
-            margin-top: 4px;
-        }
-        .auth-btn:hover {
-            filter: brightness(1.1);
-        }
-        .auth-btn:disabled {
-            opacity: 0.5;
-        }
-        .auth-divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-muted);
-            font-size: 12px;
-            margin: 4px 0;
-        }
-        .auth-divider::before,
-        .auth-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-        }
-        .social-btns {
-            display: flex;
-            gap: 10px;
-        }
-        .social-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 30px;
-            border: 1px solid var(--border-light);
-            background: var(--bg-input);
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .social-btn:hover {
-            border-color: var(--accent);
-            color: var(--text-primary);
-        }
-        .auth-error {
-            color: var(--red);
-            font-size: 13px;
-            text-align: center;
-            min-height: 20px;
-        }
-        .auth-success {
-            color: var(--green);
-            font-size: 13px;
-            text-align: center;
-        }
-        .auth-footer {
-            margin-top: 16px;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            font-size: 11px;
-            color: var(--text-muted);
-            flex-wrap: wrap;
-        }
-        .auth-footer a {
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-        .auth-footer a:hover {
-            color: var(--text-secondary);
-        }
-
-        /* ═══════════════════════════════════════════════════════════════ */
-        /*  PAGE 2: WELCOME OVERLAY                                      */
-        /* ═══════════════════════════════════════════════════════════════ */
-        .welcome-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(7, 11, 18, 0.97);
-            backdrop-filter: blur(16px);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-            animation: fadeInWelcome 1s ease-out;
-            overflow: hidden;
-        }
-        .welcome-overlay.open {
-            display: flex;
-        }
-
-        #particleCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .welcome-overlay .content {
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-        .welcome-overlay .content .logo {
-            font-size: 52px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent), #f8d33a, var(--accent));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease-in-out infinite;
-            margin-bottom: 16px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.3s forwards, gradientShift 3s ease-in-out infinite;
-        }
-        .welcome-overlay .content .main-text {
-            font-size: 52px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            line-height: 1.2;
-            background: linear-gradient(135deg, #f8d33a, var(--accent), #f8d33a);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 2.5s ease-in-out infinite, fadeInUp 0.8s ease-out 0.6s forwards;
-            opacity: 0;
-            text-shadow: 0 0 80px rgba(240, 185, 11, 0.15);
-        }
-        .welcome-overlay .content .sub-text {
-            font-size: 18px;
-            color: var(--text-muted);
-            margin: 12px 0 20px;
-            letter-spacing: 6px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.9s forwards;
-        }
-        .welcome-overlay .content .username-display {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 16px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 1.2s forwards;
-        }
-        .welcome-overlay .content .loader {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--border-light);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 16px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards, spin 0.8s linear infinite 0.2s;
-        }
-        .welcome-overlay .content .status-text {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 1s forwards;
-        }
-        .welcome-overlay .content .status-text .highlight {
-            color: var(--green);
-        }
-        .welcome-overlay .content .enter-btn {
-            background: linear-gradient(135deg, var(--accent), #f8d33a);
-            padding: 16px 60px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 20px;
-            color: #0a0e17;
-            opacity: 0;
-            transform: translateY(30px) scale(0.9);
-            transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 40px rgba(240, 185, 11, 0.2);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .welcome-overlay .content .enter-btn.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        .welcome-overlay .content .enter-btn:hover {
-            transform: scale(1.05) !important;
-            box-shadow: 0 0 60px rgba(240, 185, 11, 0.4);
-        }
-        .welcome-overlay .content .enter-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
-            opacity: 0;
-            transition: 0.4s;
-        }
-        .welcome-overlay .content .enter-btn:hover::after {
-            opacity: 1;
-        }
-
-        @keyframes fadeInWelcome {
-            0% {
-                opacity: 0;
-                transform: scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes gradientShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        @keyframes pulseGlow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(240, 185, 11, 0.1);
-            }
-            50% {
-                box-shadow: 0 0 60px rgba(240, 185, 11, 0.3);
-            }
-        }
-
-        /* ═══════════════════════════════════════════════════════════════ */
-        /*  PAGE 3: APP – Trading Platform                              */
+        /*  APP – Trading Platform (always visible)                     */
         /* ═══════════════════════════════════════════════════════════════ */
         .app {
             max-width: 1400px;
@@ -442,12 +106,9 @@
             padding: 16px;
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow);
-            display: none;
+            display: block;
             max-height: 100vh;
             overflow-y: auto;
-        }
-        .app.visible {
-            display: block;
         }
 
         .header {
@@ -1632,21 +1293,6 @@
             .risk-controls {
                 grid-template-columns: 1fr 1fr;
             }
-            .welcome-overlay .content .main-text {
-                font-size: 32px;
-            }
-            .welcome-overlay .content .logo {
-                font-size: 36px;
-            }
-            .welcome-overlay .content .sub-text {
-                font-size: 14px;
-            }
-            .auth-page {
-                padding: 16px;
-            }
-            .auth-page .card {
-                padding: 28px 20px;
-            }
         }
         @media (max-width: 480px) {
             .header .title {
@@ -1709,96 +1355,13 @@
             .insufficient-content .btn-group {
                 flex-direction: column;
             }
-            .welcome-overlay .content .main-text {
-                font-size: 24px;
-            }
-            .welcome-overlay .content .sub-text {
-                font-size: 12px;
-                letter-spacing: 2px;
-            }
-            .welcome-overlay .content .logo {
-                font-size: 28px;
-            }
-            .welcome-overlay .content .enter-btn {
-                padding: 12px 30px;
-                font-size: 15px;
-            }
-            .auth-page .card {
-                padding: 24px 16px;
-            }
-            .auth-page .card .logo {
-                font-size: 26px;
-            }
         }
     </style>
 </head>
 <body>
 
     <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  PAGE 1: AUTH – Create Account ONLY                          -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <div class="auth-page" id="authPage">
-        <div class="card">
-            <div class="logo">⚡ TradePro</div>
-            <div class="sub">Create your account to start trading</div>
-
-            <!-- Create Account Form -->
-            <form class="auth-form" id="registerForm">
-                <div class="input-group">
-                    <label>Full Name</label>
-                    <input type="text" id="regName" placeholder="John Doe" required autocomplete="name" />
-                </div>
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email" />
-                </div>
-                <div class="input-group">
-                    <label>Password (min 8)</label>
-                    <input type="password" id="regPassword" placeholder="••••••••" required minlength="8" autocomplete="new-password" />
-                    <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">👁</button>
-                </div>
-                <div class="input-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="regConfirm" placeholder="••••••••" required autocomplete="new-password" />
-                </div>
-                <div class="auth-error" id="regError"></div>
-                <div class="auth-success" id="regSuccess"></div>
-                <button type="submit" class="auth-btn" id="regBtn">🚀 Create Account</button>
-                <div class="auth-divider">OR</div>
-                <div class="social-btns">
-                    <button type="button" class="social-btn">🔵 Google</button>
-                    <button type="button" class="social-btn">⚫ Apple</button>
-                    <button type="button" class="social-btn">🔷 Microsoft</button>
-                </div>
-            </form>
-
-            <div class="auth-footer">
-                <a>Privacy Policy</a>
-                <a>Terms &amp; Conditions</a>
-                <a>Risk Disclosure</a>
-                <a>Contact Support</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  PAGE 2: WELCOME OVERLAY                                      -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <div class="welcome-overlay" id="welcomeOverlay">
-        <canvas id="particleCanvas"></canvas>
-        <div class="content">
-            <div class="loader" id="welcomeLoader"></div>
-            <div class="logo">⚡ TradePro</div>
-            <div class="main-text" id="welcomeMainText">WELCOME TO THE<br />WORLD OF TRADING</div>
-            <div class="username-display" id="welcomeUsername">@trader</div>
-            <div class="sub-text">◈ YOUR JOURNEY BEGINS NOW ◈</div>
-            <div class="status-text" id="welcomeStatus">🔄 Connecting to <span class="highlight">live markets</span>...</div>
-            <button class="enter-btn" id="welcomeEnterBtn">🚀 ENTER TRADING</button>
-        </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  PAGE 3: APP – Trading Platform                              -->
+    <!--  APP – Trading Platform (always visible)                     -->
     <!-- ════════════════════════════════════════════════════════════════ -->
     <div class="app" id="app">
         <div class="header">
@@ -1807,7 +1370,7 @@
                 <span class="api-status online" id="apiStatusBadge"><span class="dot"></span> <span id="apiStatusText">Live</span></span>
                 <span class="balance" id="headerBalance">0.00 <small>USD</small></span>
                 <div class="avatar" id="avatarBtn">👤</div>
-                <button class="badge" id="logoutBtn" style="cursor:pointer;color:var(--red);border-color:var(--red);">Logout</button>
+                <button class="badge" id="resetBtn" style="cursor:pointer;color:var(--accent);border-color:var(--accent);">⟳ Reset</button>
             </div>
         </div>
 
@@ -1827,7 +1390,7 @@
                         </div>
                     </div>
                 </div>
-                <span class="acct">Account #: <span id="accountNumber">TP-1234-5678</span></span>
+                <span class="acct">Account #: <span id="accountNumber">TP-DEMO-0001</span></span>
             </div>
             <div class="actions">
                 <span class="eye" id="eyeToggle">👁</span>
@@ -2108,8 +1671,8 @@
                 <button data-mtab="settings">Settings</button>
             </div>
             <div class="modal-tab-content active" id="mtabAccount">
-                <div class="info-row"><span class="label">Name</span><span class="value" id="mName">—</span></div>
-                <div class="info-row"><span class="label">Email</span><span class="value" id="mEmail">—</span></div>
+                <div class="info-row"><span class="label">Name</span><span class="value" id="mName">Demo Trader</span></div>
+                <div class="info-row"><span class="label">Email</span><span class="value" id="mEmail">demo@trader.com</span></div>
                 <div class="info-row"><span class="label">Balance</span><span class="value" id="mBalance">$0.00</span></div>
                 <div class="info-row"><span class="label">Total Trades</span><span class="value" id="mTotalTrades">0</span></div>
                 <div class="info-row"><span class="label">Win Rate</span><span class="value" id="mWinRate">0%</span></div>
@@ -2124,54 +1687,16 @@
                 <div class="info-row"><span class="label">Dark Mode</span><button id="darkModeToggle" style="background:var(--accent);padding:4px 16px;border-radius:30px;font-weight:700;color:#0a0e17;">Toggle</button></div>
                 <div class="info-row"><span class="label">2FA</span><span class="value">🔐 Enabled</span></div>
                 <div class="info-row"><span class="label">Session</span><span class="value" id="sessionInfo">Active</span></div>
-                <div class="info-row" style="border-bottom:none;padding-top:16px;"><button id="logoutBtn2" style="background:var(--red);padding:8px 24px;border-radius:30px;font-weight:700;color:#0a0e17;width:100%;">🚪 Logout</button></div>
             </div>
         </div>
     </div>
 
     <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  JAVASCRIPT – Full auth + balance toggle                     -->
+    <!--  JAVASCRIPT – Full trading with balance toggle               -->
     <!-- ════════════════════════════════════════════════════════════════ -->
     <script>
         (function() {
             'use strict';
-
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  API CONFIG
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            const API_CONFIG = {
-                base: 'https://your-api.com/v1',
-                token: '',
-                online: false,
-                headers() {
-                    return {
-                        'Authorization': this.token ? `Bearer ${this.token}` : '',
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    };
-                },
-                async request(endpoint, method = 'GET', body = null) {
-                    if (!this.online) throw new Error('API offline');
-                    const url = this.base + endpoint;
-                    const opts = { method, headers: this.headers() };
-                    if (body) opts.body = JSON.stringify(body);
-                    const res = await fetch(url, opts);
-                    if (!res.ok) {
-                        const errText = await res.text();
-                        throw new Error(errText || `API Error ${res.status}`);
-                    }
-                    return res.json();
-                },
-                async check() {
-                    try {
-                        await this.request('/health');
-                        this.online = true;
-                    } catch {
-                        this.online = false;
-                    }
-                    return this.online;
-                }
-            };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             //  MARKET PRICES (fallback)
@@ -2192,110 +1717,18 @@
             };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  PARTICLE SYSTEM
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            (function initParticles() {
-                const canvas = document.getElementById('particleCanvas');
-                if (!canvas) return;
-                const ctx = canvas.getContext('2d');
-                let particles = [];
-                let animationId = null;
-
-                function resizeCanvas() {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                }
-                window.addEventListener('resize', resizeCanvas);
-                resizeCanvas();
-
-                class Particle {
-                    constructor() {
-                        this.x = Math.random() * canvas.width;
-                        this.y = Math.random() * canvas.height;
-                        this.size = Math.random() * 2.5 + 0.5;
-                        this.speedX = (Math.random() - 0.5) * 0.8;
-                        this.speedY = (Math.random() - 0.5) * 0.8;
-                        this.opacity = Math.random() * 0.6 + 0.2;
-                        this.color = Math.random() > 0.5 ? '240, 185, 11' : '14, 203, 129';
-                    }
-                    update() {
-                        this.x += this.speedX;
-                        this.y += this.speedY;
-                        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-                    }
-                    draw() {
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-                        ctx.fill();
-                    }
-                }
-
-                function initParticles(count = 80) {
-                    particles = [];
-                    for (let i = 0; i < count; i++) {
-                        particles.push(new Particle());
-                    }
-                }
-
-                function animateParticles() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    particles.forEach(p => {
-                        p.update();
-                        p.draw();
-                    });
-                    for (let i = 0; i < particles.length; i++) {
-                        for (let j = i + 1; j < particles.length; j++) {
-                            const dx = particles[i].x - particles[j].x;
-                            const dy = particles[i].y - particles[j].y;
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            if (dist < 150) {
-                                ctx.beginPath();
-                                ctx.moveTo(particles[i].x, particles[i].y);
-                                ctx.lineTo(particles[j].x, particles[j].y);
-                                ctx.strokeStyle = `rgba(240, 185, 11, ${0.08 * (1 - dist / 150)})`;
-                                ctx.lineWidth = 0.5;
-                                ctx.stroke();
-                            }
-                        }
-                    }
-                    animationId = requestAnimationFrame(animateParticles);
-                }
-
-                initParticles();
-                animateParticles();
-
-                const observer = new MutationObserver(() => {
-                    const overlay = document.getElementById('welcomeOverlay');
-                    if (overlay && !overlay.classList.contains('open')) {
-                        if (animationId) {
-                            cancelAnimationFrame(animationId);
-                            animationId = null;
-                        }
-                        observer.disconnect();
-                    }
-                });
-                const overlay = document.getElementById('welcomeOverlay');
-                if (overlay) {
-                    observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
-                }
-            })();
-
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  STATE
+            //  STATE – Demo user pre-loaded
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             const state = {
-                user: null,
-                balance: 0,
+                user: { name: 'Demo Trader', email: 'demo@trader.com' },
+                balance: 10000,
                 demoBalance: 10000,
-                currentBalanceMode: 'real', // 'real' or 'demo'
+                currentBalanceMode: 'real',
                 currentPrice: 7000.00,
                 currentMarket: 'vol50',
                 priceHistory: [],
                 chart: null,
                 isRunning: true,
-                isLoggedIn: false,
                 hideBalance: false,
                 tradeType: 'risefall',
                 activeOption: 'rise',
@@ -2330,14 +1763,6 @@
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             const $ = id => document.getElementById(id);
             const elApp = $('app');
-            const elAuthPage = $('authPage');
-            const elRegisterForm = $('registerForm');
-            const elRegName = $('regName');
-            const elRegEmail = $('regEmail');
-            const elRegPassword = $('regPassword');
-            const elRegConfirm = $('regConfirm');
-            const elRegError = $('regError');
-            const elRegSuccess = $('regSuccess');
 
             const elBalance = $('accountBalance');
             const elHeaderBalance = $('headerBalance');
@@ -2426,7 +1851,6 @@
             const elMTotalDeposits = $('mTotalDeposits');
             const elMTotalWithdrawals = $('mTotalWithdrawals');
             const elTransactionList = $('transactionList');
-            const elLogoutBtn2 = $('logoutBtn2');
             const elDarkModeToggle = $('darkModeToggle');
 
             const elDepositModal = $('depositModal');
@@ -2452,14 +1876,8 @@
             const elAvatarBtn = $('avatarBtn');
             const elPortfolioBtn = $('portfolioBtn');
             const elMoreBtn = $('moreBtn');
-            const elLogoutBtn = $('logoutBtn');
+            const elResetBtn = $('resetBtn');
             const elViewAllHistory = $('viewAllHistory');
-
-            const elWelcomeOverlay = $('welcomeOverlay');
-            const elWelcomeLoader = $('welcomeLoader');
-            const elWelcomeUsername = $('welcomeUsername');
-            const elWelcomeStatus = $('welcomeStatus');
-            const elWelcomeEnterBtn = $('welcomeEnterBtn');
 
             // Balance dropdown elements
             const elBalanceDropdownBtn = $('balanceDropdownBtn');
@@ -2503,19 +1921,35 @@
             }
 
             function saveUserData() {
-                const email = localStorage.getItem('tp_session_user');
-                if (email) {
-                    const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-                    if (users[email]) {
-                        users[email].balance = state.balance;
-                        users[email].demoBalance = state.demoBalance;
-                        users[email].history = state.history;
-                        users[email].transactions = state.transactions;
-                        users[email].totalDeposits = state.totalDeposits;
-                        users[email].totalWithdrawals = state.totalWithdrawals;
-                        localStorage.setItem('tp_users', JSON.stringify(users));
-                    }
+                // Save to localStorage for persistence
+                const data = {
+                    balance: state.balance,
+                    demoBalance: state.demoBalance,
+                    history: state.history,
+                    transactions: state.transactions,
+                    totalDeposits: state.totalDeposits,
+                    totalWithdrawals: state.totalWithdrawals,
+                    userCreated: state.userCreated
+                };
+                localStorage.setItem('tp_demo_data', JSON.stringify(data));
+            }
+
+            function loadUserData() {
+                const saved = localStorage.getItem('tp_demo_data');
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        state.balance = data.balance || 10000;
+                        state.demoBalance = data.demoBalance || 10000;
+                        state.history = data.history || [];
+                        state.transactions = data.transactions || [];
+                        state.totalDeposits = data.totalDeposits || 0;
+                        state.totalWithdrawals = data.totalWithdrawals || 0;
+                        state.userCreated = data.userCreated || new Date().toISOString().slice(0, 10);
+                        return true;
+                    } catch (e) { /* ignore */ }
                 }
+                return false;
             }
 
             function addTransaction(type, method, amount, status, ref, details) {
@@ -2578,22 +2012,6 @@
             });
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  API STATUS
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            function updateApiStatus(online) {
-                state.apiConnected = online;
-                if (online) {
-                    elApiStatusBadge.className = 'api-status online';
-                    elApiStatusText.textContent = 'Live';
-                    elWelcomeStatus.innerHTML = '✅ Connected to <span class="highlight">live markets</span>';
-                } else {
-                    elApiStatusBadge.className = 'api-status online';
-                    elApiStatusText.textContent = 'Live';
-                    elWelcomeStatus.innerHTML = '✅ Connected to <span class="highlight">live markets</span>';
-                }
-            }
-
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             //  DIGIT GRID
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function updateDigitGrid() {
@@ -2619,190 +2037,10 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  AUTH – Create Account ONLY
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            function showAuth() {
-                elAuthPage.style.display = 'flex';
-                elApp.classList.remove('visible');
-                elWelcomeOverlay.classList.remove('open');
-                state.isLoggedIn = false;
-            }
-
-            function showWelcomeOverlay(username) {
-                elWelcomeUsername.textContent = '@' + (username || 'trader');
-                elWelcomeOverlay.classList.add('open');
-                elWelcomeLoader.style.display = 'block';
-                elWelcomeEnterBtn.classList.remove('show');
-                elWelcomeStatus.innerHTML = '🔄 Connecting to <span class="highlight">live markets</span>...';
-
-                setTimeout(async () => {
-                    const connected = await API_CONFIG.check();
-                    updateApiStatus(connected);
-                    elWelcomeLoader.style.display = 'none';
-                    elWelcomeEnterBtn.classList.add('show');
-                }, 2000);
-            }
-
-            elWelcomeEnterBtn.addEventListener('click', function() {
-                elWelcomeOverlay.classList.remove('open');
-                elApp.classList.add('visible');
-                state.isLoggedIn = true;
-                startIntervals();
-                notify('✅ Welcome to TradePro!');
-                updateTradeButtons();
-            });
-
-            function showApp() {
-                elAuthPage.style.display = 'none';
-                elWelcomeOverlay.classList.remove('open');
-                elApp.classList.add('visible');
-                state.isLoggedIn = true;
-                startIntervals();
-                notify('✅ Welcome to TradePro!');
-                updateTradeButtons();
-            }
-
-            window.togglePassword = function(id, btn) {
-                const input = document.getElementById(id);
-                if (!input) return;
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
-                btn.textContent = isPassword ? '🙈' : '👁';
-            };
-
-            // ─── REGISTER ONLY ───
-            elRegisterForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const name = elRegName.value.trim();
-                const email = elRegEmail.value.trim().toLowerCase();
-                const pw = elRegPassword.value;
-                const confirm = elRegConfirm.value;
-                elRegError.textContent = '';
-                elRegSuccess.textContent = '';
-                if (!name || name.length < 2) { elRegError.textContent = 'Enter your full name.'; return; }
-                if (!email || !email.includes('@')) { elRegError.textContent = 'Enter a valid email.'; return; }
-                if (pw.length < 8) { elRegError.textContent = 'Password must be at least 8 chars.'; return; }
-                if (pw !== confirm) { elRegError.textContent = 'Passwords do not match.'; return; }
-
-                try {
-                    if (API_CONFIG.online) {
-                        const data = await API_CONFIG.request('/auth/register', 'POST', { name, email, password: pw });
-                        if (data.success) {
-                            elRegSuccess.textContent = '✅ Account created! Please log in.';
-                            elRegName.value = '';
-                            elRegEmail.value = '';
-                            elRegPassword.value = '';
-                            elRegConfirm.value = '';
-                            elRegSuccess.textContent = '✅ Account created! You can now trade.';
-                            // Auto-login after registration
-                            const loginData = await API_CONFIG.request('/auth/login', 'POST', { email,
-                            password: pw });
-                            if (loginData.token) {
-                                API_CONFIG.token = loginData.token;
-                                localStorage.setItem('bb_token', loginData.token);
-                                state.user = loginData.user;
-                                state.balance = loginData.user.balance || 10000;
-                                state.demoBalance = 10000;
-                                state.totalDeposits = loginData.user.totalDeposits || 0;
-                                state.totalWithdrawals = loginData.user.totalWithdrawals || 0;
-                                state.userCreated = loginData.user.created || new Date().toISOString().slice(0,
-                                    10);
-                                localStorage.setItem('tp_session_user', email);
-                                loadDashboard();
-                                showWelcomeOverlay(state.user.name || email.split('@')[0]);
-                                return;
-                            }
-                        }
-                    }
-                    // Local fallback
-                    const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-                    if (users[email]) { elRegError.textContent = 'Account already exists.'; return; }
-                    users[email] = {
-                        name: name,
-                        email: email,
-                        password: pw,
-                        balance: 10000,
-                        demoBalance: 10000,
-                        history: [],
-                        transactions: [],
-                        created: new Date().toISOString(),
-                        totalDeposits: 0,
-                        totalWithdrawals: 0
-                    };
-                    localStorage.setItem('tp_users', JSON.stringify(users));
-                    state.user = users[email];
-                    state.balance = 10000;
-                    state.demoBalance = 10000;
-                    state.totalDeposits = 0;
-                    state.totalWithdrawals = 0;
-                    state.userCreated = new Date().toISOString().slice(0, 10);
-                    localStorage.setItem('tp_session_user', email);
-                    loadDashboard();
-                    showWelcomeOverlay(name || email.split('@')[0]);
-                } catch (err) {
-                    elRegError.textContent = err.message || 'Registration failed.';
-                }
-            });
-
-            function doLogout() {
-                localStorage.removeItem('tp_session_user');
-                localStorage.removeItem('bb_token');
-                state.isLoggedIn = false;
-                state.user = null;
-                stopIntervals();
-                elApp.classList.remove('visible');
-                elWelcomeOverlay.classList.remove('open');
-                showAuth();
-                notify('Logged out');
-                elUserModal.classList.remove('open');
-                elResultModal.classList.remove('open');
-                elInsufficientModal.classList.remove('open');
-            }
-            elLogoutBtn.addEventListener('click', doLogout);
-            elLogoutBtn2.addEventListener('click', doLogout);
-
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  FETCH INITIAL DATA
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            async function fetchInitialData() {
-                if (!API_CONFIG.online) return;
-                try {
-                    const [balData, priceData, histData] = await Promise.all([
-                        API_CONFIG.request('/account/balance'),
-                        API_CONFIG.request('/price?symbol=' + state.currentMarket),
-                        API_CONFIG.request('/orders/history')
-                    ]);
-                    if (balData && balData.balance !== undefined) {
-                        state.balance = balData.balance;
-                        updateBalanceUI();
-                    }
-                    if (priceData && priceData.price) {
-                        state.currentPrice = priceData.price;
-                        updatePriceDisplay();
-                        updateDigitGrid();
-                    }
-                    if (histData && histData.orders) {
-                        state.history = histData.orders.map(o => ({
-                            side: o.side || 'unknown',
-                            stake: o.amount || 0,
-                            pnl: o.pnl || 0,
-                            time: o.time || getTime(),
-                            reason: o.reason || 'API',
-                            win: (o.pnl || 0) > 0,
-                            type: o.type || 'trade',
-                            market: o.market || ''
-                        }));
-                        renderHistory();
-                    }
-                } catch (e) { console.warn('Initial data fetch failed:', e); }
-            }
-
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  DASHBOARD
+            //  LOAD DASHBOARD
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function loadDashboard() {
-                elAccountNumber.textContent = 'TP-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(1000 + Math
-                    .random() * 9000);
+                elAccountNumber.textContent = 'TP-DEMO-' + Math.floor(1000 + Math.random() * 9000);
                 updateBalanceUI();
                 renderHistory();
                 renderTransactions();
@@ -2817,12 +2055,9 @@
                 updatePriceDisplay();
                 updateDigitGrid();
 
-                // Always show Live status
-                updateApiStatus(true);
-
-                if (API_CONFIG.online) {
-                    fetchInitialData();
-                }
+                // Show Live status
+                elApiStatusBadge.className = 'api-status online';
+                elApiStatusText.textContent = 'Live';
 
                 elMarketSelect.addEventListener('change', function() {
                     const market = this.value;
@@ -2832,16 +2067,11 @@
                     updatePriceDisplay();
                     updateDigitGrid();
                     notify('Switched to ' + this.options[this.selectedIndex].text);
-                    if (API_CONFIG.online) {
-                        API_CONFIG.request('/price?symbol=' + market).then(data => {
-                            if (data && data.price) {
-                                state.currentPrice = data.price;
-                                updatePriceDisplay();
-                                updateDigitGrid();
-                            }
-                        }).catch(() => {});
-                    }
                 });
+
+                // Start price updates
+                startIntervals();
+                notify('✅ Ready to trade');
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2895,23 +2125,6 @@
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             async function updatePrice() {
                 state.tickCount++;
-
-                if (API_CONFIG.online) {
-                    try {
-                        const priceData = await API_CONFIG.request('/price?symbol=' + state.currentMarket);
-                        if (priceData && priceData.price) {
-                            state.currentPrice = priceData.price;
-                            updatePriceDisplay();
-                            updateChart();
-                            updateDigitGrid();
-                            if (state.isTradeActive) {
-                                updateFloatingPnl();
-                                checkTradeCondition();
-                            }
-                            return;
-                        }
-                    } catch (e) { /* fallback */ }
-                }
 
                 const base = MARKET_PRICES[state.currentMarket] || 7000;
                 const volatility = 0.002 + (parseFloat(state.currentMarket.replace(/[^0-9.]/g, '')) || 50) * 0.00001;
@@ -3111,26 +2324,8 @@
                 updateTradeButtons();
                 notify('📈 ' + option.toUpperCase() + ' trade placed! Duration: ' + duration + 's');
 
-                if (API_CONFIG.online) {
-                    API_CONFIG.request('/order', 'POST', {
-                        symbol: state.currentMarket,
-                        side: option,
-                        amount: stake,
-                        price: state.entryPrice,
-                        duration: duration,
-                        takeProfit: tp,
-                        stopLoss: sl,
-                        multiplier: mult,
-                        type: state.tradeType
-                    }).then(result => {
-                        if (result && result.orderId) {
-                            state.currentOrderId = result.orderId;
-                        }
-                    }).catch(() => {});
-                }
-
                 if (state.tradeTimer) clearInterval(state.tradeTimer);
-                state.tradeTimer = setInterval(async () => {
+                state.tradeTimer = setInterval(() => {
                     state.timeRemaining--;
                     elTimeRemainingDisplay.textContent = state.timeRemaining + 's';
                     if (state.timeRemaining <= 0) {
@@ -3376,8 +2571,8 @@
             //  USER MODAL
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function updateModalInfo() {
-                elMName.textContent = state.user ? state.user.name : '—';
-                elMEmail.textContent = state.user ? state.user.email : '—';
+                elMName.textContent = 'Demo Trader';
+                elMEmail.textContent = 'demo@trader.com';
                 elMBalance.textContent = '$' + fmt(getBalance(), 2);
                 elMCreated.textContent = state.userCreated || '—';
                 elMTotalDeposits.textContent = '$' + fmt(state.totalDeposits, 2);
@@ -3484,7 +2679,6 @@
                 elDepositMsg.style.color = 'var(--text-muted)';
 
                 setTimeout(() => {
-                    // Update balance immediately
                     const newBalance = getBalance() + amount;
                     setBalance(newBalance);
                     addTransaction('deposit', methodName, amount, 'Completed', 'DEP-' + Date.now().toString(36)
@@ -3588,6 +2782,47 @@
             });
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            //  RESET DEMO
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            function resetDemo() {
+                if (state.isTradeActive) {
+                    closeTrade('Reset', 0);
+                }
+                state.balance = 10000;
+                state.demoBalance = 10000;
+                state.history = [];
+                state.transactions = [];
+                state.totalDeposits = 0;
+                state.totalWithdrawals = 0;
+                state.tickCount = 0;
+                state.isTradeActive = false;
+                state.floatingPnl = 0;
+                state.entryPrice = 0;
+                state.timeRemaining = 0;
+                state.currentOrderId = null;
+                if (state.tradeTimer) {
+                    clearInterval(state.tradeTimer);
+                    state.tradeTimer = null;
+                }
+                elEntryPriceDisplay.textContent = '-';
+                elTimeRemainingDisplay.textContent = '-';
+                elFloatingPnlDisplay.textContent = '$0.00';
+                elFloatingPnlDisplay.className = 'value';
+                updateBalanceUI();
+                renderHistory();
+                renderTransactions();
+                updateTradeButtons();
+                updateModalInfo();
+                saveUserData();
+                notify('🔄 Demo reset. Balance: $10,000');
+                elUserModal.classList.remove('open');
+                elResultModal.classList.remove('open');
+                elInsufficientModal.classList.remove('open');
+            }
+
+            elResetBtn.addEventListener('click', resetDemo);
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             //  INTERVALS
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function startIntervals() {
@@ -3638,30 +2873,14 @@
             });
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            //  CHECK SESSION ON LOAD – Show Auth first
+            //  INIT – Load saved data or default
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            (function checkSession() {
-                const sessionEmail = localStorage.getItem('tp_session_user');
-                if (sessionEmail) {
-                    const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-                    const user = users[sessionEmail];
-                    if (user) {
-                        state.user = user;
-                        state.balance = user.balance || 0;
-                        state.demoBalance = user.demoBalance || 10000;
-                        state.history = user.history || [];
-                        state.transactions = user.transactions || [];
-                        state.totalDeposits = user.totalDeposits || 0;
-                        state.totalWithdrawals = user.totalWithdrawals || 0;
-                        state.userCreated = user.created || new Date().toISOString().slice(0, 10);
-                        loadDashboard();
-                        showWelcomeOverlay(user.name || sessionEmail.split('@')[0]);
-                        return;
-                    }
-                }
-                // Show auth page by default
-                showAuth();
-            })();
+            if (!loadUserData()) {
+                // Default values if no saved data
+                state.balance = 10000;
+                state.demoBalance = 10000;
+            }
+            loadDashboard();
 
         })();
     </script>
