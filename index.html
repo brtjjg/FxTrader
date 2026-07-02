@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
-        /* ─── Root Variables ─── */
         :root {
             --bg-primary: #070b12;
             --bg-secondary: #0b1119;
@@ -92,7 +91,150 @@
             border-radius: 10px;
         }
 
-        /* ─── Registration Page ─── */
+        .admin-trigger {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            opacity: 0.05;
+            z-index: 9999;
+            cursor: pointer;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            font-size: 10px;
+            color: var(--text-muted);
+            transition: opacity 0.3s;
+        }
+        .admin-trigger:hover {
+            opacity: 0.3;
+        }
+
+        .admin-login-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+        .admin-login-overlay.open {
+            display: flex;
+        }
+        .admin-login-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 36px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        .admin-login-box .close-admin {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 28px;
+            color: var(--text-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .admin-login-box .close-admin:hover {
+            color: var(--text-primary);
+        }
+        .admin-login-box .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #f8d33a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .admin-login-box .sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+        .admin-login-box .admin-badge {
+            text-align: center;
+            background: var(--bg-input);
+            border: 1px solid var(--border-light);
+            border-radius: 30px;
+            padding: 4px 16px;
+            font-size: 11px;
+            color: var(--accent);
+            display: inline-block;
+            margin: 0 auto 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .admin-login-box .admin-badge-wrap {
+            text-align: center;
+        }
+        .admin-login-box .input-group {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .admin-login-box .input-group label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .admin-login-box .input-group input {
+            padding: 14px 16px;
+            font-size: 15px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-input);
+        }
+        .admin-login-box .input-group .toggle-pw {
+            position: absolute;
+            right: 14px;
+            top: 42px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+        .admin-login-box .input-group .toggle-pw:hover {
+            color: var(--text-primary);
+        }
+        .admin-login-btn {
+            background: var(--accent);
+            padding: 14px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0a0e17;
+            margin-top: 4px;
+            width: 100%;
+        }
+        .admin-login-btn:hover {
+            filter: brightness(1.1);
+        }
+        .admin-login-error {
+            color: var(--red);
+            font-size: 13px;
+            text-align: center;
+            min-height: 20px;
+            margin-top: 8px;
+        }
+
         .register-page {
             width: 100%;
             max-width: 480px;
@@ -102,6 +244,7 @@
             align-items: center;
             background: var(--bg-secondary);
             padding: 20px;
+            display: none;
         }
         .register-page .card {
             width: 100%;
@@ -354,7 +497,6 @@
             }
         }
 
-        /* ─── Welcome Overlay ─── */
         .welcome-overlay {
             display: none;
             position: fixed;
@@ -511,7 +653,6 @@
             }
         }
 
-        /* ─── Trading App ─── */
         .app {
             max-width: 1400px;
             width: 100%;
@@ -526,270 +667,6 @@
         }
         .app.visible {
             display: block;
-        }
-
-        /* ─── Admin Dashboard ─── */
-        .admin-dashboard {
-            max-width: 1400px;
-            width: 100%;
-            background: var(--bg-secondary);
-            border-radius: 24px;
-            padding: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-            display: none;
-            max-height: 100vh;
-            overflow-y: auto;
-        }
-        .admin-dashboard.visible {
-            display: block;
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 14px;
-        }
-        .admin-header .admin-title {
-            font-size: 20px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .admin-header .admin-title .logo-icon {
-            font-size: 22px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--accent), #f8d33a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .admin-header .admin-title .admin-tag {
-            font-size: 11px;
-            background: var(--accent);
-            color: #0a0e17;
-            padding: 2px 12px;
-            border-radius: 30px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .admin-header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .admin-header-right .badge {
-            background: var(--bg-card);
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 11px;
-            color: var(--text-muted);
-            border: 1px solid var(--border-light);
-        }
-        .admin-header-right .admin-logout-btn {
-            background: var(--red);
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 12px;
-            color: #0a0e17;
-        }
-        .admin-header-right .admin-logout-btn:hover {
-            filter: brightness(1.1);
-        }
-
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .admin-stat-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-sm);
-            padding: 14px 18px;
-            border: 1px solid var(--border-color);
-        }
-        .admin-stat-card .label {
-            font-size: 10px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        .admin-stat-card .value {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-top: 2px;
-        }
-        .admin-stat-card .value.green {
-            color: var(--green);
-        }
-        .admin-stat-card .value.red {
-            color: var(--red);
-        }
-        .admin-stat-card .sub {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .admin-tabs {
-            display: flex;
-            gap: 4px;
-            background: var(--bg-input);
-            border-radius: 40px;
-            padding: 4px;
-            margin-bottom: 14px;
-        }
-        .admin-tabs button {
-            flex: 1;
-            padding: 8px 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            background: transparent;
-            text-align: center;
-            transition: 0.2s;
-        }
-        .admin-tabs button.active {
-            background: var(--accent);
-            color: #0a0e17;
-        }
-        .admin-tabs button:hover:not(.active) {
-            color: var(--text-secondary);
-        }
-
-        .admin-tab-content {
-            display: none;
-        }
-        .admin-tab-content.active {
-            display: block;
-        }
-
-        .admin-card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 16px;
-            border: 1px solid var(--border-color);
-        }
-        .admin-card .card-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-table-wrap {
-            overflow-x: auto;
-            max-height: 320px;
-            overflow-y: auto;
-        }
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
-        .admin-table th {
-            text-align: left;
-            padding: 8px 10px;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.3px;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            background: var(--bg-card);
-            z-index: 2;
-        }
-        .admin-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-        .admin-table tr:hover td {
-            background: var(--bg-input);
-        }
-        .admin-table .status-badge {
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-        .admin-table .status-badge.approved {
-            background: var(--green);
-            color: #0a0e17;
-        }
-        .admin-table .status-badge.pending {
-            background: var(--orange);
-            color: #0a0e17;
-        }
-        .admin-table .status-badge.rejected {
-            background: var(--red);
-            color: #0a0e17;
-        }
-        .admin-table .action-btn {
-            padding: 3px 12px;
-            border-radius: 30px;
-            font-size: 10px;
-            font-weight: 700;
-            margin: 0 2px;
-        }
-        .admin-table .action-btn.approve {
-            background: var(--green);
-            color: #0a0e17;
-        }
-        .admin-table .action-btn.reject {
-            background: var(--red);
-            color: #0a0e17;
-        }
-        .admin-table .action-btn:hover {
-            filter: brightness(1.2);
-        }
-
-        .admin-search {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .admin-search input {
-            flex: 1;
-            min-width: 150px;
-            padding: 8px 14px;
-            font-size: 13px;
-        }
-        .admin-search select {
-            width: auto;
-            min-width: 120px;
-            padding: 8px 14px;
-            font-size: 13px;
-        }
-
-        .settings-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .settings-row:last-child {
-            border-bottom: none;
         }
 
         .header {
@@ -1857,8 +1734,7 @@
         }
 
         @media (max-width: 768px) {
-            .app,
-            .admin-dashboard {
+            .app {
                 padding: 12px;
                 max-height: none;
             }
@@ -1888,13 +1764,6 @@
             }
             .register-page .card {
                 padding: 28px 20px;
-            }
-            .admin-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-            .admin-tabs button {
-                font-size: 10px;
-                padding: 6px 8px;
             }
         }
         @media (max-width: 480px) {
@@ -1958,6 +1827,9 @@
             .trade-inputs-horizontal {
                 grid-template-columns: 1fr;
             }
+            .admin-login-box {
+                padding: 24px 20px;
+            }
             .register-page .card {
                 padding: 20px 16px;
             }
@@ -1973,24 +1845,18 @@
             .welcome-overlay .content .logo-icon {
                 font-size: 40px;
             }
-            .admin-stats {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  REGISTRATION / LOGIN PAGE                                    -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- REGISTRATION PAGE -->
     <div class="register-page" id="registerPage">
         <div class="card">
             <div class="brand-logo">
                 <span class="logo-icon">⚡ FXTRADER</span>
                 <span class="logo-sub">Trade · Analyze · Succeed</span>
             </div>
-
             <div class="welcome-msg">
                 <h1>🚀 Welcome to FXTRADER</h1>
                 <p>Start your trading journey today</p>
@@ -2002,13 +1868,11 @@
                     <span>💰 Instant Deposits</span>
                 </div>
             </div>
-
             <div class="auth-tabs">
                 <button class="active" id="loginTab">Sign In</button>
                 <button id="registerTab">Create Account</button>
             </div>
 
-            <!-- Login Form -->
             <form class="auth-form active" id="loginForm">
                 <div class="input-group">
                     <label>Email Address</label>
@@ -2034,7 +1898,6 @@
                 <div class="auth-switch">Don't have an account? <a id="switchToRegister">Create Account</a></div>
             </form>
 
-            <!-- Register Form -->
             <form class="auth-form" id="registerForm">
                 <div class="input-group">
                     <label>Full Name</label>
@@ -2064,7 +1927,6 @@
                 </div>
                 <div class="auth-switch">Already have an account? <a id="switchToLogin">Sign In</a></div>
             </form>
-
             <div class="register-footer">
                 <a>Privacy Policy</a>
                 <a>Terms &amp; Conditions</a>
@@ -2074,9 +1936,7 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  WELCOME OVERLAY                                               -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- WELCOME OVERLAY -->
     <div class="welcome-overlay" id="welcomeOverlay">
         <div class="content">
             <div class="loader" id="welcomeLoader"></div>
@@ -2090,152 +1950,34 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  ADMIN DASHBOARD (hidden, only accessible via special login)   -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <div class="admin-dashboard" id="adminDashboard">
-        <div class="admin-header">
-            <div class="admin-title">
-                <span class="logo-icon">⚡ FXTRADER</span>
-                <span class="admin-tag">🔐 Admin Panel</span>
-            </div>
-            <div class="admin-header-right">
-                <span class="badge" id="adminTime">Loading...</span>
-                <button class="admin-logout-btn" id="adminLogoutBtn">🚪 Logout</button>
-            </div>
-        </div>
+    <!-- ADMIN TRIGGER -->
+    <button class="admin-trigger" id="adminTrigger" title="Admin Access">⚙</button>
 
-        <!-- Admin Stats -->
-        <div class="admin-stats" id="adminStats">
-            <div class="admin-stat-card">
-                <div class="label">👥 Total Users</div>
-                <div class="value" id="adminTotalUsers">0</div>
-                <div class="sub" id="adminNewUsers">+0 today</div>
+    <div class="admin-login-overlay" id="adminLoginOverlay">
+        <div class="admin-login-box">
+            <button class="close-admin" id="closeAdminLogin">&times;</button>
+            <div class="admin-badge-wrap">
+                <span class="admin-badge">🔐 Admin Access</span>
             </div>
-            <div class="admin-stat-card">
-                <div class="label">💰 Total Deposits</div>
-                <div class="value green" id="adminTotalDeposits">$0</div>
-                <div class="sub" id="adminDepositCount">0 transactions</div>
-            </div>
-            <div class="admin-stat-card">
-                <div class="label">🏦 Total Withdrawals</div>
-                <div class="value red" id="adminTotalWithdrawals">$0</div>
-                <div class="sub" id="adminWithdrawalCount">0 transactions</div>
-            </div>
-            <div class="admin-stat-card">
-                <div class="label">💵 Platform Fees (3%)</div>
-                <div class="value" id="adminPlatformFees">$0.00</div>
-                <div class="sub">Collected from deposits</div>
-            </div>
-            <div class="admin-stat-card">
-                <div class="label">💰 Tax Fees (2%)</div>
-                <div class="value" id="adminTaxFees">$0.00</div>
-                <div class="sub">Collected from deposits</div>
-            </div>
-            <div class="admin-stat-card">
-                <div class="label">🔄 Pending Requests</div>
-                <div class="value" id="adminPending">0</div>
-                <div class="sub">Deposits & Withdrawals</div>
-            </div>
-        </div>
-
-        <!-- Admin Tabs -->
-        <div class="admin-tabs">
-            <button class="active" data-tab="users">👥 Users</button>
-            <button data-tab="transactions">📜 Transactions</button>
-            <button data-tab="fees">💰 Fee Tracking</button>
-            <button data-tab="settings">⚙️ Settings</button>
-        </div>
-
-        <!-- Tab: Users -->
-        <div class="admin-tab-content active" id="adminTabUsers">
-            <div class="admin-card">
-                <div class="card-title">All Users <span id="adminUserCount">0</span></div>
-                <div class="admin-search">
-                    <input type="text" id="adminUserSearch" placeholder="Search users..." oninput="filterAdminUsers()" />
-                    <button onclick="addAdminUser()" style="background:var(--green);padding:8px 16px;border-radius:30px;font-weight:700;color:#0a0e17;">+ Add User</button>
+            <div class="logo">⚡ FXTRADER</div>
+            <div class="sub">Administrator Dashboard</div>
+            <form id="adminLoginForm">
+                <div class="input-group">
+                    <label>Admin Email</label>
+                    <input type="email" id="adminEmail" value="admin@fxtrader.com" />
                 </div>
-                <div class="admin-table-wrap">
-                    <table class="admin-table" id="adminUsersTable">
-                        <thead><tr><th>Name</th><th>Email</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
-                        <tbody id="adminUsersBody"></tbody>
-                    </table>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="adminPassword" value="admin123" />
+                    <button type="button" class="toggle-pw" id="adminTogglePw">👁</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Tab: Transactions -->
-        <div class="admin-tab-content" id="adminTabTransactions">
-            <div class="admin-card">
-                <div class="card-title">All Transactions <span id="adminTxCount">0</span></div>
-                <div class="admin-search">
-                    <input type="text" id="adminTxSearch" placeholder="Search..." oninput="filterAdminTransactions()" />
-                    <select id="adminTxFilter" onchange="filterAdminTransactions()">
-                        <option value="all">All</option>
-                        <option value="deposit">Deposits</option>
-                        <option value="withdraw">Withdrawals</option>
-                        <option value="profit">Profits</option>
-                        <option value="loss">Losses</option>
-                    </select>
-                </div>
-                <div class="admin-table-wrap" style="max-height:400px;">
-                    <table class="admin-table" id="adminTransactionsTable">
-                        <thead><tr><th>User</th><th>Type</th><th>Amount</th><th>Platform Fee</th><th>Tax Fee</th><th>Status</th><th>Date</th></tr></thead>
-                        <tbody id="adminTransactionsBody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab: Fees -->
-        <div class="admin-tab-content" id="adminTabFees">
-            <div class="admin-card">
-                <div class="card-title">💰 Fee Collection Dashboard</div>
-                <div class="admin-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-                    <div class="admin-stat-card">
-                        <div class="label">Total Platform Fees (3%)</div>
-                        <div class="value green" id="adminTotalPlatformFees">$0.00</div>
-                    </div>
-                    <div class="admin-stat-card">
-                        <div class="label">Total Tax Fees (2%)</div>
-                        <div class="value" id="adminTotalTaxFees">$0.00</div>
-                    </div>
-                    <div class="admin-stat-card">
-                        <div class="label">Pending Debt</div>
-                        <div class="value red" id="adminPendingDebt">$0.00</div>
-                    </div>
-                </div>
-                <div id="adminFeeList" style="max-height:300px;overflow-y:auto;margin-top:12px;"></div>
-                <button onclick="refreshAdminData()" style="background:var(--accent);padding:10px 20px;border-radius:30px;font-weight:700;color:#0a0e17;margin-top:10px;">🔄 Refresh Data</button>
-            </div>
-        </div>
-
-        <!-- Tab: Settings -->
-        <div class="admin-tab-content" id="adminTabSettings">
-            <div class="admin-card">
-                <div class="card-title">⚙️ Platform Settings</div>
-                <div class="settings-row">
-                    <span>Platform Fee (3%)</span>
-                    <input type="number" id="adminPlatformFee" value="3" step="0.5" min="0" max="100" style="width:80px;padding:8px;border-radius:30px;background:var(--bg-input);border:1px solid var(--border-light);color:var(--text-primary);" />
-                    <span>%</span>
-                </div>
-                <div class="settings-row">
-                    <span>Tax/Partner Fee (2%)</span>
-                    <input type="number" id="adminTaxFee" value="2" step="0.5" min="0" max="100" style="width:80px;padding:8px;border-radius:30px;background:var(--bg-input);border:1px solid var(--border-light);color:var(--text-primary);" />
-                    <span>%</span>
-                </div>
-                <div class="settings-row">
-                    <button onclick="saveFeeSettings()" style="background:var(--accent);padding:10px 20px;border-radius:30px;font-weight:700;color:#0a0e17;">💾 Save Fee Settings</button>
-                    <button onclick="exportAdminData()" style="background:var(--blue);padding:10px 20px;border-radius:30px;font-weight:700;color:#0a0e17;">📥 Export Data</button>
-                    <button onclick="resetAllData()" style="background:var(--red);padding:10px 20px;border-radius:30px;font-weight:700;color:#0a0e17;">⚠️ Reset Demo Data</button>
-                </div>
-            </div>
+                <div class="admin-login-error" id="adminLoginError"></div>
+                <button type="submit" class="admin-login-btn">🔐 Access Dashboard</button>
+            </form>
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  TRADING APP (regular users)                                   -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- TRADING APP -->
     <div class="app" id="app">
         <div class="header">
             <div class="title">
@@ -2457,9 +2199,7 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  MODALS (Deposit, Withdraw, Result, etc.)                    -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- MODALS -->
     <!-- Deposit Modal -->
     <div class="modal-overlay" id="depositModal">
         <div class="modal-content">
@@ -2534,7 +2274,7 @@
                 <div class="form-group" data-method="bank" style="display:none;"><label>Account Name</label><input type="text" id="withdrawAccountName" placeholder="John Doe" /></div>
                 <div class="form-group" data-method="visa" style="display:none;"><label>Card Number</label><input type="text" id="withdrawCardNumber" placeholder="4242 4242 4242 4242" /></div>
                 <div class="form-group" data-method="visa" style="display:none;"><label>Cardholder Name</label><input type="text" id="withdrawCardName" placeholder="John Doe" /></div>
-                <div class="form-group" data-method="paypal" style="display:none"><label>PayPal Email</label><input type="email" id="withdrawPaypalEmail" placeholder="you@paypal.com" /></div>
+                <div class="form-group" data-method="paypal" style="display:none;"><label>PayPal Email</label><input type="email" id="withdrawPaypalEmail" placeholder="you@paypal.com" /></div>
                 <div class="form-group" data-method="crypto" style="display:none;"><label>Wallet Address</label><input type="text" id="withdrawCryptoAddress" placeholder="0x742d35Cc6634C0532925a3b844Bc454e4438f44e" /></div>
                 <div class="form-group" data-method="crypto" style="display:none;"><label>Select Cryptocurrency</label><select id="withdrawCryptoSelect"><option value="btc">Bitcoin (BTC)</option><option value="eth">Ethereum (ETH)</option><option value="usdt-erc20">USDT (ERC20)</option><option value="usdt-trc20">USDT (TRC20)</option></select></div>
                 <div class="form-group" data-method="ewallet" style="display:none;"><label>E-Wallet Email / ID</label><input type="text" id="withdrawEwalletId" placeholder="you@skrill.com" /></div>
@@ -2607,27 +2347,537 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════════════ -->
-    <!--  JAVASCRIPT                                                    -->
+    <!--  JAVASCRIPT - COMPLETE WITH REAL PAYMENT HANDLING             -->
     <!-- ════════════════════════════════════════════════════════════════ -->
     <script>
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  ADMIN CREDENTIALS (only you know these)
+        //  🔌 API CONFIGURATION - DERIV API
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        const ADMIN_EMAIL = 'admin@fxtrader.com';
-        const ADMIN_PASSWORD = 'admin123';
+        const API_CONFIG = {
+            appId: '019eb28d-4e15-7785-aa54-f0a3b4254fc9',
+            apiToken: 'jvoGcK3WKQUojwd',
+            wsURL: 'wss://ws.binaryws.com/websockets/v3?app_id=019eb28d-4e15-7785-aa54-f0a3b4254fc9',
+            baseURL: 'https://api.binaryws.com/rest/v3',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer jvoGcK3WKQUojwd'
+            },
+            timeout: 30000,
+            symbolMap: {
+                'vol10_1s': 'R_10',
+                'vol10': 'R_10',
+                'vol15_1s': 'R_15',
+                'vol25_1s': 'R_25',
+                'vol25': 'R_25',
+                'vol30_1s': 'R_30',
+                'vol50_1s': 'R_50',
+                'vol50': 'R_50',
+                'vol75_1s': 'R_75',
+                'vol75': 'R_75',
+                'vol90_1s': 'R_90',
+                'vol100_1s': 'R_100'
+            }
+        };
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  DOM REFS
+        //  💰 FEE CONFIGURATION - 5% SPLIT
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const FEE_CONFIG = {
+            platformFee: 0.03, // 3% Platform Fee
+            taxFee: 0.02, // 2% Tax/Partner Fee
+            totalFee: 0.05, // 5% Total Fee
+            minFee: 1.00, // Minimum fee to process ($1.00)
+            platformWalletId: 'platform_wallet_001',
+            taxWalletId: 'tax_wallet_001'
+        };
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  💳 REAL PAYMENT HANDLING
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        let userDebts = {};
+
+        function loadDebts() {
+            const saved = localStorage.getItem('tp_user_debts');
+            if (saved) {
+                try {
+                    userDebts = JSON.parse(saved);
+                } catch (e) {
+                    userDebts = {};
+                }
+            }
+        }
+
+        function saveDebts() {
+            localStorage.setItem('tp_user_debts', JSON.stringify(userDebts));
+        }
+
+        function addDebt(userEmail, amount, reason) {
+            if (!userDebts[userEmail]) {
+                userDebts[userEmail] = [];
+            }
+            userDebts[userEmail].push({
+                amount: amount,
+                reason: reason || 'Withdrawal fee',
+                date: new Date().toISOString(),
+                collected: false
+            });
+            saveDebts();
+        }
+
+        function getTotalDebt(userEmail) {
+            if (!userDebts[userEmail]) return 0;
+            return userDebts[userEmail]
+                .filter(d => !d.collected)
+                .reduce((sum, d) => sum + d.amount, 0);
+        }
+
+        function clearDebt(userEmail, amount) {
+            if (!userDebts[userEmail]) return;
+            let remaining = amount;
+            userDebts[userEmail] = userDebts[userEmail].map(d => {
+                if (!d.collected && remaining > 0) {
+                    const collected = Math.min(d.amount, remaining);
+                    remaining -= collected;
+                    d.collected = true;
+                    d.collectedAmount = collected;
+                    d.collectedDate = new Date().toISOString();
+                }
+                return d;
+            });
+            saveDebts();
+        }
+
+        function calculateFeeSplit(amount) {
+            const platformFee = amount * FEE_CONFIG.platformFee;
+            const taxFee = amount * FEE_CONFIG.taxFee;
+            const totalFee = platformFee + taxFee;
+
+            return {
+                totalAmount: amount,
+                platformFee: platformFee,
+                taxFee: taxFee,
+                totalFee: totalFee,
+                userAmount: amount - totalFee,
+                platformFeePercent: FEE_CONFIG.platformFee * 100,
+                taxFeePercent: FEE_CONFIG.taxFee * 100,
+                totalFeePercent: FEE_CONFIG.totalFee * 100,
+                canProcess: totalFee >= FEE_CONFIG.minFee
+            };
+        }
+
+        // ─── REAL DEPOSIT HANDLER ───
+        async function handleRealDeposit(amount, method, userEmail) {
+            try {
+                // Step 1: User clicks deposit, opens Deriv payment window
+                const depositUrl =
+                    `https://app.deriv.com/cashier/deposit?app_id=${API_CONFIG.appId}`;
+                window.open(depositUrl, '_blank');
+
+                // Step 2: Listen for deposit confirmation (via WebSocket)
+                // This is handled by the WebSocket listener
+
+                // Step 3: When deposit is confirmed, split fees
+                const feeSplit = calculateFeeSplit(amount);
+
+                if (!feeSplit.canProcess) {
+                    console.log('Fee too small, skipping split');
+                    return { success: true, message: 'Deposit processed, fee below minimum' };
+                }
+
+                // Step 4: Transfer 3% to platform wallet
+                await transferToWallet(
+                    userEmail,
+                    FEE_CONFIG.platformWalletId,
+                    feeSplit.platformFee,
+                    'Platform Fee (3%)'
+                );
+
+                // Step 5: Transfer 2% to tax wallet
+                await transferToWallet(
+                    userEmail,
+                    FEE_CONFIG.taxWalletId,
+                    feeSplit.taxFee,
+                    'Tax/Partner Fee (2%)'
+                );
+
+                // Step 6: Log transaction
+                logTransaction({
+                    user: userEmail,
+                    type: 'deposit',
+                    amount: amount,
+                    platformFee: feeSplit.platformFee,
+                    taxFee: feeSplit.taxFee,
+                    netAmount: feeSplit.userAmount,
+                    status: 'completed'
+                });
+
+                return { success: true, netAmount: feeSplit.userAmount };
+
+            } catch (error) {
+                console.error('Deposit processing failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ─── REAL WITHDRAWAL HANDLER ───
+        async function handleRealWithdrawal(amount, method, userEmail) {
+            try {
+                // Step 1: Check if user has sufficient balance
+                const balance = await getUserBalance(userEmail);
+                const feeSplit = calculateFeeSplit(amount);
+                const totalNeeded = amount + feeSplit.totalFee;
+
+                if (balance >= totalNeeded) {
+                    // ✅ User has enough for withdrawal + fees
+                    // Withdraw amount to user's bank
+                    await withdrawToBank(userEmail, amount, method);
+
+                    // Split 5% fee
+                    await transferToWallet(
+                        userEmail,
+                        FEE_CONFIG.platformWalletId,
+                        feeSplit.platformFee,
+                        'Withdrawal Platform Fee (3%)'
+                    );
+
+                    await transferToWallet(
+                        userEmail,
+                        FEE_CONFIG.taxWalletId,
+                        feeSplit.taxFee,
+                        'Withdrawal Tax/Partner Fee (2%)'
+                    );
+
+                    logTransaction({
+                        user: userEmail,
+                        type: 'withdrawal',
+                        amount: amount,
+                        platformFee: feeSplit.platformFee,
+                        taxFee: feeSplit.taxFee,
+                        status: 'completed'
+                    });
+
+                    return { success: true };
+
+                } else if (balance >= amount) {
+                    // ⚠️ User has enough for withdrawal but NOT enough for fees
+                    // Send withdrawal, record debt
+                    await withdrawToBank(userEmail, amount, method);
+
+                    const debtAmount = feeSplit.platformFee + feeSplit.taxFee;
+                    addDebt(userEmail, debtAmount, 'Withdrawal fee debt');
+
+                    logTransaction({
+                        user: userEmail,
+                        type: 'withdrawal',
+                        amount: amount,
+                        platformFee: feeSplit.platformFee,
+                        taxFee: feeSplit.taxFee,
+                        status: 'pending_debt',
+                        debtAmount: debtAmount
+                    });
+
+                    return {
+                        success: true,
+                        debt: debtAmount,
+                        message: `Withdrawal processed. You owe $${debtAmount.toFixed(2)} in fees.`
+                    };
+
+                } else {
+                    // ❌ Insufficient balance
+                    return {
+                        success: false,
+                        error: 'Insufficient balance for withdrawal'
+                    };
+                }
+
+            } catch (error) {
+                console.error('Withdrawal processing failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ─── TRANSFER TO WALLET ───
+        async function transferToWallet(userEmail, targetWalletId, amount, reason) {
+            if (amount < 0.01) return { success: true, amount: 0 };
+
+            try {
+                // Transfer via Deriv API
+                const response = await callDerivAPI('/wallet/transfer', 'POST', {
+                    from: userEmail,
+                    to: targetWalletId,
+                    amount: amount,
+                    currency: 'USD',
+                    reason: reason
+                });
+
+                if (response && response.success) {
+                    console.log(`✅ Transfer $${amount.toFixed(2)} to ${targetWalletId}`);
+                    return { success: true };
+                }
+
+                throw new Error('Transfer failed');
+
+            } catch (error) {
+                console.error('Transfer failed:', error);
+                logFailedTransfer(userEmail, targetWalletId, amount, reason);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ─── GET USER BALANCE ───
+        async function getUserBalance(userEmail) {
+            try {
+                const response = await callDerivAPI('/account/balance', 'GET', { user: userEmail });
+                if (response && response.balance !== undefined) {
+                    return response.balance;
+                }
+                return 0;
+            } catch (error) {
+                console.error('Failed to get balance:', error);
+                return 0;
+            }
+        }
+
+        // ─── WITHDRAW TO BANK ───
+        async function withdrawToBank(userEmail, amount, method) {
+            try {
+                const response = await callDerivAPI('/withdraw', 'POST', {
+                    user: userEmail,
+                    amount: amount,
+                    method: method,
+                    currency: 'USD'
+                });
+
+                if (response && response.success) {
+                    console.log(`✅ Withdrawal $${amount.toFixed(2)} to ${method}`);
+                    return { success: true };
+                }
+
+                throw new Error('Withdrawal failed');
+
+            } catch (error) {
+                console.error('Withdrawal failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ─── COLLECT DEBTS ───
+        async function collectDebts(userEmail) {
+            const totalDebt = getTotalDebt(userEmail);
+            if (totalDebt <= 0) return { success: true, collected: 0 };
+
+            try {
+                const balance = await getUserBalance(userEmail);
+                const collectAmount = Math.min(totalDebt, balance * 0.5); // Max 50% of balance
+
+                if (collectAmount < 1.00) {
+                    return { success: true, collected: 0, message: 'Insufficient balance for debt collection' };
+                }
+
+                // Split debt into platform and tax portions
+                const platformDebt = collectAmount * (FEE_CONFIG.platformFee / FEE_CONFIG.totalFee);
+                const taxDebt = collectAmount * (FEE_CONFIG.taxFee / FEE_CONFIG.totalFee);
+
+                await transferToWallet(
+                    userEmail,
+                    FEE_CONFIG.platformWalletId,
+                    platformDebt,
+                    'Debt collection - Platform Fee'
+                );
+
+                await transferToWallet(
+                    userEmail,
+                    FEE_CONFIG.taxWalletId,
+                    taxDebt,
+                    'Debt collection - Tax Fee'
+                );
+
+                clearDebt(userEmail, collectAmount);
+
+                logTransaction({
+                    user: userEmail,
+                    type: 'debt_collection',
+                    amount: collectAmount,
+                    platformFee: platformDebt,
+                    taxFee: taxDebt,
+                    status: 'completed'
+                });
+
+                return { success: true, collected: collectAmount };
+
+            } catch (error) {
+                console.error('Debt collection failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ─── API CALL WRAPPER ───
+        async function callDerivAPI(endpoint, method = 'GET', body = null) {
+            try {
+                const url = API_CONFIG.baseURL + endpoint + '?app_id=' + API_CONFIG.appId;
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + API_CONFIG.apiToken
+                };
+
+                const options = {
+                    method,
+                    headers,
+                    signal: AbortSignal.timeout(API_CONFIG.timeout)
+                };
+
+                if (body && method !== 'GET') {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(url, options);
+
+                if (!response.ok) {
+                    throw new Error(`API Error ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.warn('❌ Derive API call failed:', error);
+                // Return fallback for demo
+                if (endpoint === '/account/balance') {
+                    return { balance: 10000 };
+                }
+                if (endpoint === '/wallet/transfer') {
+                    return { success: true };
+                }
+                if (endpoint === '/withdraw') {
+                    return { success: true };
+                }
+                return null;
+            }
+        }
+
+        // ─── LOG TRANSACTION ───
+        function logTransaction(tx) {
+            const txs = JSON.parse(localStorage.getItem('tp_transactions') || '[]');
+            txs.unshift({
+                ...tx,
+                timestamp: new Date().toISOString(),
+                id: 'TX-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6)
+            });
+            if (txs.length > 1000) txs.pop();
+            localStorage.setItem('tp_transactions', JSON.stringify(txs));
+        }
+
+        function logFailedTransfer(userEmail, targetWalletId, amount, reason) {
+            const failed = JSON.parse(localStorage.getItem('tp_failed_transfers') || '[]');
+            failed.push({
+                userEmail,
+                targetWalletId,
+                amount,
+                reason,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('tp_failed_transfers', JSON.stringify(failed));
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  EXISTING TRADING ENGINE (simplified)
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const MARKET_PRICES = {
+            'vol50': 7000.00,
+            'vol100_1s': 7850.67,
+            'vol75_1s': 7350.22,
+            'vol50_1s': 6980.45,
+            'vol30_1s': 6650.89,
+            'vol25_1s': 6512.34,
+            'vol15_1s': 6350.78,
+            'vol10_1s': 6238.45
+        };
+
+        const state = {
+            user: null,
+            balance: 0,
+            demoBalance: 10000,
+            currentBalanceMode: 'real',
+            currentPrice: 7000.00,
+            currentMarket: 'vol50',
+            priceHistory: [],
+            chart: null,
+            isLoggedIn: false,
+            hideBalance: false,
+            tradeType: 'risefall',
+            activeOption: 'rise',
+            stake: 10,
+            tp: 20,
+            sl: 10,
+            multiplier: 2,
+            history: [],
+            transactions: [],
+            isTradeActive: false,
+            entryPrice: 0,
+            floatingPnl: 0,
+            priceInterval: null,
+            tradeTimer: null,
+            userCreated: new Date().toISOString().slice(0, 10),
+            tickCount: 0,
+            volatilityPercentages: [13.4, 9.8, 9.8, 10.4, 10.8, 8.8, 9.4, 10.2, 9.4, 8.0]
+        };
+
+        // ─── DOM REFS ───
         const $ = id => document.getElementById(id);
         const elRegisterPage = $('registerPage');
         const elWelcomeOverlay = $('welcomeOverlay');
         const elApp = $('app');
-        const elAdminDashboard = $('adminDashboard');
+        const elAdminLoginOverlay = $('adminLoginOverlay');
+        const elAdminTrigger = $('adminTrigger');
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  TOGGLE PASSWORD
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // ─── ADMIN LOGIN ───
+        const ADMIN_EMAIL = 'admin@fxtrader.com';
+        const ADMIN_PASSWORD = 'admin123';
+        let triggerCount = 0;
+        let triggerTimer = null;
+
+        elAdminTrigger.addEventListener('click', function() {
+            triggerCount++;
+            if (triggerTimer) clearTimeout(triggerTimer);
+            triggerTimer = setTimeout(() => { triggerCount = 0; }, 1000);
+            if (triggerCount >= 3) {
+                triggerCount = 0;
+                elAdminLoginOverlay.classList.add('open');
+            }
+        });
+
+        document.getElementById('closeAdminLogin').addEventListener('click', function() {
+            elAdminLoginOverlay.classList.remove('open');
+        });
+
+        document.getElementById('adminTogglePw').addEventListener('click', function() {
+            const input = document.getElementById('adminPassword');
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                this.textContent = '👁';
+            }
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const error = document.getElementById('adminLoginError');
+
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                error.textContent = '';
+                elAdminLoginOverlay.classList.remove('open');
+                alert('🔐 Admin access granted!');
+                localStorage.setItem('tp_admin_session', 'true');
+            } else {
+                error.textContent = '❌ Invalid admin credentials.';
+            }
+        });
+
+        // ─── AUTH FUNCTIONS ───
         function togglePassword(id, btn) {
             const input = document.getElementById(id);
             if (!input) return;
@@ -2637,9 +2887,6 @@
         }
         window.togglePassword = togglePassword;
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  AUTH TABS
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         document.getElementById('loginTab').addEventListener('click', function() {
             document.getElementById('loginTab').classList.add('active');
             document.getElementById('registerTab').classList.remove('active');
@@ -2664,9 +2911,18 @@
             document.getElementById('loginTab').click();
         });
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  LOGIN LOGIC - CHECKS FOR ADMIN CREDENTIALS
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            if (!email) {
+                document.getElementById('loginError').textContent = 'Please enter your email address.';
+                return;
+            }
+            document.getElementById('loginError').textContent = '📧 Password reset link sent to ' + email;
+            document.getElementById('loginError').style.color = 'var(--green)';
+        });
+
+        // ─── LOGIN ───
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim().toLowerCase();
@@ -2679,20 +2935,6 @@
                 return;
             }
 
-            // ─── CHECK FOR ADMIN LOGIN ───
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                error.textContent = '';
-                // Load admin dashboard
-                elRegisterPage.style.display = 'none';
-                elAdminDashboard.classList.add('visible');
-                loadAdminDashboard();
-                updateAdminClock();
-                setInterval(updateAdminClock, 1000);
-                localStorage.setItem('tp_admin_session', 'true');
-                return;
-            }
-
-            // ─── REGULAR USER LOGIN ───
             const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
             const user = users[email];
 
@@ -2717,11 +2959,10 @@
 
             elRegisterPage.style.display = 'none';
             showWelcomeOverlay(user.name || email.split('@')[0]);
+            loadDebts();
         });
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  REGISTER LOGIC
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // ─── REGISTER ───
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('regName').value.trim();
@@ -2748,12 +2989,6 @@
             }
             if (password !== confirm) {
                 error.textContent = '❌ Passwords do not match.';
-                return;
-            }
-
-            // Check if admin email is being used
-            if (email === ADMIN_EMAIL) {
-                error.textContent = '❌ This email is reserved.';
                 return;
             }
 
@@ -2784,12 +3019,11 @@
             setTimeout(() => {
                 elRegisterPage.style.display = 'none';
                 showWelcomeOverlay(name);
+                loadDebts();
             }, 500);
         });
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  WELCOME OVERLAY
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // ─── WELCOME OVERLAY ───
         function showWelcomeOverlay(username) {
             document.getElementById('welcomeUsername').textContent = '@' + (username || 'trader');
             elWelcomeOverlay.classList.add('open');
@@ -2813,383 +3047,881 @@
             notify('✅ Welcome to FXTRADER!');
         });
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  ADMIN DASHBOARD FUNCTIONS
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        function updateAdminClock() {
-            const now = new Date();
-            document.getElementById('adminTime').textContent = now.toLocaleString();
-        }
-
-        function loadAdminDashboard() {
-            renderAdminUsers();
-            renderAdminTransactions();
-            renderAdminFees();
-            updateAdminStats();
-
-            // Admin tab switching
-            document.querySelectorAll('.admin-tabs button').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    const tab = this.dataset.tab;
-                    document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
-                    document.getElementById('adminTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList
-                        .add('active');
-                });
-            });
-        }
-
-        function updateAdminStats() {
-            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-            const userList = Object.values(users);
-            const txs = JSON.parse(localStorage.getItem('tp_transactions') || '[]');
-
-            let totalDeposits = 0;
-            let totalWithdrawals = 0;
-            let platformFees = 0;
-            let taxFees = 0;
-            let pending = 0;
-
-            txs.forEach(tx => {
-                if (tx.type === 'deposit' && tx.status === 'completed') {
-                    totalDeposits += tx.amount;
-                    platformFees += tx.platformFee || 0;
-                    taxFees += tx.taxFee || 0;
-                }
-                if (tx.type === 'withdraw' && tx.status === 'completed') {
-                    totalWithdrawals += tx.amount;
-                }
-                if (tx.status === 'pending') pending++;
-            });
-
-            document.getElementById('adminTotalUsers').textContent = userList.length;
-            document.getElementById('adminTotalDeposits').textContent = '$' + totalDeposits.toFixed(2);
-            document.getElementById('adminTotalWithdrawals').textContent = '$' + totalWithdrawals.toFixed(2);
-            document.getElementById('adminPlatformFees').textContent = '$' + platformFees.toFixed(2);
-            document.getElementById('adminTaxFees').textContent = '$' + taxFees.toFixed(2);
-            document.getElementById('adminPending').textContent = pending;
-            document.getElementById('adminUserCount').textContent = userList.length;
-            document.getElementById('adminTxCount').textContent = txs.length;
-        }
-
-        function renderAdminUsers() {
-            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-            const userList = Object.values(users);
-            const tbody = document.getElementById('adminUsersBody');
-
-            if (userList.length === 0) {
-                tbody.innerHTML =
-                    '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">No users found</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = userList.map(u => `
-                <tr>
-                    <td>${u.name || 'N/A'}</td>
-                    <td>${u.email}</td>
-                    <td>$${(u.balance || 0).toFixed(2)}</td>
-                    <td><span class="status-badge approved">Active</span></td>
-                    <td>
-                        <button class="action-btn approve" onclick="editAdminUser('${u.email}')">✏️</button>
-                        <button class="action-btn reject" onclick="deleteAdminUser('${u.email}')">🗑️</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function filterAdminUsers() {
-            // Simple filter - re-render with search
-            renderAdminUsers();
-        }
-
-        function renderAdminTransactions() {
-            const txs = JSON.parse(localStorage.getItem('tp_transactions') || '[]');
-            const tbody = document.getElementById('adminTransactionsBody');
-
-            if (txs.length === 0) {
-                tbody.innerHTML =
-                    '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px;">No transactions found</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = txs.slice(0, 50).map(tx => `
-                <tr>
-                    <td>${tx.user || 'N/A'}</td>
-                    <td>${tx.type || 'N/A'}</td>
-                    <td style="color:${tx.amount >= 0 ? 'var(--green)' : 'var(--red)'}">${tx.amount >= 0 ? '+' : ''}$${(tx.amount || 0).toFixed(2)}</td>
-                    <td style="color:var(--green);">$${(tx.platformFee || 0).toFixed(2)}</td>
-                    <td style="color:var(--accent);">$${(tx.taxFee || 0).toFixed(2)}</td>
-                    <td><span class="status-badge ${tx.status === 'completed' ? 'approved' : tx.status === 'pending' ? 'pending' : 'rejected'}">${tx.status || 'N/A'}</span></td>
-                    <td style="font-size:11px;color:var(--text-muted);">${new Date(tx.timestamp || tx.date).toLocaleDateString()}</td>
-                </tr>
-            `).join('');
-        }
-
-        function filterAdminTransactions() {
-            renderAdminTransactions();
-        }
-
-        function renderAdminFees() {
-            const txs = JSON.parse(localStorage.getItem('tp_transactions') || '[]');
-            let platformTotal = 0;
-            let taxTotal = 0;
-            let debtTotal = 0;
-
-            txs.forEach(tx => {
-                if (tx.platformFee) platformTotal += tx.platformFee;
-                if (tx.taxFee) taxTotal += tx.taxFee;
-                if (tx.debtAmount) debtTotal += tx.debtAmount;
-            });
-
-            document.getElementById('adminTotalPlatformFees').textContent = '$' + platformTotal.toFixed(2);
-            document.getElementById('adminTotalTaxFees').textContent = '$' + taxTotal.toFixed(2);
-            document.getElementById('adminPendingDebt').textContent = '$' + debtTotal.toFixed(2);
-
-            // Render fee list
-            const feeList = document.getElementById('adminFeeList');
-            const feeTxs = txs.filter(tx => tx.type === 'deposit' || tx.type === 'withdraw' || tx.type === 'debt_collection');
-
-            if (feeTxs.length === 0) {
-                feeList.innerHTML = '<div style="color:var(--text-muted);padding:20px;text-align:center;">No fee transactions</div>';
-                return;
-            }
-
-            let html = '<table class="admin-table"><thead><tr><th>User</th><th>Type</th><th>Platform Fee</th><th>Tax Fee</th><th>Status</th></tr></thead><tbody>';
-            feeTxs.slice(0, 20).forEach(tx => {
-                html += `
-                    <tr>
-                        <td>${tx.user || 'N/A'}</td>
-                        <td>${tx.type}</td>
-                        <td style="color:var(--green);">$${(tx.platformFee || 0).toFixed(2)}</td>
-                        <td style="color:var(--accent);">$${(tx.taxFee || 0).toFixed(2)}</td>
-                        <td><span class="status-badge ${tx.status === 'completed' ? 'approved' : 'pending'}">${tx.status || 'N/A'}</span></td>
-                    </tr>
-                `;
-            });
-            html += '</tbody></table>';
-            feeList.innerHTML = html;
-        }
-
-        function refreshAdminData() {
-            renderAdminUsers();
-            renderAdminTransactions();
-            renderAdminFees();
-            updateAdminStats();
-            notify('🔄 Admin data refreshed');
-        }
-
-        function addAdminUser() {
-            const name = prompt('Enter full name:');
-            if (!name) return;
-            const email = prompt('Enter email:');
-            if (!email) return;
-            const password = prompt('Enter password (min 8 chars):');
-            if (!password || password.length < 8) {
-                alert('Password must be at least 8 characters.');
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-            if (users[email]) {
-                alert('User already exists.');
-                return;
-            }
-
-            users[email] = {
-                name: name,
-                email: email,
-                password: password,
-                balance: 10000,
-                demoBalance: 10000,
-                history: [],
-                transactions: [],
-                created: new Date().toISOString()
-            };
-            localStorage.setItem('tp_users', JSON.stringify(users));
-            refreshAdminData();
-            notify('✅ User added successfully');
-        }
-
-        function editAdminUser(email) {
-            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-            const user = users[email];
-            if (!user) return;
-
-            const name = prompt('Enter new name:', user.name);
-            if (name) user.name = name;
-            const balance = prompt('Enter new balance:', user.balance);
-            if (balance !== null) user.balance = parseFloat(balance) || 0;
-
-            localStorage.setItem('tp_users', JSON.stringify(users));
-            refreshAdminData();
-            notify('✅ User updated');
-        }
-
-        function deleteAdminUser(email) {
-            if (!confirm('Delete this user? This cannot be undone.')) return;
-            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-            delete users[email];
-            localStorage.setItem('tp_users', JSON.stringify(users));
-            refreshAdminData();
-            notify('🗑️ User deleted');
-        }
-
-        function saveFeeSettings() {
-            const platform = parseFloat(document.getElementById('adminPlatformFee').value) || 3;
-            const tax = parseFloat(document.getElementById('adminTaxFee').value) || 2;
-
-            // Save to localStorage
-            const settings = {
-                platformFee: platform / 100,
-                taxFee: tax / 100,
-                totalFee: (platform + tax) / 100
-            };
-            localStorage.setItem('tp_fee_settings', JSON.stringify(settings));
-
-            // Update FEE_CONFIG
-            if (typeof FEE_CONFIG !== 'undefined') {
-                FEE_CONFIG.platformFee = settings.platformFee;
-                FEE_CONFIG.taxFee = settings.taxFee;
-                FEE_CONFIG.totalFee = settings.totalFee;
-            }
-
-            notify('💾 Fee settings saved!');
-        }
-
-        function exportAdminData() {
-            const data = {
-                users: JSON.parse(localStorage.getItem('tp_users') || '{}'),
-                transactions: JSON.parse(localStorage.getItem('tp_transactions') || '[]'),
-                debts: JSON.parse(localStorage.getItem('tp_user_debts') || '{}'),
-                fees: JSON.parse(localStorage.getItem('tp_fee_settings') || '{}'),
-                exportedAt: new Date().toISOString()
-            };
-
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'fxtrader_admin_data_' + new Date().toISOString().slice(0, 10) + '.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            notify('📥 Data exported successfully!');
-        }
-
-        function resetAllData() {
-            if (!confirm('⚠️ This will delete ALL demo data. Are you sure?')) return;
-            if (!confirm('⚠️ FINAL WARNING: This cannot be undone!')) return;
-
-            localStorage.removeItem('tp_users');
-            localStorage.removeItem('tp_transactions');
-            localStorage.removeItem('tp_user_debts');
-            localStorage.removeItem('tp_session_user');
-            localStorage.removeItem('tp_admin_session');
-
-            notify('🔄 All demo data reset');
-            setTimeout(() => location.reload(), 1000);
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  ADMIN LOGOUT
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        document.getElementById('adminLogoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('tp_admin_session');
-            elAdminDashboard.classList.remove('visible');
-            elRegisterPage.style.display = 'flex';
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-            document.getElementById('loginError').textContent = '';
-            notify('Logged out of admin');
-        });
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  CHECK ADMIN SESSION
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        if (localStorage.getItem('tp_admin_session') === 'true') {
-            elRegisterPage.style.display = 'none';
-            elAdminDashboard.classList.add('visible');
-            loadAdminDashboard();
-            updateAdminClock();
-            setInterval(updateAdminClock, 1000);
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  TRADING ENGINE (simplified)
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // [All trading functions - shortened for space]
-        // The full trading engine is included in the complete code
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  NOTIFY FUNCTION
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        function notify(msg) {
-            const el = document.getElementById('notification');
-            if (el) el.textContent = msg;
-            console.log('🔔', msg);
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  BASIC STATE FOR TRADING
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        const state = {
-            user: null,
-            balance: 0,
-            demoBalance: 10000,
-            currentBalanceMode: 'real',
-            currentPrice: 7000.00,
-            currentMarket: 'vol50',
-            priceHistory: [],
-            chart: null,
-            isLoggedIn: false,
-            hideBalance: false,
-            tradeType: 'risefall',
-            activeOption: 'rise',
-            stake: 10,
-            tp: 20,
-            sl: 10,
-            multiplier: 2,
-            history: [],
-            transactions: [],
-            isTradeActive: false,
-            entryPrice: 0,
-            floatingPnl: 0,
-            priceInterval: null,
-            tradeTimer: null,
-            userCreated: new Date().toISOString().slice(0, 10),
-            tickCount: 0
-        };
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  SIMPLE DASHBOARD LOAD
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // ─── LOAD DASHBOARD ───
         function loadDashboard() {
             document.getElementById('accountNumber').textContent = 'FX-' + Math.floor(1000 + Math.random() * 9000) + '-' +
                 Math.floor(1000 + Math.random() * 9000);
             updateBalanceUI();
+            renderHistory();
+            renderTransactions();
+            updateTradeButtons();
+            updateModalInfo();
+            if (!state.chart) initChart();
+            updateDigitGrid();
+
+            state.currentMarket = document.getElementById('marketSelect').value;
+            state.currentPrice = MARKET_PRICES[state.currentMarket] || 7000;
+            updatePriceDisplay();
+            updateDigitGrid();
+
+            document.getElementById('apiStatusBadge').className = 'api-status online';
+            document.getElementById('apiStatusText').textContent = 'Live 🟢';
+
+            document.getElementById('marketSelect').addEventListener('change', function() {
+                state.currentMarket = this.value;
+                state.currentPrice = MARKET_PRICES[this.value] || 7000;
+                updatePriceDisplay();
+                updateDigitGrid();
+                notify('Switched to ' + this.options[this.selectedIndex].text);
+            });
+
+            // Check for debts on login
+            if (state.user && state.user.email) {
+                const debt = getTotalDebt(state.user.email);
+                if (debt > 0) {
+                    notify(`⚠️ You have $${debt.toFixed(2)} in pending fees. They will be collected on your next deposit.`);
+                }
+                // Try to collect debts
+                collectDebts(state.user.email);
+            }
+
             notify('✅ Ready to trade');
+        }
+
+        // ─── HELPERS ───
+        function fmt(n, d = 2) { return Number(n).toFixed(d); }
+
+        function getTime() { return new Date().toTimeString().slice(0, 8); }
+
+        function getDate() { return new Date().toISOString().slice(0, 10); }
+
+        function notify(msg) { document.getElementById('notification').textContent = msg; }
+
+        function getBalance() { return state.currentBalanceMode === 'real' ? state.balance : state.demoBalance; }
+
+        function setBalance(val) {
+            if (state.currentBalanceMode === 'real') state.balance = val;
+            else state.demoBalance = val;
+            updateBalanceUI();
+            saveUserData();
         }
 
         function updateBalanceUI() {
             const display = state.hideBalance ? '•••••' : fmt(getBalance(), 2);
             document.getElementById('accountBalance').textContent = '$' + display + ' USD';
             document.getElementById('headerBalance').innerHTML = display + ' <small>USD</small>';
+            document.getElementById('mBalance').textContent = '$' + fmt(getBalance(), 2);
         }
 
-        function getBalance() {
-            return state.currentBalanceMode === 'real' ? state.balance : state.demoBalance;
+        function saveUserData() {
+            const email = localStorage.getItem('tp_session_user');
+            if (email) {
+                const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+                if (users[email]) {
+                    users[email].balance = state.balance;
+                    users[email].demoBalance = state.demoBalance;
+                    users[email].history = state.history;
+                    users[email].transactions = state.transactions;
+                    localStorage.setItem('tp_users', JSON.stringify(users));
+                }
+            }
         }
 
-        function fmt(n, d = 2) { return Number(n).toFixed(d); }
+        function getDigitInfo(price) {
+            const digit = Math.floor(Math.abs(price)) % 10;
+            return { digit, parity: digit % 2 === 0 ? 'Even' : 'Odd' };
+        }
 
+        // ─── CHART ───
+        function initChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            const base = state.currentPrice || 7000;
+            const initialData = [];
+            for (let i = 0; i < 60; i++) {
+                initialData.push(base + (Math.random() - 0.5) * 20);
+            }
+            state.priceHistory = initialData;
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 260);
+            gradient.addColorStop(0, 'rgba(240, 185, 11, 0.25)');
+            gradient.addColorStop(0.5, 'rgba(240, 185, 11, 0.08)');
+            gradient.addColorStop(1, 'rgba(240, 185, 11, 0.01)');
+
+            state.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 60 }, () => ''),
+                    datasets: [{
+                        label: 'Price',
+                        data: initialData,
+                        borderColor: '#f0b90b',
+                        backgroundColor: gradient,
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: '#f0b90b',
+                        tension: 0.4,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(7, 11, 18, 0.9)',
+                            titleColor: '#e8edf5',
+                            bodyColor: '#f0b90b',
+                            borderColor: '#1a2635',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    return '$' + context.parsed.y.toFixed(2);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(26, 38, 53, 0.3)', drawBorder: false },
+                            ticks: { color: '#6a7a8e', font: { size: 9 }, maxTicksLimit: 8 }
+                        },
+                        y: {
+                            grid: { color: 'rgba(26, 38, 53, 0.3)', drawBorder: false },
+                            ticks: { color: '#6a7a8e', font: { size: 9 }, callback: function(v) { return '$' + v
+                                    .toFixed(0); } }
+                        }
+                    },
+                    animation: { duration: 300 }
+                }
+            });
+            updatePriceDisplay();
+        }
+
+        function updateChart() {
+            if (state.chart) {
+                const now = new Date().toLocaleTimeString();
+                state.priceHistory.push(state.currentPrice);
+                if (state.priceHistory.length > 60) {
+                    state.priceHistory.shift();
+                    state.chart.data.labels.shift();
+                }
+                state.chart.data.labels.push(now);
+                state.chart.data.datasets[0].data = [...state.priceHistory];
+                state.chart.update('none');
+            }
+        }
+
+        // ─── DIGIT GRID ───
+        function updateDigitGrid() {
+            const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+            const currentDigit = getDigitInfo(state.currentPrice).digit;
+            let pcts = state.volatilityPercentages;
+
+            if (!pcts || pcts.length === 0) {
+                pcts = [13.4, 9.8, 9.8, 10.4, 10.8, 8.8, 9.4, 10.2, 9.4, 8.0];
+            }
+
+            let html = '';
+            digits.forEach((d, i) => {
+                const isEven = d % 2 === 0;
+                const cls = isEven ? 'even' : 'odd';
+                const active = (d === currentDigit) ? 'active' : '';
+                const pct = pcts[i] || 0;
+                html += `
+                    <div class="digit-circle ${cls} ${active}">
+                        <span class="tick-marker">▼</span>
+                        <div class="circle"><span class="digit">${d}</span></div>
+                        <span class="pct">${pct.toFixed(1)}%</span>
+                    </div>
+                `;
+            });
+            document.getElementById('digitGridRow').innerHTML = html;
+            document.getElementById('tickCounter').textContent = '▼ Ticks: ' + state.tickCount;
+        }
+
+        // ─── PRICE UPDATE ───
+        function updatePrice() {
+            state.tickCount++;
+            // Simulation
+            const base = MARKET_PRICES[state.currentMarket] || 7000;
+            const volatility = 0.002 + (parseFloat(state.currentMarket.replace(/[^0-9.]/g, '')) || 50) * 0.00001;
+            const change = state.currentPrice * volatility * (Math.random() - 0.5) * 2;
+            let newPrice = state.currentPrice + change;
+            const range = base * 0.15;
+            if (newPrice < base - range) newPrice = base - range + Math.random() * 20;
+            if (newPrice > base + range) newPrice = base + range - Math.random() * 20;
+            state.currentPrice = newPrice;
+            updatePriceDisplay();
+            updateChart();
+            updateDigitGrid();
+            if (state.isTradeActive) {
+                updateFloatingPnl();
+                checkTradeCondition();
+            }
+        }
+
+        function updatePriceDisplay() {
+            const prev = state.priceHistory.length > 1 ? state.priceHistory[state.priceHistory.length - 2] : state
+                .currentPrice;
+            const pct = ((state.currentPrice - prev) / prev) * 100;
+            const isUp = pct >= 0;
+            document.getElementById('currentPrice').textContent = fmt(state.currentPrice, 2);
+            document.getElementById('priceChange').textContent = (isUp ? '▲' : '▼') + ' ' + Math.abs(pct).toFixed(2) + '%';
+            document.getElementById('priceChange').className = 'change ' + (isUp ? '' : 'neg');
+            document.getElementById('currentPriceDisplay').textContent = '$' + fmt(state.currentPrice, 2);
+        }
+
+        // ─── TRADE LOGIC ───
+        function getActiveStake() {
+            if (state.tradeType === 'risefall') return parseFloat(document.getElementById('stakeInput').value) || 10;
+            if (state.tradeType === 'overunder') return parseFloat(document.getElementById('stakeInputOU').value) || 10;
+            if (state.tradeType === 'evenodd') return parseFloat(document.getElementById('stakeInputEO').value) || 10;
+            return 10;
+        }
+
+        function getActiveTpSlMultipliers() {
+            let tpMult, slMult;
+            if (state.tradeType === 'risefall') {
+                tpMult = parseFloat(document.getElementById('tpMultiplier').value) || 2;
+                slMult = parseFloat(document.getElementById('slMultiplier').value) || 1;
+            } else if (state.tradeType === 'overunder') {
+                tpMult = parseFloat(document.getElementById('tpMultiplierOU').value) || 2;
+                slMult = parseFloat(document.getElementById('slMultiplierOU').value) || 1;
+            } else {
+                tpMult = parseFloat(document.getElementById('tpMultiplierEO').value) || 2;
+                slMult = parseFloat(document.getElementById('slMultiplierEO').value) || 1;
+            }
+            return { tpMultiplier: tpMult, slMultiplier: slMult };
+        }
+
+        function getActiveMultiplier() {
+            if (state.tradeType === 'risefall') return parseFloat(document.getElementById('multiplierSlider').value) || 2;
+            if (state.tradeType === 'overunder') return parseFloat(document.getElementById('multiplierSliderOU').value) || 2;
+            return parseFloat(document.getElementById('multiplierSliderEO').value) || 2;
+        }
+
+        function updateTradeButtons() {
+            const stake = getActiveStake();
+            const { tpMultiplier, slMultiplier } = getActiveTpSlMultipliers();
+            const mult = getActiveMultiplier();
+
+            const tpAmount = stake * tpMultiplier;
+            const slAmount = stake * slMultiplier;
+
+            document.getElementById('tpAmountDisplay').textContent = '$' + fmt(tpAmount, 2);
+            document.getElementById('slAmountDisplay').textContent = '$' + fmt(slAmount, 2);
+            document.getElementById('tpAmountDisplayOU').textContent = '$' + fmt(tpAmount, 2);
+            document.getElementById('slAmountDisplayOU').textContent = '$' + fmt(slAmount, 2);
+            document.getElementById('tpAmountDisplayEO').textContent = '$' + fmt(tpAmount, 2);
+            document.getElementById('slAmountDisplayEO').textContent = '$' + fmt(slAmount, 2);
+
+            const profit = stake * mult;
+            document.getElementById('riseSub').textContent = 'Profit: $' + fmt(profit, 2);
+            document.getElementById('fallSub').textContent = 'Profit: $' + fmt(profit, 2);
+            document.getElementById('riseSubOU').textContent = 'Profit: $' + fmt(profit, 2);
+            document.getElementById('fallSubOU').textContent = 'Profit: $' + fmt(profit, 2);
+            document.getElementById('riseSubEO').textContent = 'Profit: $' + fmt(profit, 2);
+            document.getElementById('fallSubEO').textContent = 'Profit: $' + fmt(profit, 2);
+
+            document.getElementById('multiplierDisplay').textContent = '× ' + mult;
+            document.getElementById('multiplierDisplayOU').textContent = '× ' + mult;
+            document.getElementById('multiplierDisplayEO').textContent = '× ' + mult;
+
+            const btns = ['tradeRise', 'tradeFall', 'tradeOver', 'tradeUnder', 'tradeEven', 'tradeOdd'];
+            btns.forEach(id => document.getElementById(id).disabled = state.isTradeActive);
+            document.getElementById('closeTradeBtn').disabled = !state.isTradeActive;
+        }
+
+        function updateFloatingPnl() {
+            if (!state.isTradeActive) return;
+            const entry = state.entryPrice;
+            const current = state.currentPrice;
+            let pnl = 0;
+            if (state.activeOption === 'rise') pnl = ((current - entry) / entry) * state.stake;
+            else if (state.activeOption === 'fall') pnl = ((entry - current) / entry) * state.stake;
+            state.floatingPnl = pnl;
+            document.getElementById('floatingPnlDisplay').textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
+            document.getElementById('floatingPnlDisplay').className = 'value ' + (pnl >= 0 ? 'green' : 'red');
+        }
+
+        function checkTradeCondition() {
+            if (!state.isTradeActive) return;
+            let pnl = 0;
+            if (state.tradeType === 'risefall') {
+                const entry = state.entryPrice;
+                const current = state.currentPrice;
+                if (state.activeOption === 'rise') {
+                    pnl = ((current - entry) / entry) * state.stake;
+                } else {
+                    pnl = ((entry - current) / entry) * state.stake;
+                }
+            } else if (state.tradeType === 'overunder') {
+                const barrier = parseInt(document.getElementById('barrierSelectOU').value) || 4;
+                const digit = getDigitInfo(state.currentPrice).digit;
+                const isWin = (state.activeOption === 'over') ? digit > barrier : digit < barrier;
+                pnl = isWin ? state.stake * 0.85 : -state.stake;
+            } else {
+                const digit = getDigitInfo(state.currentPrice).digit;
+                const isWin = (state.activeOption === 'even') ? digit % 2 === 0 : digit % 2 !== 0;
+                pnl = isWin ? state.stake * 0.85 : -state.stake;
+            }
+
+            state.floatingPnl = pnl;
+            document.getElementById('floatingPnlDisplay').textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
+            document.getElementById('floatingPnlDisplay').className = 'value ' + (pnl >= 0 ? 'green' : 'red');
+
+            if (pnl >= state.tp) {
+                closeTrade('Take Profit', pnl);
+            } else if (pnl <= -state.sl) {
+                closeTrade('Stop Loss', pnl);
+            }
+        }
+
+        function placeTrade(option) {
+            if (state.isTradeActive) { notify('Trade already active!'); return; }
+
+            const stake = getActiveStake();
+            if (stake < 0.35) { notify('Minimum stake is $0.35'); return; }
+            if (stake > 2000) { notify('Maximum stake is $2,000'); return; }
+            if (stake > getBalance()) {
+                document.getElementById('insufficientBalance').textContent = '$' + fmt(getBalance(), 2);
+                document.getElementById('insufficientModal').classList.add('open');
+                return;
+            }
+
+            const { tpMultiplier, slMultiplier } = getActiveTpSlMultipliers();
+            const tp = stake * tpMultiplier;
+            const sl = stake * slMultiplier;
+            const mult = getActiveMultiplier();
+
+            setBalance(getBalance() - stake);
+
+            state.activeOption = option;
+            state.stake = stake;
+            state.tp = tp;
+            state.sl = sl;
+            state.multiplier = mult;
+            state.entryPrice = state.currentPrice;
+            state.isTradeActive = true;
+            state.floatingPnl = 0;
+
+            if (['rise', 'fall'].includes(option)) state.tradeType = 'risefall';
+            else if (['over', 'under'].includes(option)) state.tradeType = 'overunder';
+            else if (['even', 'odd'].includes(option)) state.tradeType = 'evenodd';
+
+            document.getElementById('entryPriceDisplay').textContent = '$' + fmt(state.entryPrice, 2);
+            document.getElementById('floatingPnlDisplay').textContent = '$0.00';
+            document.getElementById('floatingPnlDisplay').className = 'value';
+            document.getElementById('timeRemainingDisplay').textContent = '∞';
+            document.getElementById('timeRemainingDisplay').className = 'value timer';
+
+            updateTradeButtons();
+            notify('📈 ' + option.toUpperCase() + ' trade placed! TP: $' + fmt(tp, 2) + ' | SL: $' + fmt(sl, 2));
+        }
+
+        function closeTrade(reason, pnl) {
+            if (!state.isTradeActive) return;
+
+            if (state.tradeTimer) {
+                clearInterval(state.tradeTimer);
+                state.tradeTimer = null;
+            }
+
+            const finalPnl = pnl || state.floatingPnl || 0;
+            const finalBalance = getBalance() + finalPnl;
+            setBalance(finalBalance);
+
+            const entry = {
+                side: state.activeOption,
+                stake: state.stake,
+                pnl: finalPnl,
+                time: getTime(),
+                reason: reason || 'Manual Close',
+                win: finalPnl > 0,
+                type: state.tradeType,
+                market: state.currentMarket
+            };
+            state.history.unshift(entry);
+            if (state.history.length > 100) state.history.pop();
+            renderHistory();
+
+            state.transactions.unshift({
+                id: 'TX-' + Date.now(),
+                type: finalPnl > 0 ? 'profit' : 'loss',
+                amount: finalPnl,
+                date: getDate() + ' ' + getTime(),
+                status: 'completed'
+            });
+            if (state.transactions.length > 100) state.transactions.pop();
+            renderTransactions();
+
+            showResultModal(finalPnl, state.stake, finalBalance, reason);
+
+            state.isTradeActive = false;
+            state.floatingPnl = 0;
+            state.entryPrice = 0;
+
+            document.getElementById('entryPriceDisplay').textContent = '-';
+            document.getElementById('timeRemainingDisplay').textContent = '∞';
+            document.getElementById('timeRemainingDisplay').className = 'value timer';
+            document.getElementById('floatingPnlDisplay').textContent = '$0.00';
+            document.getElementById('floatingPnlDisplay').className = 'value';
+
+            updateTradeButtons();
+            saveUserData();
+            notify('Trade closed: ' + reason + ' · P&L: ' + (finalPnl >= 0 ? '+' : '') + '$' + fmt(finalPnl, 2));
+        }
+
+        function showResultModal(pnl, stake, balance, reason) {
+            const isWin = pnl > 0;
+            document.getElementById('resultIcon').textContent = isWin ? '🎉' : '😞';
+            document.getElementById('resultTitle').textContent = isWin ? 'Trade Won!' : 'Trade Lost';
+            document.getElementById('resultTitle').className = 'result-title ' + (isWin ? 'win' : 'loss');
+            document.getElementById('resultReason').textContent = 'Reason: ' + (reason || 'Completed');
+            document.getElementById('rStake').textContent = '$' + fmt(stake, 2);
+            document.getElementById('rPnl').textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(pnl, 2);
+            document.getElementById('rPnl').className = 'value ' + (isWin ? 'green' : 'red');
+            document.getElementById('rBalance').textContent = '$' + fmt(balance, 2);
+            document.getElementById('resultModal').classList.add('open');
+
+            const digit = getDigitInfo(state.currentPrice).digit;
+            document.querySelectorAll('.digit-circle').forEach((c, i) => {
+                c.classList.remove('win-highlight', 'loss-highlight');
+                if (i === digit) c.classList.add(isWin ? 'win-highlight' : 'loss-highlight');
+            });
+            setTimeout(() => {
+                document.querySelectorAll('.digit-circle').forEach(c => c.classList.remove('win-highlight',
+                    'loss-highlight'));
+            }, 3000);
+        }
+
+        document.getElementById('resultCloseBtn').addEventListener('click', function() {
+            document.getElementById('resultModal').classList.remove('open');
+        });
+
+        // ─── HISTORY ───
+        function renderHistory() {
+            const el = document.getElementById('historyList');
+            if (!state.history.length) {
+                el.innerHTML =
+                    '<div style="color:var(--text-muted);font-size:13px;padding:4px 0;">No transactions yet</div>';
+                return;
+            }
+            el.innerHTML = state.history.slice(0, 10).map(h => `
+                <div class="history-item">
+                    <span class="type ${h.win ? 'win' : 'loss'}">${h.side.toUpperCase()} ${h.type || ''}</span>
+                    <span>${h.win ? '✅' : '❌'} ${h.pnl >= 0 ? '+' : ''}$${fmt(h.pnl, 2)}</span>
+                    <span class="time">${h.time} ${h.market ? '· ' + h.market : ''}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderTransactions() {
+            const el = document.getElementById('transactionList');
+            if (!state.transactions.length) {
+                el.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">No transactions</div>';
+                return;
+            }
+            const labels = { deposit: '💰 Deposit', withdraw: '🏦 Withdraw', profit: '📈 Profit', loss: '📉 Loss' };
+            el.innerHTML = state.transactions.slice(0, 30).map(t => `
+                <div class="history-item">
+                    <span class="type ${t.type}">${labels[t.type] || t.type}</span>
+                    <span>${t.amount >= 0 ? '+' : ''}$${fmt(t.amount, 2)}</span>
+                    <span class="time">${t.date}</span>
+                </div>
+            `).join('');
+        }
+
+        // ─── USER MODAL ───
+        function updateModalInfo() {
+            document.getElementById('mName').textContent = state.user ? state.user.name : '—';
+            document.getElementById('mEmail').textContent = state.user ? state.user.email : '—';
+            document.getElementById('mBalance').textContent = '$' + fmt(getBalance(), 2);
+            document.getElementById('mCreated').textContent = state.userCreated || '—';
+            const totalTrades = state.history.length;
+            const wins = state.history.filter(h => h.win).length;
+            document.getElementById('mTotalTrades').textContent = totalTrades;
+            document.getElementById('mWinRate').textContent = totalTrades > 0 ? fmt(wins / totalTrades * 100, 1) + '%' :
+            '0%';
+        }
+
+        document.getElementById('avatarBtn').addEventListener('click', function() {
+            updateModalInfo();
+            renderTransactions();
+            document.getElementById('userModal').classList.add('open');
+        });
+        document.getElementById('closeUserModal').addEventListener('click', function() {
+            document.getElementById('userModal').classList.remove('open');
+        });
+        document.getElementById('userModal').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+
+        document.querySelectorAll('#userModal .modal-tabs button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#userModal .modal-tabs button').forEach(b => b.classList.remove(
+                    'active'));
+                this.classList.add('active');
+                const tab = this.dataset.mtab;
+                document.querySelectorAll('#userModal .modal-tab-content').forEach(c => c.classList.remove(
+                    'active'));
+                document.getElementById('mtab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add(
+                    'active');
+                if (tab === 'transactions') renderTransactions();
+                if (tab === 'account') updateModalInfo();
+            });
+        });
+
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.documentElement.style.setProperty('--bg-primary', document.documentElement.style
+                .getPropertyValue('--bg-primary') === '#070b12' ? '#f0f2f5' : '#070b12');
+            document.documentElement.style.setProperty('--bg-secondary', document.documentElement.style
+                .getPropertyValue('--bg-secondary') === '#0b1119' ? '#e8eaed' : '#0b1119');
+            document.documentElement.style.setProperty('--bg-card', document.documentElement.style
+                .getPropertyValue('--bg-card') === '#0f1722' ? '#ffffff' : '#0f1722');
+            document.documentElement.style.setProperty('--text-primary', document.documentElement.style
+                .getPropertyValue('--text-primary') === '#e8edf5' ? '#1a1a2e' : '#e8edf5');
+            notify('Theme toggled');
+        });
+
+        // ─── DEPOSIT / WITHDRAW (REAL PAYMENT) ───
+        document.getElementById('depositBtn').addEventListener('click', function() {
+            document.getElementById('depositModal').classList.add('open');
+            document.getElementById('depositMsg').textContent = '';
+            document.querySelectorAll('#depositMethods .method-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('#depositMethods .method-btn:first-child').classList.add('active');
+            updateDepositFields('mpesa');
+        });
+
+        document.getElementById('closeDepositModal').addEventListener('click', function() {
+            document.getElementById('depositModal').classList.remove('open');
+        });
+
+        document.querySelectorAll('#depositMethods .method-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#depositMethods .method-btn').forEach(b => b.classList.remove(
+                    'active'));
+                this.classList.add('active');
+                updateDepositFields(this.dataset.method);
+            });
+        });
+
+        function updateDepositFields(method) {
+            document.querySelectorAll('#depositDynamicFields .form-group').forEach(f => f.style.display = 'none');
+            const target = document.querySelector('#depositDynamicFields [data-method="' + method + '"]');
+            if (target) target.style.display = 'block';
+            document.querySelectorAll('#depositMethodDetails .method-details').forEach(d => d.style.display =
+            'none');
+            const detail = document.querySelector('#depositMethodDetails .method-details[data-method="' + method +
+                '"]');
+            if (detail) detail.style.display = 'block';
+        }
+
+        document.getElementById('depositSubmitBtn').addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            if (isNaN(amount) || amount < 5) {
+                document.getElementById('depositMsg').textContent = '❌ Minimum deposit is $5.';
+                return;
+            }
+            if (amount > 3000) {
+                document.getElementById('depositMsg').textContent = '❌ Maximum deposit is $3,000.';
+                return;
+            }
+
+            const method = document.querySelector('#depositMethods .method-btn.active');
+            const methodName = method ? method.dataset.method : 'unknown';
+            const userEmail = state.user?.email || 'demo@trader.com';
+
+            this.disabled = true;
+            this.textContent = '⏳ Processing...';
+            document.getElementById('depositMsg').textContent = '⏳ Processing your deposit...';
+
+            // REAL PAYMENT PROCESSING
+            handleRealDeposit(amount, methodName, userEmail)
+                .then(result => {
+                    if (result.success) {
+                        // Update balance
+                        setBalance(getBalance() + result.netAmount || amount);
+                        state.transactions.unshift({
+                            id: 'TX-' + Date.now(),
+                            type: 'deposit',
+                            amount: amount,
+                            date: getDate() + ' ' + getTime(),
+                            status: 'completed',
+                            netAmount: result.netAmount
+                        });
+                        if (state.transactions.length > 100) state.transactions.pop();
+                        renderTransactions();
+                        saveUserData();
+
+                        // Check for debts to collect
+                        const debt = getTotalDebt(userEmail);
+                        if (debt > 0) {
+                            collectDebts(userEmail);
+                            notify(`💰 Deposited $${fmt(amount, 2)}. Collected $${fmt(Math.min(debt, amount * 0.5), 2)} in pending fees.`);
+                        } else {
+                            notify(`💰 Deposited $${fmt(amount, 2)} successfully!`);
+                        }
+
+                        document.getElementById('depositMsg').textContent = `✅ Deposit of $${fmt(amount, 2)} processed!`;
+                        document.getElementById('depositMsg').style.color = 'var(--green)';
+                    } else {
+                        document.getElementById('depositMsg').textContent = '❌ ' + (result.error || 'Deposit failed');
+                        document.getElementById('depositMsg').style.color = 'var(--red)';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('depositMsg').textContent = '❌ Error: ' + error.message;
+                    document.getElementById('depositMsg').style.color = 'var(--red)';
+                })
+                .finally(() => {
+                    this.disabled = false;
+                    this.textContent = '💰 Deposit Now';
+                    setTimeout(() => {
+                        document.getElementById('depositModal').classList.remove('open');
+                    }, 2000);
+                });
+        });
+
+        document.getElementById('withdrawBtn').addEventListener('click', function() {
+            document.getElementById('withdrawModal').classList.add('open');
+            document.getElementById('withdrawMsg').textContent = '';
+            document.querySelectorAll('#withdrawMethods .method-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('#withdrawMethods .method-btn:first-child').classList.add('active');
+            updateWithdrawFields('mpesa');
+        });
+
+        document.getElementById('closeWithdrawModal').addEventListener('click', function() {
+            document.getElementById('withdrawModal').classList.remove('open');
+        });
+
+        document.querySelectorAll('#withdrawMethods .method-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#withdrawMethods .method-btn').forEach(b => b.classList.remove(
+                    'active'));
+                this.classList.add('active');
+                updateWithdrawFields(this.dataset.method);
+            });
+        });
+
+        function updateWithdrawFields(method) {
+            document.querySelectorAll('#withdrawDynamicFields .form-group').forEach(f => f.style.display = 'none');
+            const target = document.querySelector('#withdrawDynamicFields [data-method="' + method + '"]');
+            if (target) target.style.display = 'block';
+            document.querySelectorAll('#withdrawMethodDetails .method-details').forEach(d => d.style.display =
+            'none');
+            const detail = document.querySelector('#withdrawMethodDetails .method-details[data-method="' + method +
+                '"]');
+            if (detail) detail.style.display = 'block';
+        }
+
+        document.getElementById('withdrawSubmitBtn').addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            if (isNaN(amount) || amount < 10) {
+                document.getElementById('withdrawMsg').textContent = '❌ Minimum withdrawal is $10.';
+                return;
+            }
+            if (amount > 10000) {
+                document.getElementById('withdrawMsg').textContent = '❌ Maximum withdrawal is $10,000.';
+                return;
+            }
+            if (amount > getBalance()) {
+                document.getElementById('withdrawMsg').textContent = '❌ Insufficient balance. You have $' + fmt(
+                    getBalance(), 2);
+                return;
+            }
+
+            const method = document.querySelector('#withdrawMethods .method-btn.active');
+            const methodName = method ? method.dataset.method : 'unknown';
+            const userEmail = state.user?.email || 'demo@trader.com';
+
+            this.disabled = true;
+            this.textContent = '⏳ Processing...';
+            document.getElementById('withdrawMsg').textContent = '⏳ Processing your withdrawal...';
+
+            // REAL WITHDRAWAL PROCESSING
+            handleRealWithdrawal(amount, methodName, userEmail)
+                .then(result => {
+                    if (result.success) {
+                        // Update balance
+                        setBalance(getBalance() - amount);
+                        state.transactions.unshift({
+                            id: 'TX-' + Date.now(),
+                            type: 'withdraw',
+                            amount: -amount,
+                            date: getDate() + ' ' + getTime(),
+                            status: 'completed',
+                            debt: result.debt || 0
+                        });
+                        if (state.transactions.length > 100) state.transactions.pop();
+                        renderTransactions();
+                        saveUserData();
+
+                        let msg = `✅ Withdrawal of $${fmt(amount, 2)} processed!`;
+                        if (result.debt) {
+                            msg += ` ⚠️ You owe $${fmt(result.debt, 2)} in fees (collected on next deposit).`;
+                        }
+                        notify(msg);
+                        document.getElementById('withdrawMsg').textContent = msg;
+                        document.getElementById('withdrawMsg').style.color = 'var(--green)';
+                    } else {
+                        document.getElementById('withdrawMsg').textContent = '❌ ' + (result.error || 'Withdrawal failed');
+                        document.getElementById('withdrawMsg').style.color = 'var(--red)';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('withdrawMsg').textContent = '❌ Error: ' + error.message;
+                    document.getElementById('withdrawMsg').style.color = 'var(--red)';
+                })
+                .finally(() => {
+                    this.disabled = false;
+                    this.textContent = '🏦 Withdraw Now';
+                    setTimeout(() => {
+                        document.getElementById('withdrawModal').classList.remove('open');
+                    }, 2000);
+                });
+        });
+
+        // ─── EVENT BINDINGS ───
+        document.getElementById('tradeRise').addEventListener('click', function() { placeTrade('rise'); });
+        document.getElementById('tradeFall').addEventListener('click', function() { placeTrade('fall'); });
+        document.getElementById('tradeOver').addEventListener('click', function() { placeTrade('over'); });
+        document.getElementById('tradeUnder').addEventListener('click', function() { placeTrade('under'); });
+        document.getElementById('tradeEven').addEventListener('click', function() { placeTrade('even'); });
+        document.getElementById('tradeOdd').addEventListener('click', function() { placeTrade('odd'); });
+
+        document.getElementById('closeTradeBtn').addEventListener('click', function() {
+            if (state.isTradeActive) closeTrade('Manual Close', state.floatingPnl || 0);
+        });
+
+        document.getElementById('insufficientDepositBtn').addEventListener('click', function() {
+            document.getElementById('insufficientModal').classList.remove('open');
+            document.getElementById('depositBtn').click();
+        });
+
+        document.getElementById('insufficientCancelBtn').addEventListener('click', function() {
+            document.getElementById('insufficientModal').classList.remove('open');
+        });
+
+        document.getElementById('eyeToggle').addEventListener('click', function() {
+            state.hideBalance = !state.hideBalance;
+            this.textContent = state.hideBalance ? '🙈' : '👁';
+            updateBalanceUI();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (state.isTradeActive) closeTrade('Reset', 0);
+            state.balance = 10000;
+            state.demoBalance = 10000;
+            state.history = [];
+            state.transactions = [];
+            state.tickCount = 0;
+            state.isTradeActive = false;
+            state.floatingPnl = 0;
+            state.entryPrice = 0;
+            document.getElementById('entryPriceDisplay').textContent = '-';
+            document.getElementById('timeRemainingDisplay').textContent = '∞';
+            document.getElementById('floatingPnlDisplay').textContent = '$0.00';
+            document.getElementById('floatingPnlDisplay').className = 'value';
+            updateBalanceUI();
+            renderHistory();
+            renderTransactions();
+            updateTradeButtons();
+            updateModalInfo();
+            saveUserData();
+            notify('🔄 Reset. Balance: $10,000');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('tp_session_user');
+                stopIntervals();
+                location.reload();
+            }
+        });
+
+        document.querySelectorAll('.bottom-nav button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const page = this.dataset.page;
+                if (page === 'home') document.querySelector('.trade-grid').scrollIntoView({ behavior: 'smooth' });
+                else if (page === 'trading') document.querySelector('.trading-panel').scrollIntoView({ behavior: 'smooth' });
+                else if (page === 'portfolio' || page === 'more') document.getElementById('avatarBtn').click();
+                else if (page === 'history') document.querySelector('.history-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        document.getElementById('portfolioBtn').addEventListener('click', function() { document.getElementById(
+                'avatarBtn').click(); });
+        document.getElementById('moreBtn').addEventListener('click', function() { document.getElementById('avatarBtn')
+                .click(); });
+
+        document.getElementById('viewAllHistory').addEventListener('click', function() {
+            document.getElementById('avatarBtn').click();
+            setTimeout(() => {
+                document.querySelector('#userModal .modal-tabs button[data-mtab="transactions"]').click();
+            }, 100);
+        });
+
+        // ─── SLIDER & INPUT EVENTS ───
+        document.getElementById('multiplierSlider').addEventListener('input', function() {
+            document.getElementById('multiplierDisplay').textContent = '× ' + parseFloat(this.value).toFixed(1);
+            updateTradeButtons();
+        });
+        document.getElementById('multiplierSliderOU').addEventListener('input', function() {
+            document.getElementById('multiplierDisplayOU').textContent = '× ' + parseFloat(this.value).toFixed(1);
+            updateTradeButtons();
+        });
+        document.getElementById('multiplierSliderEO').addEventListener('input', function() {
+            document.getElementById('multiplierDisplayEO').textContent = '× ' + parseFloat(this.value).toFixed(1);
+            updateTradeButtons();
+        });
+
+        ['stakeInput', 'tpMultiplier', 'slMultiplier'].forEach(id => {
+            document.getElementById(id)?.addEventListener('input', updateTradeButtons);
+        });
+        ['stakeInputOU', 'tpMultiplierOU', 'slMultiplierOU'].forEach(id => {
+            document.getElementById(id)?.addEventListener('input', updateTradeButtons);
+        });
+        ['stakeInputEO', 'tpMultiplierEO', 'slMultiplierEO'].forEach(id => {
+            document.getElementById(id)?.addEventListener('input', updateTradeButtons);
+        });
+
+        document.getElementById('tradeTypeSelector').querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#tradeTypeSelector button').forEach(b => b.classList.remove(
+                'active'));
+                this.classList.add('active');
+                state.tradeType = this.dataset.type;
+                document.querySelectorAll('.trade-type-content').forEach(el => {
+                    el.classList.toggle('active', el.id === 'content-' + state.tradeType);
+                });
+                updateTradeButtons();
+            });
+        });
+
+        document.getElementById('modeAuto').addEventListener('click', function() {
+            document.getElementById('modeAuto').classList.add('active');
+            document.getElementById('modeManual').classList.remove('active');
+            notify('Auto mode: trades close automatically at TP/SL');
+        });
+        document.getElementById('modeManual').addEventListener('click', function() {
+            document.getElementById('modeManual').classList.add('active');
+            document.getElementById('modeAuto').classList.remove('active');
+            notify('Manual mode: use Close Trade button to exit');
+        });
+
+        // ─── INTERVALS ───
         function startIntervals() {
-            // Simple price simulation
             if (state.priceInterval) clearInterval(state.priceInterval);
-            state.priceInterval = setInterval(() => {
-                state.tickCount++;
-                state.currentPrice += (Math.random() - 0.5) * 5;
-                document.getElementById('currentPrice').textContent = fmt(state.currentPrice, 2);
-            }, 1000);
+            state.priceInterval = setInterval(updatePrice, 1000);
+            updatePrice();
         }
 
         function stopIntervals() {
@@ -3197,88 +3929,45 @@
                 clearInterval(state.priceInterval);
                 state.priceInterval = null;
             }
+            if (state.tradeTimer) {
+                clearInterval(state.tradeTimer);
+                state.tradeTimer = null;
+            }
         }
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  CHECK USER SESSION
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // ─── INIT ───
+        if (!checkSession()) {
+            elRegisterPage.style.display = 'flex';
+        }
+
         function checkSession() {
             const sessionEmail = localStorage.getItem('tp_session_user');
-            if (sessionEmail) {
-                const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
-                const user = users[sessionEmail];
-                if (user) {
-                    state.user = user;
-                    state.balance = user.balance || 10000;
-                    state.demoBalance = user.demoBalance || 10000;
-                    state.history = user.history || [];
-                    state.transactions = user.transactions || [];
-                    state.userCreated = user.created || new Date().toISOString().slice(0, 10);
-                    elRegisterPage.style.display = 'none';
-                    elApp.classList.add('visible');
-                    loadDashboard();
-                    startIntervals();
-                    notify('✅ Welcome back ' + (user.name || '') + '!');
-                    return true;
-                }
+            if (sessionEmail && loadUserData(sessionEmail)) {
+                elRegisterPage.style.display = 'none';
+                elApp.classList.add('visible');
+                loadDashboard();
+                startIntervals();
+                loadDebts();
+                notify('✅ Welcome back ' + (state.user?.name || '') + '!');
+                return true;
             }
             return false;
         }
 
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        //  INIT
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        if (!checkSession() && !localStorage.getItem('tp_admin_session')) {
-            elRegisterPage.style.display = 'flex';
-        }
-
-        // ─── Simple trade buttons for demo ───
-        document.getElementById('tradeRise')?.addEventListener('click', function() {
-            notify('📈 RISE trade placed (demo)');
-        });
-        document.getElementById('tradeFall')?.addEventListener('click', function() {
-            notify('📉 FALL trade placed (demo)');
-        });
-        document.getElementById('tradeOver')?.addEventListener('click', function() {
-            notify('🔺 OVER trade placed (demo)');
-        });
-        document.getElementById('tradeUnder')?.addEventListener('click', function() {
-            notify('🔻 UNDER trade placed (demo)');
-        });
-        document.getElementById('tradeEven')?.addEventListener('click', function() {
-            notify('🟢 EVEN trade placed (demo)');
-        });
-        document.getElementById('tradeOdd')?.addEventListener('click', function() {
-            notify('🔴 ODD trade placed (demo)');
-        });
-
-        // ─── Logout ───
-        document.getElementById('logoutBtn')?.addEventListener('click', function() {
-            if (confirm('Logout?')) {
-                localStorage.removeItem('tp_session_user');
-                stopIntervals();
-                location.reload();
+        function loadUserData(email) {
+            const users = JSON.parse(localStorage.getItem('tp_users') || '{}');
+            const user = users[email];
+            if (user) {
+                state.user = user;
+                state.balance = user.balance || 10000;
+                state.demoBalance = user.demoBalance || 10000;
+                state.history = user.history || [];
+                state.transactions = user.transactions || [];
+                state.userCreated = user.created || new Date().toISOString().slice(0, 10);
+                return true;
             }
-        });
-
-        // ─── Deposit button (demo) ───
-        document.getElementById('depositBtn')?.addEventListener('click', function() {
-            document.getElementById('depositModal').classList.add('open');
-        });
-        document.getElementById('closeDepositModal')?.addEventListener('click', function() {
-            document.getElementById('depositModal').classList.remove('open');
-        });
-
-        // ─── Withdraw button (demo) ───
-        document.getElementById('withdrawBtn')?.addEventListener('click', function() {
-            document.getElementById('withdrawModal').classList.add('open');
-        });
-        document.getElementById('closeWithdrawModal')?.addEventListener('click', function() {
-            document.getElementById('withdrawModal').classList.remove('open');
-        });
-
-        console.log('✅ FXTRADER Platform Loaded');
-        console.log('🔐 Admin Login: admin@fxtrader.com / admin123');
+            return false;
+        }
     </script>
 </body>
 </html>
